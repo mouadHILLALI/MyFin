@@ -66,7 +66,7 @@ const Register = () => {
             <label className="text-center" htmlFor="image">Upload your image</label>
             <input className="hidden" type="file" name="image" id="image"/>
             </div>
-            <button type="submit" className="p-2 bg-black text-white">
+            <button type="submit" className=" p-3 bg-black">
               Register
             </button>
           </form>
