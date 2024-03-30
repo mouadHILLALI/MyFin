@@ -16,27 +16,34 @@ const Register = () => {
             action=""
             className="flex flex-col w-[60%] h-[90vh] m-auto justify-around"
           >
+            <div className="p-3 border border-black rounded-[15px] w-[70%] ">
             <input
               className="border-1 border-black rounded-lg  p-2"
               type="text"
               name="first_name"
               placeholder="Enter your First name"
             />
+            </div>
+            <div className="p-3 border border-black rounded-[15px] w-[70%] ">
             <input
               className="border-1 border-black p-2"
               type="text"
               name="family_name"
               placeholder="Enter your Last name"
             />
+            </div>
+            <div className="p-3 border border-black rounded-[15px] w-[70%] ">
             <input
               className="border-1 border-black p-2"
               type="text"
-              name="cin"
-              placeholder="Enter your CIN"
+              name="email"
+              placeholder="Enter your Email"
             />
-            <select className="border-1 border-black p-2" name="role">
+            </div>
+            
+            <select className="p-3 border border-black rounded-[15px] w-[70%]" name="role">
               <option selected disabled hidden>
-                Who are you ?
+                What is your purpose ?
               </option>
               <option
                 className="border-1 border-black rounded-lg"
@@ -51,24 +58,25 @@ const Register = () => {
                 Investor
               </option>
             </select>
+            <div className=" p-3 border border-black rounded-[15px] w-[70%]">
+            <label className="text-center" htmlFor="image">Upload your image</label>
+            <input className="hidden" type="file" name="image" id="image"/>
+            </div>
+            <div className="p-3 border border-black rounded-[15px] w-[70%] ">
             <input
               className="border-1 border-black rounded-lg p-2"
               type="password"
               placeholder="Enter your Password"
               name="password"
             />
-            <input
-              className="border-1 border-black rounded-lg p-2"
-              type="password"
-              placeholder="confirm password"
-            />
-            <div className=" ">
-            <label className="text-center" htmlFor="image">Upload your image</label>
-            <input className="hidden" type="file" name="image" id="image"/>
             </div>
-            <button type="submit" className=" p-3 bg-black">
+            <div className="flex justify-end w-[73%] ">
+              <span className="py-3 px-8 bg-[#02A95C] rounded-[15px] mr-3 text-white">
+            <button type="submit" className="">
               Register
             </button>
+            </span>
+            </div>
           </form>
         </div>
       </section>
