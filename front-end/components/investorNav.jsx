@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import logo from "../public/MyFin.png";
-import React, { useState } from "react";
-import { logout } from "../functions/Util.jsx";
+import React, { useState, useEffect } from "react";
+import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
 function InvestorNavbar() {
   const navigate = useNavigate();
@@ -11,16 +11,15 @@ function InvestorNavbar() {
     setSearch(true);
   };
   const [bar, setBar] = useState(false);
-
   const handlelogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
   return (
     <>
       <div className="mb-5 flex items-center justify-between m-auto py-1  rounded-b-[15px]   bg-[#02A95C]">
         <div className="flex text-white w-[40%] justify-around ">
-          <h1>MyFin</h1>
+          <NavLink to="/investor">MyFin</NavLink>
           <NavLink>Portfolio</NavLink>
           <NavLink>Donate</NavLink>
         </div>
@@ -45,13 +44,18 @@ function InvestorNavbar() {
             </div>
           </button>
           <button onClick={() => (bar ? setBar(false) : setBar(true))}>
-            <img src={image} alt=".." className="p-2 rounded-[100%]" />
+            <img
+              src={image}
+              width={50}
+              alt=".."
+              className="p-2 rounded-[100%]"
+            />
           </button>
         </div>
       </div>
       {bar && (
         <div className="flex fixed right-[0%] top-[7.5%] flex-col w-[9%] mr-1 items-center p-4 bg-[#FBF8F6] rounded-[20px] ">
-          <NavLink className="p-1">Profile</NavLink>
+          <NavLink to='/investorprofile' className="p-1">Profile</NavLink>
           <button onClick={handlelogout} className="p-1">
             Logout
           </button>

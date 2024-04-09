@@ -4,6 +4,7 @@ import SignIn from "../pages/SignIn";
 import ReactDOM from "react-dom/client";
 import Investor from "../pages/Investor";
 import Fundraiser from "../pages/fundraiser";
+import { InvestorProfile } from "../pages/investorprofile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App(){
     return (
@@ -13,6 +14,7 @@ function App(){
               <Route path="/register" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/investor" element={<Investor />} />
+              <Route path="/investorprofile" element={<InvestorProfile />} />
               <Route path="/fundraiser" element={<Fundraiser />} />
           </Routes>
         </BrowserRouter>

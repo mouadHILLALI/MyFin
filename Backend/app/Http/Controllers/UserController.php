@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Fundraiser;
+use App\Models\Investor;
 
 class UserController extends Controller
 {
@@ -28,7 +30,7 @@ class UserController extends Controller
                 ]);
                 Auth::login($user, $remember = true);
                 $token = $user->createToken('token')->plainTextToken;
-                return response()->json(['token' => $token, 'image' => auth()->user()->image, 'name' => auth()->user()->family_name, 'role'=>auth()->user()->role], 200);
+                return response()->json(['token' => $token, 'image' => auth()->user()->image, 'name' => auth()->user()->family_name, 'role' => auth()->user()->role], 200);
             } else {
                 return response()->json('Email already exist', 200);
             }
@@ -44,7 +46,7 @@ class UserController extends Controller
             if ($user && Hash::check($r->password, $user->password)) {
                 Auth::login($user, $remember = true);
                 $token = $user->createToken('token')->plainTextToken;
-                return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image, 'role'=>auth()->user()->role]);
+                return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image, 'role' => auth()->user()->role]);
             } else {
                 return response('Wrong credentials', 500)
                     ->header('Content-Type', 'text/plain');
@@ -58,5 +60,27 @@ class UserController extends Controller
     {
         $r->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Successfully logged out', 'status' => true], 200);
+    }
+    public function check()
+    {
+        $role = auth()->user()->role;
+        switch ($role) {
+            case 'Investor':
+                $check = Investor::where('user_id', auth()->user()->id)->first();
+                if (!$check) {
+                    return response()->json(['data'=>'false'],200);
+                }
+                return response()->json(['data'=>'true'],200);
+                break;
+            case 'FundRaiser':
+                $check = Fundraiser::where('user_id', auth()->user()->id)->first();
+                if (!$check) {
+                    return response()->json(['data'=>'false'],200);
+                }
+                return response()->json(['data'=>'true'],200);
+                break;
+            default:
+                break;
+        }
     }
 }

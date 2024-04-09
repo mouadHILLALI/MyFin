@@ -19,9 +19,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/user/logout', [UserController::class, 'logout']);
-});
-
 Route::post('/user/register', [UserController::class, 'register'])->middleware('guest');
 Route::post('/user/login', [UserController::class, 'login'])->middleware('guest');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/user/logout', [UserController::class, 'logout']);
+    Route::get('/user/check', [UserController::class, 'check']);
+});
+Route::middleware('auth:sanctum', 'Admin')->group(function () {
+});
+
+Route::middleware('auth:sanctum', 'Investor')->group(function () {
+});
+
+Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
+});
