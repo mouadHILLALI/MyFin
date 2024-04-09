@@ -1,7 +1,9 @@
-
+import InvestorNavbar from "../components/investorNav";
 
 function Investor (){
-    return <h1>investor</h1>
+    return <>
+    <InvestorNavbar/>
+    </>
 }
 
 export default Investor;
