@@ -44,7 +44,7 @@ class UserController extends Controller
             if ($user && Hash::check($r->password, $user->password)) {
                 Auth::login($user, $remember = true);
                 $token = $user->createToken('token')->plainTextToken;
-                return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image]);
+                return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image, 'role'=>auth()->user()->role]);
             } else {
                 return response('Wrong credentials', 500)
                     ->header('Content-Type', 'text/plain');
