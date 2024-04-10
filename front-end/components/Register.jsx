@@ -31,6 +31,7 @@ const Register = () => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('image', res.data.image);
       let Role = res.data.role ;
+      localStorage.setItem("role",Role);
       switch (role) {
         case 'Investor':
           navigate('/investor');

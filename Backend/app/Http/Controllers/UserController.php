@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\VerifyRequest;
 use App\Models\Fundraiser;
 use App\Models\Investor;
 
@@ -68,19 +69,74 @@ class UserController extends Controller
             case 'Investor':
                 $check = Investor::where('user_id', auth()->user()->id)->first();
                 if (!$check) {
-                    return response()->json(['data'=>'false'],200);
+                    return response()->json(['data' => 'false'], 200);
                 }
-                return response()->json(['data'=>'true'],200);
+                return response()->json(['data' => 'true'], 200);
                 break;
             case 'FundRaiser':
                 $check = Fundraiser::where('user_id', auth()->user()->id)->first();
                 if (!$check) {
-                    return response()->json(['data'=>'false'],200);
+                    return response()->json(['data' => 'false'], 200);
                 }
-                return response()->json(['data'=>'true'],200);
+                return response()->json(['data' => 'true'], 200);
                 break;
             default:
                 break;
+        }
+    }
+    public function verifyProfile(VerifyRequest $r)
+    {
+        $role = auth()->user()->role;
+
+        switch ($role) {
+            case 'Investor':
+                try {
+                    Investor::create([
+                        'RIB' => $r->RIB,
+                        'CIN' => $r->CIN,
+                        'user_id' => auth()->user()->id
+                    ]);
+                    return response()->json('Registerd succesfully', 200);
+                } catch (\Exception $e) {
+                    return response($e->getMessage());
+                }
+
+                break;
+            case 'FundRaiser':
+                try {
+                    Fundraiser::create([
+                        'RIB' => $r->RIB,
+                        'CIN' => $r->CIN,
+                        'user_id' => auth()->user()->id
+                    ]);
+                    return response()->json('Registerd succesfully', 200);
+                } catch (\Exception $e) {
+                    return response($e->getMessage());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public function getData()
+    {
+        $user = User::where('id', auth()->user()->id)->first();
+        try {
+            switch (auth()->user()->role) {
+                case 'Investor':
+                    $investor = Investor::where('user_id', auth()->user()->id)->first();
+                    return response()->json(['user' => $user, 'account' => $investor], 200);
+                    break;
+                case 'FundRaiser':
+                    $fundraiser = Fundraiser::where('user_id', auth()->user()->id)->first();
+                    return response()->json(['user' => $user, 'account' => $fundraiser], 200);
+                    break;
+                default:
+                    break;
+            }
+        } catch (\Exception $e) {
+            return response($e->getMessage());
         }
     }
 }
