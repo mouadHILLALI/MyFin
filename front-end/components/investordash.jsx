@@ -2,10 +2,9 @@ import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
-
+import { Message1 } from "./message1.jsx";
 export const InvestorDash = () => {
     let name = localStorage.getItem('name');
-    console.log(name);
     const [Check , setCheck] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +22,7 @@ export const InvestorDash = () => {
   }, []);
   return <>
    {
-    !Check ?<h1>Please Register Your Profile</h1> : <h1>Welcome {name}</h1> 
+    !Check ?<Message1/>: <h1>Welcome {name}</h1> 
    }
   </>
 };

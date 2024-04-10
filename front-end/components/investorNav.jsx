@@ -4,6 +4,21 @@ import React, { useState, useEffect } from "react";
 import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
 function InvestorNavbar() {
+  const [Check, setCheck] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await check();
+        if (data == "false") {
+          setCheck(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const navigate = useNavigate();
   const [search, setSearch] = useState(false);
   let image = localStorage.getItem("image");
@@ -19,9 +34,13 @@ function InvestorNavbar() {
     <>
       <div className="mb-5 flex items-center justify-between m-auto py-1  rounded-b-[15px]   bg-[#02A95C]">
         <div className="flex text-white w-[40%] justify-around ">
-          <NavLink to="/investor">MyFin</NavLink>
+          <NavLink to="/investor" className="">MyFin</NavLink>
+          {Check&&
+          <>
           <NavLink>Portfolio</NavLink>
           <NavLink>Donate</NavLink>
+          </>
+          }
         </div>
         <div className="flex w-[40%] justify-around ">
           <input
@@ -55,7 +74,9 @@ function InvestorNavbar() {
       </div>
       {bar && (
         <div className="flex fixed right-[0%] top-[7.5%] flex-col w-[9%] mr-1 items-center p-4 bg-[#FBF8F6] rounded-[20px] ">
-          <NavLink to='/investorprofile' className="p-1">Profile</NavLink>
+          <NavLink to="/investorprofile" className="p-1">
+            Profile
+          </NavLink>
           <button onClick={handlelogout} className="p-1">
             Logout
           </button>
