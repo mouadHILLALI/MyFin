@@ -37,17 +37,41 @@ export const ProfileInfo = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className=" fixed z--1 p-4 bg-[#02A95C] w-full h-[20vh] rounded-b-[25px]  ">
-          <div className="h-[5%]"></div>
-          <div className="fixed top-[20%] left-[4%] rounded-[50%] bg-black  w-[15%] h-[30%] flex">
-            <span className="fixed gap-2 flex top-[25%] left-[20%]">
-              <h1>{user.owner.first_name}</h1>
-              <h1>{user.owner.family_name}</h1>
-            </span>
-            <h1 className="fixed top-[35%] left-[20%]">{user.owner.role}</h1>
+        <>
+          <div className="  z--1 p-4 bg-[#02A95C] w-full h-[20vh] rounded-b-[25px]  ">
+            <div className="fixed top-[20%] left-[4%] rounded-[50%]    w-[15%] h-[30%] flex">
+              <span className="fixed gap-2 flex top-[25%] left-[20%]">
+                <h1 className="text-white text-3xl">{user.owner.first_name}</h1>
+                <h1 className="text-white text-3xl">
+                  {user.owner.family_name}
+                </h1>
+              </span>
+              <img
+                className="fixed top-[15%]  left-[4%] rounded-[100%]  w-[15%] h-[30%] flex"
+                src={user.owner.image}
+                alt=""
+              />
+            </div>
+            <h1 className="fixed top-[35%] left-[20%] text-2xl ">
+              {user.owner.role}
+            </h1>
           </div>
-          <img src={user.owner.image} width={30} alt="..." />
-        </div>
+          <div className="mt-[10%] w-[90%] m-auto drop-shadow-lg flex flex-col p-2 rounded-lg justify-between h-[30vh] bg-slate-50 ">
+            <h1 className="text-2xl">Account info :</h1>
+            <div className="flex w-[50%] justify-between text-xl">
+                <label htmlFor="rib">Bank Account Number :</label>
+            <input id="rib" type="text" value={user.info.RIB} />
+            </div>
+            <div className="flex w-[50%] justify-between text-xl">
+            <label htmlFor="cin">CIN :</label>
+            <input type="text" id="cin" value={user.info.CIN} />
+            </div>
+            <div className="flex w-[50%] justify-between text-xl">
+            <label htmlFor="email">Email :</label>
+            <input type="text" id="email" value={user.owner.email} />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

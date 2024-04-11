@@ -34,13 +34,15 @@ function InvestorNavbar() {
     <>
       <div className="mb-5 flex items-center justify-between m-auto py-1  rounded-b-[15px]   bg-[#02A95C]">
         <div className="flex text-white w-[40%] justify-around ">
-          <NavLink to="/investor" className="">MyFin</NavLink>
-          {Check&&
-          <>
-          <NavLink>Portfolio</NavLink>
-          <NavLink>Donate</NavLink>
-          </>
-          }
+          <NavLink to="/investor" className="">
+            MyFin
+          </NavLink>
+          {Check && (
+            <>
+              <NavLink>Portfolio</NavLink>
+              <NavLink>Donate</NavLink>
+            </>
+          )}
         </div>
         <div className="flex w-[40%] justify-around ">
           <input
@@ -49,7 +51,7 @@ function InvestorNavbar() {
             type="search"
           />
           <button>
-            <div className="p-2 bg-[#e4e6eb] rounded-[100%]  ">
+            <div className="p-2 bg-white rounded-[100%]  ">
               <svg
                 width={20}
                 xmlns="http://www.w3.org/2000/svg"
@@ -62,18 +64,24 @@ function InvestorNavbar() {
               </svg>
             </div>
           </button>
-          <button onClick={() => (bar ? setBar(false) : setBar(true))}>
-            <img
-              src={image}
-              width={50}
-              alt=".."
-              className="p-2 rounded-[100%]"
-            />
+          <button
+            className="  rounded-[100%]  "
+            onClick={() => (bar ? setBar(false) : setBar(true))}
+          >
+            <div className="p-2 bg-white rounded-[100%]  ">
+              <svg width={20} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path
+                
+                  fill="#02A95C"
+                  d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+                />
+              </svg>
+            </div>
           </button>
         </div>
       </div>
       {bar && (
-        <div className="flex fixed right-[0%] top-[7.5%] flex-col w-[9%] mr-1 items-center p-4 bg-[#FBF8F6] rounded-[20px] ">
+        <div className="flex z-10 fixed right-[0%] top-[7.5%] flex-col w-[9%] mr-1 items-center p-4 bg-[#FBF8F6] rounded-[20px] ">
           <NavLink to="/investorprofile" className="p-1">
             Profile
           </NavLink>
