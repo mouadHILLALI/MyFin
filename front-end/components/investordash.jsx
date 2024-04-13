@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
 import { Message1 } from "./message1.jsx";
+import { Dashboardinv } from "./Dashboard1.jsx";
 export const InvestorDash = () => {
     let name = localStorage.getItem('name');
     const [Check , setCheck] = useState(true);
@@ -22,7 +23,7 @@ export const InvestorDash = () => {
   }, []);
   return <>
    {
-    !Check ?<Message1/>: <h1>Welcome {name}</h1> 
+    !Check ?<Message1/>: <Dashboardinv /> 
    }
   </>
 };
