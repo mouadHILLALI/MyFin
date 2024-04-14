@@ -26,7 +26,6 @@ export const Dashboardinv = () => {
 
     fetchLoans();
   }, []);
-
   if (slide) {
     style =
       "ease-in-out overflow-auto duration-300 fixed top-[7.5%] w-[30%] h-full bg-[#02A95C] border-2 border-black rounded-r-[14px] ";
@@ -64,22 +63,28 @@ export const Dashboardinv = () => {
   return (
     <>
       <div className=" w-[90%] m-auto flex gap-7 ">
-        <button
-          onClick={() => setSlide(true)}
-          className="bg-[#02A95C] flex gap-2 items-center text-white text-lg  p-3 rounded-[16px] drop-shadow-lg "
-        >
-          <svg
-            width={15}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
+        {loans.length == 0 ? (
+          <button
+            onClick={() => setSlide(true)}
+            className="bg-[#02A95C] flex gap-2 items-center text-white text-lg  p-3 rounded-[16px] drop-shadow-lg "
           >
-            <path
-              fill="#ffffff"
-              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-            />
-          </svg>
-          Request a Loan
-        </button>
+            <svg
+              width={15}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                fill="#ffffff"
+                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+              />
+            </svg>
+            Request a Loan
+          </button>
+        ) : (
+          <button className="bg-[#02A95C] flex gap-2 items-center text-white text-lg  p-3 rounded-[16px] drop-shadow-lg ">
+            You have a loan pending for review
+          </button>
+        )}
         <button className="bg-[#02A95C] flex gap-2 items-center text-white text-lg  p-3 rounded-[16px] drop-shadow-lg ">
           <svg
             width={15}
@@ -95,17 +100,33 @@ export const Dashboardinv = () => {
         </button>
       </div>
       <div className=" w-[90%] m-auto ">
-        {
-          loans.length==0?
-        <h1>You have no Loans yet</h1>:
-        <div className=" w-[40%] m-4 p-2 rounded-[15px] h-[30vh] bg-[#02A95C] drop-shadow-lg ">
-          <div>
-            <label htmlFor="">Loan Amount</label>
-            <label htmlFor="">Loan Amount</label>
+        {loans.length == 0 ? (
+          <h1>You have no Loans yet</h1>
+        ) : (
+          <div className=" w-[40%] m-4 p-2 rounded-[15px] h-[30vh] bg-[#02A95C] drop-shadow-lg ">
+            <div className="flex flex-col">
+              <label htmlFor="">Loan Amount</label>
+              <h2>{loans[0].amount}DH</h2>
+              <label htmlFor="">Reimbursement Duration</label>
+              <h2>{loans[0].duration}Days</h2>
+              <a
+                target="blank"
+                href={`http://localhost/storage/` + loans[0].business_model}
+              >
+                Busseniss Model
+              </a>
+            </div>
+            <div>
+              {loans[0].reviewd == 0 ? (
+                <h1>Submited for Review</h1>
+              ) : (
+                <h1>Approved</h1>
+              )}
+              <label htmlFor="">Profit Rate :</label>
+              <h1>{loans[0].profit_rate}%</h1>
+            </div>
           </div>
-          <div></div>
-        </div>
-        }
+        )}
       </div>
 
       <div className={style}>
