@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoansController;
 use App\Http\Controllers\UserController;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +35,8 @@ Route::middleware('auth:sanctum', 'Admin')->group(function () {
 });
 
 Route::middleware('auth:sanctum', 'Investor')->group(function () {
+    Route::get('/investor/loan/get' , [LoansController::class , 'getLoans']);
+    Route::post('/investor/loan/create' , [LoansController::class , 'create']);
 });
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {

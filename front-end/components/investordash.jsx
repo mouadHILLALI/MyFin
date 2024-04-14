@@ -6,13 +6,13 @@ import { Message1 } from "./message1.jsx";
 import { Dashboardinv } from "./Dashboard1.jsx";
 export const InvestorDash = () => {
     let name = localStorage.getItem('name');
-    const [Check , setCheck] = useState(true);
+    const [Check , setCheck] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await check();
-        if(data=='false'){
-            setCheck(false);
+        if(data=='true'){
+            setCheck(true);
         }
       } catch (error) {
         console.log(error);

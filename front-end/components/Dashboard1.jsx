@@ -1,8 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const Dashboardinv = () => {
   let style = "";
+  const token = localStorage.getItem("token");
   const [slide, setSlide] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [rate, setRate] = useState(0);
+  const [loans, SetLoan] = useState([]);
+  let file = document.getElementById("file");
+  useEffect(() => {
+    const fetchLoans = async () => {
+      try {
+        const res = await axios.get("http://localhost/api/investor/loan/get", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        SetLoan(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchLoans();
+  }, []);
+
   if (slide) {
     style =
       "ease-in-out overflow-auto duration-300 fixed top-[7.5%] w-[30%] h-full bg-[#02A95C] border-2 border-black rounded-r-[14px] ";
@@ -10,6 +34,33 @@ export const Dashboardinv = () => {
     style =
       "ease-in-out overflow-auto duration-300 fixed left-[-100%] h-full bg-[#02A95C] border-2 border-black rounded-r-[14px] top-[7.5%] w-[30%] h-[80%]";
   }
+  const handleform = async (e) => {
+    e.preventDefault();
+    let days = document.getElementById("days").value;
+    let months = document.getElementById("months").value;
+    let years = document.getElementById("years").value;
+    let deadline = days + months * 30 + years * 360;
+    setDuration(deadline);
+    const fr = new FormData();
+    fr.append("amount", amount);
+    fr.append("duration", duration);
+    fr.append("rate", rate);
+    if (file.files && file.files[0]) {
+      fr.append("file", file.files[0]);
+    }
+    try {
+      const res = await axios.post(
+        "http://localhost/api/investor/loan/create",
+        fr,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {}
+  };
   return (
     <>
       <div className=" w-[90%] m-auto flex gap-7 ">
@@ -44,7 +95,17 @@ export const Dashboardinv = () => {
         </button>
       </div>
       <div className=" w-[90%] m-auto ">
-        <h1>You have no Loans yet</h1>
+        {
+          loans.length==0?
+        <h1>You have no Loans yet</h1>:
+        <div className=" w-[40%] m-4 p-2 rounded-[15px] h-[30vh] bg-[#02A95C] drop-shadow-lg ">
+          <div>
+            <label htmlFor="">Loan Amount</label>
+            <label htmlFor="">Loan Amount</label>
+          </div>
+          <div></div>
+        </div>
+        }
       </div>
 
       <div className={style}>
@@ -62,12 +123,19 @@ export const Dashboardinv = () => {
             </svg>
           </button>
         </div>
-        <form className="flex flex-col h-full gap-4 ">
+        <form
+          onSubmit={handleform}
+          encType="multipart/form/data"
+          className="flex flex-col h-full gap-4 "
+        >
           <div className="flex">
             <input
               className="p-2 rounded-[15px] w-[80%] m-auto"
               min={1000}
               type="number"
+              name="amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
               placeholder="Enter the Amount of the Loan :"
             />
           </div>
@@ -78,6 +146,7 @@ export const Dashboardinv = () => {
             <input
               className=" w-[30%] p-2 rounded-lg "
               min={0}
+              id="years"
               type="number"
               placeholder="Years"
             />
@@ -85,6 +154,7 @@ export const Dashboardinv = () => {
               className=" w-[30%] p-2 rounded-lg "
               min={0}
               max={12}
+              id="months"
               type="number"
               placeholder="Months"
             />
@@ -92,6 +162,7 @@ export const Dashboardinv = () => {
               className=" w-[30%] p-2 rounded-lg "
               min={10}
               max={31}
+              id="days"
               type="number"
               placeholder="Days"
             />
@@ -101,21 +172,35 @@ export const Dashboardinv = () => {
               className="w-[80%] m-auto p-2 rounded-[15px] "
               type="number"
               min={1}
+              value={rate}
+              onChange={(e) => setRate(e.target.value)}
+              name="rate"
               placeholder="Enter the Loan profit Rate :"
             />
           </div>
           <div className="flex flex-col ">
             <div className="flex flex-col items-center gap-3 m-auto">
-              <label className="text-white text-lg ">Upload Your Bussiness Model:</label>
-            <label htmlFor="file">
-              <svg width={80} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                <path fill="#ffffff" d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z" />
-              </svg>
-            </label>
-            <input id="file" type="file" className="hidden" />
+              <label className="text-white text-lg ">
+                Upload Your Bussiness Model:
+              </label>
+              <label htmlFor="file">
+                <svg
+                  width={80}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512"
+                >
+                  <path
+                    fill="#ffffff"
+                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
+                  />
+                </svg>
+              </label>
+              <input id="file" name="file" type="file" className="hidden" />
             </div>
           </div>
-          <button className=" p-2 bg-white text-white text-lg" type="submit">Submit for Review</button>
+          <button className=" p-2 bg-white text-white text-lg" type="submit">
+            Submit for Review
+          </button>
         </form>
       </div>
     </>

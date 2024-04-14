@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { VerifyProfile } from "../components/verifyprofile.jsx";
 import { ProfileInfo } from "../components/profileinfo.jsx";
 export const InvestorProfile = () => {
-  const [Check, setCheck] = useState(true);
+  const [Check, setCheck] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await check();
-        if (data == "false") {
-          setCheck(false);
+        if (data == "true") {
+          setCheck(true);
         }
       } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ export const InvestorProfile = () => {
   return (
     <>
       <InvestorNavbar />
-      {!Check ?<VerifyProfile/>: <ProfileInfo/> }
+      {Check ?  <ProfileInfo/> :  <VerifyProfile/> }
     </>
   );
 };
