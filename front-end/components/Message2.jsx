@@ -1,8 +1,24 @@
 import { useState } from "react";
+import axios from "axios";
 
 export const Message2 = () => {
-  const [pop, setPop] = useState(false);
-
+    const [balance , setBalance] = useState(1000);
+    const token = localStorage.getItem("token");
+    const handleform = async (e)=>{
+        e.preventDefault();
+        try {
+            let fr = new FormData();
+            fr.append('balance', balance);
+            const res = await axios.post("http://localhost/api/investor/portfolio/create", fr,{
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
   return (
     <>
       <div className=" h-[80vh] w-full flex flex-col  ">
@@ -10,6 +26,11 @@ export const Message2 = () => {
           <h1 className="text-3xl text-black">
             Please Register Your Portfolio
           </h1>
+          <form onSubmit={handleform} className="flex items-center flex-col m-4" >
+            <input value={balance} 
+            name="balance"
+            onChange={(e)=>setBalance(e.target.value)}
+            type="number" min={1000} className="p-4 rounded-[15px]  text-center " placeholder="Enter Your Balance" />
           <button
             onClick={() => setPop(true)}
             className="p-4 bg-[#02A95C] text-white flex items-center gap-2 m-4 rounded-[15px]"
@@ -26,16 +47,9 @@ export const Message2 = () => {
             </svg>
             Create a Portfolio
           </button>
+          </form>
         </div>
       </div>
-
-      {pop && <div className="fixed top-0 h-[100vh] w-full bg-slate-900  ">
-        <button onClick={()=>setPop(false)}>cancel</button>
-
-        <form>
-            <input type="text" placeholder="Enter Your Balance" />
-        </form>
-        </div>}
     </>
   );
 };

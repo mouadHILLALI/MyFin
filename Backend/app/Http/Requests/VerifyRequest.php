@@ -22,7 +22,6 @@ class VerifyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'RIB'=>'required|integer',
             'CIN'=>'required'
         ];
     }

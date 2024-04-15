@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import InvestorNavbar from "../components/investorNav";
 import axios from "axios";
 import { Message2 } from "../components/Message2";
+import { PortfolioDash } from "../components/portfoliodash";
 export const Portfolio = () => {
   const [check, setCheck] = useState(false);
   const token = localStorage.getItem("token");
@@ -27,7 +28,7 @@ export const Portfolio = () => {
     <>
       <InvestorNavbar />
       {
-        !check ? <Message2/> :  <h1>Portfolio</h1>
+        !check ? <Message2/> :  <PortfolioDash/>
       }
      
     </>

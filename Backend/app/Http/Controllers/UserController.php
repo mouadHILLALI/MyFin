@@ -92,7 +92,6 @@ class UserController extends Controller
             case 'Investor':
                 try {
                     Investor::create([
-                        'RIB' => $r->RIB,
                         'CIN' => $r->CIN,
                         'user_id' => auth()->user()->id
                     ]);
@@ -105,7 +104,6 @@ class UserController extends Controller
             case 'FundRaiser':
                 try {
                     Fundraiser::create([
-                        'RIB' => $r->RIB,
                         'CIN' => $r->CIN,
                         'user_id' => auth()->user()->id
                     ]);

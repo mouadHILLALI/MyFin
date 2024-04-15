@@ -59,10 +59,6 @@ export const ProfileInfo = () => {
           <div className="mt-[10%] w-[90%] m-auto drop-shadow-lg flex flex-col p-2 rounded-lg justify-between h-[30vh] bg-slate-50 ">
             <h1 className="text-2xl">Account info :</h1>
             <div className="flex w-[50%] justify-between text-xl">
-                <label htmlFor="rib">Bank Account Number :</label>
-            <input id="rib" type="text" value={user.info.RIB} />
-            </div>
-            <div className="flex w-[50%] justify-between text-xl">
             <label htmlFor="cin">CIN :</label>
             <input type="text" id="cin" value={user.info.CIN} />
             </div>
