@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
             $table->integer('balance');
-            $table->integer('estimated_profit');
+            $table->integer('estimated_profit')->default(0);
             $table->foreignId('investor_id')->constrained();
             $table->timestamps();
         });

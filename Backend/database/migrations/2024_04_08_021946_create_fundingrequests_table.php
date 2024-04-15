@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('fundingrequests', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('description');
             $table->string('letter_of_justification');
             $table->integer('fundraising_goal');
             $table->foreignId('fundraiser_id')->constrained();

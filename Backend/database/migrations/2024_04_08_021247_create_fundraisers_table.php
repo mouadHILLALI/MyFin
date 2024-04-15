@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('fundraisers', function (Blueprint $table) {
             $table->id();
-            $table->integer("RIB")->unique();
             $table->string("CIN")->unique();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
