@@ -5,7 +5,6 @@ const SignIn = () => {
     return (
         <>
         <Login/>
-        <Footer/>
         </>
     )
 

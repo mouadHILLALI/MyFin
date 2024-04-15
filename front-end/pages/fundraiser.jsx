@@ -1,6 +1,8 @@
-
+import { FundraiserNav } from "../components/fundraiser/fundraiserNav";
 function Fundraiser(){
-    return <h1>fundraiser</h1>
+    return <>
+    <FundraiserNav/>
+    </>
 }
 
 export default Fundraiser;
