@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FundingRequestController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\LoansController;
 use App\Http\Controllers\UserController;
@@ -27,8 +28,8 @@ Route::post('/user/register', [UserController::class, 'register'])->middleware('
 Route::post('/user/login', [UserController::class, 'login'])->middleware('guest');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/user/logout', [UserController::class, 'logout']);
     Route::post('/user/verify', [UserController::class, 'verifyProfile']);
+    Route::post('/user/logout', [UserController::class, 'logout']);
     Route::get('/user/check', [UserController::class, 'check']);
     Route::get('/user/data', [UserController::class, 'getData']);
 });
@@ -44,4 +45,5 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
 });
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
+    Route::post('/fundraiser/fundingrequest/create', [FundingRequestController::class , 'create']);
 });

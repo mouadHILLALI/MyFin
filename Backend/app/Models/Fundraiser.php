@@ -9,7 +9,6 @@ class Fundraiser extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'RIB',
         'CIN',
         'user_id'
     ];

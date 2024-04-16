@@ -11,7 +11,6 @@ class Investor extends Model
 
     use HasFactory;
     protected $fillable = [
-        'RIB',
         'CIN',
         'user_id'
     ];

@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('image');
-            $table->string('letter_of_justification');
-            $table->integer('fundraising_goal');
+            $table->string('letter');
+            $table->integer('goal');
+            $table->integer('reviewd')->default(0);
             $table->foreignId('fundraiser_id')->constrained();
             $table->timestamps();
         });

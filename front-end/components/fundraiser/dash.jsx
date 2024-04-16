@@ -2,15 +2,34 @@ import { useState } from "react";
 
 export const Dash = () => {
   const [pop, setPop] = useState(false);
-  const [title , setTitle] = useState("");
-  const [description , setDescription] = useState("");
-  const [goal , setGoal] = useState(1000);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [goal, setGoal] = useState(1000);
   let image = document.getElementById("image");
   let letter = document.getElementById("letter");
-
-  const handleform = async ()=>{
-
-  }
+  const token = localStorage.getItem("token");
+  const handleform = async () => {
+    try {
+        let fr = new FormData();
+        fr.append("title" , title);
+        fr.append("description", description);
+        fr.append("goal" , goal);
+      if (image.files && image.files[0]) {
+        fr.append("image", image.files[0]);
+      }
+      if (letter.files && letter.files[0]) {
+        fr.append("letter", letter.files[0]);
+      }
+      const res = await axios.post("http://localhost/api/user/logout",fr ,  {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="m-4">
@@ -48,14 +67,17 @@ export const Dash = () => {
               </svg>
             </button>
           </div>
-          <form onSubmit={handleform} className="flex flex-col justify-between h-full gap-4 ">
+          <form
+            onSubmit={handleform}
+            className="flex flex-col justify-between h-full gap-4 "
+          >
             <input
               type="text"
               className="p-2 rounded-[15px] text-center "
               placeholder="title"
               name="title"
               value={title}
-              onChange={(e)=>setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <input
               type="text"
@@ -63,7 +85,7 @@ export const Dash = () => {
               placeholder="description"
               name="description"
               value={description}
-              onChange={(e)=>setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <div className="flex flex-col items-center">
               <label
@@ -110,7 +132,7 @@ export const Dash = () => {
               placeholder="fundraising goal"
               name="goal"
               value={goal}
-              onChange={(e)=>setGoal(e.target.value)}
+              onChange={(e) => setGoal(e.target.value)}
             />
             <button className="p-2 text-white font-bold">Submit</button>
           </form>
