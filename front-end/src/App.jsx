@@ -4,6 +4,7 @@ import SignIn from "../pages/SignIn";
 import ReactDOM from "react-dom/client";
 import Investor from "../pages/Investor";
 import Fundraiser from "../pages/fundraiser";
+import { FundRaiserProfile } from "../pages/fundraiserprofile";
 import { InvestorProfile } from "../pages/investorprofile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Portfolio } from "../pages/portfolio";
@@ -18,6 +19,7 @@ function App(){
               <Route path="/investorprofile" element={<InvestorProfile />} />
               <Route path="/fundraiser" element={<Fundraiser />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
           </Routes>
         </BrowserRouter>
       );

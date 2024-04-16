@@ -1,5 +1,4 @@
-import visa from "../public/visa.jpg";
-import Mastercard from "../public/Mastercard.png";
+
 import { useState  } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

@@ -1,23 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../functions/Util";
+
 export const FundraiserNav = () => {
+  const navigate = useNavigate();
+  const handlelogout = () => {
     logout();
+    navigate("/");
+  };
   return (
     <>
-      <div className="w-[20%] bg-[#fffff] h-full fixed top-0 border-2 border-slate drop-shadow-lg  ">
+      <div className="w-[15%] bg-[#fffff] h-full fixed top-0 border-2 border-slate drop-shadow-lg  ">
         <div className="flex flex-col  h-full justify-between ">
           <div className="flex flex-col h-[30%] justify-between m-4 ">
             <div className="flex gap-3 m-4 items-center">
-              <svg
-                width={80}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-              >
-                <path
-                  fill="#02a95c"
-                  d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 160a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"
-                />
-              </svg>
               <h1 className="text-[#02a95c] font-bold text-5xl">MyFin</h1>
             </div>
             <input
@@ -29,35 +24,32 @@ export const FundraiserNav = () => {
               to="/fundraiser"
               className={({ isActive }) =>
                 isActive
-                  ? "flex items-center gap-2 h-[10%] p-6 text-white  text-xl  bg-green-400 rounded-[15px] "
+                  ? "flex items-center gap-2 h-[10%] p-4 text-white font-bold  bg-green-400 rounded-[15px] "
                   : "flex items-center p-4 gap-2 h-[10%] "
               }
             >
               <svg
-                width={30}
+                width={20}
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
+                viewBox="0 0 576 512"
               >
-                <path
-                  fill="#02a95c"
-                  d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"
-                />
+                <path fill="#02a95c" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
               </svg>
               Dashboard
-            </NavLink>
+            </NavLink>  
           </div>
 
           <div className="flex flex-col h-[20%] m-4 justify-around ">
             <NavLink
-            to="/investorprofile"
+              to="/fundraiserprofile"
               className={({ isActive }) =>
                 isActive
-                  ? "flex items-center gap-2 h-[10%] p-6 text-white  text-xl  bg-green-400 rounded-[15px] "
-                  : "flex items-center gap-2 p-4 h-[10%] "
+                  ? "flex items-center gap-2 h-[10%] p-4 text-white  font-bold  bg-green-400 rounded-[15px] "
+                  : "flex items-center gap-2 font-bold p-4 h-[10%] "
               }
             >
               <svg
-                width={30}
+                width={20}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
               >
@@ -68,9 +60,12 @@ export const FundraiserNav = () => {
               </svg>
               Profile
             </NavLink>
-            <button onClick={logout} className="flex w-full p-4 rounded-[20px] bg-[#02a95c] text-white text-xl items-center gap-2">
+            <button
+              onClick={handlelogout}
+              className="flex w-full p-2 rounded-[20px] bg-[#02a95c] text-white  items-center gap-2"
+            >
               <svg
-                width={30}
+                width={20}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
               >
