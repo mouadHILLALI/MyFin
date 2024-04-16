@@ -1,55 +1,121 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 export const Dash = () => {
   const [pop, setPop] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [goal, setGoal] = useState(1000);
+  const [requests, setRequests] = useState([]);
   let image = document.getElementById("image");
   let letter = document.getElementById("letter");
   const token = localStorage.getItem("token");
-  const handleform = async () => {
+  const handleform = async (e) => {
+    e.preventDefault();
     try {
-        let fr = new FormData();
-        fr.append("title" , title);
-        fr.append("description", description);
-        fr.append("goal" , goal);
+      let fr = new FormData();
+      fr.append("title", title);
+      fr.append("description", description);
+      fr.append("goal", goal);
       if (image.files && image.files[0]) {
         fr.append("image", image.files[0]);
       }
       if (letter.files && letter.files[0]) {
         fr.append("letter", letter.files[0]);
       }
-      const res = await axios.post("http://localhost/api/user/logout",fr ,  {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.post(
+        "http://localhost/api/fundraiser/fundingrequest/create",
+        fr,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    try {
+      const fetchrequest = async () => {
+        const res = await axios.get(
+          "http://localhost/api/fundingrequests/show",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setRequests(res.data);
+        console.log(requests);
+      };
+      fetchrequest();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   return (
     <>
       <div className="m-4">
-        <button
-          onClick={() => setPop(true)}
-          className="flex p-2 rounded-[10px] text-white items-center gap-2 bg-[#02a95c]"
-        >
-          <svg
-            width={15}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
+        {requests.length == 0 ? (
+          <button
+            onClick={() => setPop(true)}
+            className="flex p-2 rounded-[10px] text-white items-center gap-2 bg-[#02a95c]"
           >
-            <path
-              fill="#ffffff"
-              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-            />
-          </svg>
-          Create a funding compagain
-        </button>
+            <svg
+              width={15}
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+            >
+              <path
+                fill="#ffffff"
+                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+              />
+            </svg>
+            Create a funding compagain
+          </button>
+        ) : (
+          <button className="flex p-2 rounded-[10px] text-white items-center gap-2 bg-[#02a95c]">
+            Your request is pending for review
+          </button>
+        )}
       </div>
+
+      {requests.map((request) => {
+        return (
+          <div className="w-[80%] flex flex-col items-center" key={request.id}>
+            <div>
+              <h1 className="text-2xl w-full">{request.title}</h1>
+            </div>
+            <div className="flex " >
+              <div className="flex flex-col w-[90%] gap-3 overflow-auto">
+                <img
+                  className="w-[90%] rounded-[15px] border-2 border-black "
+                  src={request.image}
+                  alt="..."
+                />
+                <p className="text-lg">{request.description}</p>
+              </div>
+              <div className="flex flex-col w-[40%]  justify-between border-2 border-slate p-2 ">
+                <h1 className="text-xl">compagain goal : ${request.goal}</h1>
+                <a
+                  className="text-lg p-4 bg-[#02a95c] w-[60%] text-white rounded-[15px] "
+                  target="blank"
+                  href={request.letter}
+                >
+                  Letter of Justification
+                </a>
+                {request.reviewd == 0 ? (
+                  <h1 className="text-xl">status : Under review </h1>
+                ) : (
+                  <h1>Request Approved</h1>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
 
       {pop && (
         <div className="absolute h-[50%] w-[50%] overflow-auto p-3 bg-[#02a95c] top-[15%] left-[20%] rounded-[15px] ">

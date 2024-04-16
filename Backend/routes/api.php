@@ -5,6 +5,7 @@ use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\LoansController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Investor;
+use App\Models\FundingRequest;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,4 +47,5 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
     Route::post('/fundraiser/fundingrequest/create', [FundingRequestController::class , 'create']);
+    Route::get('/fundingrequests/show', [FundingRequestController::class , 'show']);
 });
