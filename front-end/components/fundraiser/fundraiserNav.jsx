@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { logout } from "../../functions/Util";
 export const FundraiserNav = () => {
+    logout();
   return (
     <>
-      <div className="w-[20%] bg-[#fffff] h-full fixed top-0 border-2 border-black drop-shadow-lg  ">
+      <div className="w-[20%] bg-[#fffff] h-full fixed top-0 border-2 border-slate drop-shadow-lg  ">
         <div className="flex flex-col  h-full justify-between ">
           <div className="flex flex-col h-[30%] justify-between m-4 ">
             <div className="flex gap-3 m-4 items-center">
@@ -66,7 +68,7 @@ export const FundraiserNav = () => {
               </svg>
               Profile
             </NavLink>
-            <button className="flex w-full p-4 rounded-[20px] bg-[#02a95c] text-white text-xl items-center gap-2">
+            <button onClick={logout} className="flex w-full p-4 rounded-[20px] bg-[#02a95c] text-white text-xl items-center gap-2">
               <svg
                 width={30}
                 xmlns="http://www.w3.org/2000/svg"
