@@ -9,6 +9,7 @@ import { InvestorProfile } from "../pages/investorprofile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Portfolio } from "../pages/portfolio";
 import { Admin } from "../pages/admin";
+import { ManageRequests } from "../pages/managerequests";
 function App(){
     return (
         <BrowserRouter>
@@ -22,6 +23,7 @@ function App(){
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/manage" element={<ManageRequests />} />
           </Routes>
         </BrowserRouter>
       );

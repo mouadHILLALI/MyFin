@@ -10,7 +10,7 @@ export const AdminNav = () => {
     <>
       <div className="w-[15%] bg-[#fffff] h-full fixed top-0 border-2 border-slate drop-shadow-lg  ">
         <div className="flex flex-col  h-full justify-between ">
-          <div className="flex flex-col h-[30%] justify-between m-4 ">
+          <div className="flex flex-col h-[50%] justify-between m-4 ">
             <div className="flex gap-3 m-4 items-center">
               <h1 className="text-[#02a95c] font-bold text-5xl">MyFin</h1>
             </div>
@@ -39,29 +39,22 @@ export const AdminNav = () => {
               </svg>
               Dashboard
             </NavLink>
+            <NavLink
+              to="/manage"
+              className={({ isActive }) =>
+                isActive
+                  ? "flex items-center gap-2 h-[15%] p-4 text-white font-bold  bg-green-400 rounded-[15px] "
+                  : "flex items-center p-4 gap-2 h-[10%] "
+              }
+            >
+              <svg width={20} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                <path fill="#02a95c" d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z" />
+              </svg>
+              Manage Requests
+            </NavLink>
           </div>
 
           <div className="flex flex-col h-[20%] m-4 justify-around ">
-            <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive
-                  ? "flex items-center gap-2 h-[10%] p-4 text-white  font-bold  bg-green-400 rounded-[15px] "
-                  : "flex items-center gap-2 font-bold p-4 h-[10%] "
-              }
-            >
-              <svg
-                width={20}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-              >
-                <path
-                  fill="#02a95c"
-                  d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
-                />
-              </svg>
-              Profile
-            </NavLink>
             <button
               onClick={handlelogout}
               className="flex w-full p-2 rounded-[20px] bg-[#02a95c] text-white  items-center gap-2"
