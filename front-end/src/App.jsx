@@ -8,6 +8,7 @@ import { FundRaiserProfile } from "../pages/fundraiserprofile";
 import { InvestorProfile } from "../pages/investorprofile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Portfolio } from "../pages/portfolio";
+import { Admin } from "../pages/admin";
 function App(){
     return (
         <BrowserRouter>
@@ -20,6 +21,7 @@ function App(){
               <Route path="/fundraiser" element={<Fundraiser />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
+              <Route path="/admin" element={<Admin />} />
           </Routes>
         </BrowserRouter>
       );

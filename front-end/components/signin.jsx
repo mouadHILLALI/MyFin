@@ -25,7 +25,8 @@ const Login = () => {
         case "FundRaiser":
           navigate("/fundraiser");
           break;
-
+        case "Admin":
+          navigate("/admin");
         default:
           break;
       }
