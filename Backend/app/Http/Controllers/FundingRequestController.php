@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FundingRequest;
-use App\Models\FundingRequest as ModelsFundingRequest;
+use App\Models\User;
 use App\Models\Fundraiser;
 use Illuminate\Http\Request;
+use App\Http\Requests\FundingRequest;
+use App\Models\FundingRequest as ModelsFundingRequest;
 
 class FundingRequestController extends Controller
 {
@@ -40,6 +41,21 @@ class FundingRequestController extends Controller
             return response()->json($requests, 200);
         }else{
             return response()->json('please register your profile first');
+        }
+    }
+    public function getAllfunds(){
+        try {
+            $funds = ModelsFundingRequest::get();
+            $users = [];
+            foreach ($funds as $fund) {
+                $user = User::find($funds->fundraiser->user_id);
+                if ($user) {
+                    $users[] = $user;
+                }
+            }
+            return response()->json(['funds' => $funds, 'users' => $users], 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
         }
     }
 }

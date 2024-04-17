@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateLoanRequest;
 use App\Models\Investor;
 use App\Models\Loan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoansController extends Controller
 {
-    public function getLoans(){
-        $inv = Investor::where('user_id' , auth()->user()->id)->first();
+    public function getLoans()
+    {
+        $inv = Investor::where('user_id', auth()->user()->id)->first();
         try {
-            if($inv){
+            if ($inv) {
                 $loans = Loan::where('investor_id', $inv->id)->get();
-                return response()->json(['data'=>$loans],200);
+                return response()->json(['data' => $loans], 200);
             }
         } catch (\Exception $e) {
-            return response()->json(['res'=>$e->getMessage()],401);
+            return response()->json(['res' => $e->getMessage()], 401);
         }
     }
     public function create(CreateLoanRequest $r)
@@ -37,6 +39,22 @@ class LoansController extends Controller
                 ]);
                 return response()->json(['res' => 'Loan was submitted for review'], 200);
             }
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
+    public function Allloans()
+    {
+        try {
+            $loans = Loan::get();
+            $users = [];
+            foreach ($loans as $loan) {
+                $user = User::find($loan->investor->user_id);
+                if ($user) {
+                    $users[] = $user;
+                }
+            }
+            return response()->json(['loans' => $loans, 'users' => $users], 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
