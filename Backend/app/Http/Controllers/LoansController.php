@@ -48,7 +48,7 @@ class LoansController extends Controller
     public function Allloans()
     {
         try {
-            $loans = Loan::get();
+            $loans = Loan::where('reviewd' , 0)->get();
             $users = [];
             foreach ($loans as $loan) {
                 $user = User::find($loan->investor->user_id);

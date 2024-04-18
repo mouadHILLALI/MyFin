@@ -45,15 +45,24 @@ class FundingRequestController extends Controller
     }
     public function getAllfunds(){
         try {
-            $funds = ModelsFundingRequest::get();
+            $funds = ModelsFundingRequest::where('reviewd' , 0)->get();
             $users = [];
             foreach ($funds as $fund) {
-                $user = User::find($funds->fundraiser->user_id);
+                $user = User::find($fund->fundraiser->user_id);
                 if ($user) {
                     $users[] = $user;
                 }
             }
-            return response()->json(['funds' => $funds, 'users' => $users], 200);
+            $combinedData = [];
+            for ($i = 0; $i < count($funds); $i++) {
+                $combinedData[] = [
+                    'funds' => $funds[$i],
+                    'user' => isset($users[$i]) ? $users[$i] : null,
+                ];
+            }
+
+            return response()->json(['combinedData' => $combinedData], 200);
+
         } catch (\Exception $e) {
             return response($e->getMessage());
         }

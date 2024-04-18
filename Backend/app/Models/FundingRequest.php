@@ -15,7 +15,8 @@ class FundingRequest extends Model
         'image',
         'letter',
         'goal',
-        'fundraiser_id'
+        'fundraiser_id',
+        'reviewd',
     ];
 
     public function fundraiser(){

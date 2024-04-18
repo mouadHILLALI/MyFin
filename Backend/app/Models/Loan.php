@@ -15,6 +15,7 @@ class Loan extends Model
         'profit_rate',
         'business_model',
         'investor_id',
+        'reviewd',
     ];
 
     public function Investor(){
