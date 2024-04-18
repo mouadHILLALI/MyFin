@@ -8,6 +8,8 @@ use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\countOf;
+
 class LoansController extends Controller
 {
     public function getLoans()
@@ -54,9 +56,18 @@ class LoansController extends Controller
                     $users[] = $user;
                 }
             }
-            return response()->json(['loans' => $loans, 'users' => $users], 200);
+
+            $combinedData = [];
+            for ($i = 0; $i < count($loans); $i++) {
+                $combinedData[] = [
+                    'loan' => $loans[$i],
+                    'user' => isset($users[$i]) ? $users[$i] : null,
+                ];
+            }
+
+            return response()->json(['combinedData' => $combinedData], 200);
         } catch (\Exception $e) {
-            return response($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -8,22 +8,23 @@ export const ManageRequests = () => {
   const [loanActive, setLoanActive] = useState(true);
   const [fundingActive, setFundingActive] = useState(false);
   const [data, setData] = useState([]);
+
   useEffect(() => {
     try {
-      const fetchloans = async () => {
+      const fetchLoans = async () => {
         const res = await axios.get("http://localhost/api/loans/get", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res);
+        setData(res.data.combinedData);
       };
-      fetchloans();
+      fetchLoans();
     } catch (error) {
       console.log(error);
     }
   }, []);
-
+  console.log(data);
   return (
     <>
       <AdminNav />
@@ -55,6 +56,62 @@ export const ManageRequests = () => {
           >
             Funding Requests
           </button>
+        </div>
+
+        <div className="relative overflow-x-auto text-white">
+          <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
+            <thead className="border-b-2 border-white">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Investor name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Loan Amount
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Bussniss Model
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Profit Rate
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Duration
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((info, index) => (
+                <tr key={index} className="">
+                  <th
+                    scope="row"
+                    className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {info.user && info.user.image && (
+                      <img
+                        src={info.user.image}
+                        className="rounded-[100%] w-[40%] h-[40%] "
+                        alt=""
+                      />
+                    )}
+                    {info.user && info.user.first_name}
+                  </th>
+                  <td className="px-8 py-4">{info.user && info.user.email}</td>
+                  <td className="px-8 py-4">{info.loan && info.loan.amount}</td>
+                  <td className="px-8 py-4">
+                    {info.loan && <a target="blank" href={`http://localhost/storage/` + info.loan.business_model}>Bussniss Model</a> }
+                  </td>
+                  <td className="px-8 py-4">{info.loan && info.loan.rate}</td>
+                  <td className="px-8 py-4">
+                    {info.loan && info.loan.duration}
+                  </td>
+                  <td className="px-8 py-4">$2999</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>
