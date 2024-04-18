@@ -102,7 +102,7 @@ export const ManageRequests = () => {
           </button>
         </div>
 
-        {loanActive ? (
+        {loanActive && data.length!=0 ? (
           <div className="relative overflow-x-auto text-white">
             <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
               <thead className="border-b-2 border-white">
