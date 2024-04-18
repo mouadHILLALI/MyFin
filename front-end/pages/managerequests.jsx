@@ -24,7 +24,9 @@ export const ManageRequests = () => {
       console.log(error);
     }
   }, []);
-  console.log(data);
+  const handleApprove = ()=>{
+    
+  }
   return (
     <>
       <AdminNav />
@@ -99,15 +101,15 @@ export const ManageRequests = () => {
                     {info.user && info.user.first_name}
                   </th>
                   <td className="px-8 py-4">{info.user && info.user.email}</td>
-                  <td className="px-8 py-4">{info.loan && info.loan.amount}</td>
+                  <td className="px-8 py-4">{info.loan && info.loan.amount}DH</td>
                   <td className="px-8 py-4">
                     {info.loan && <a target="blank" href={`http://localhost/storage/` + info.loan.business_model}>Bussniss Model</a> }
                   </td>
-                  <td className="px-8 py-4">{info.loan && info.loan.rate}</td>
+                  <td className="px-8 py-4">{info.loan && info.loan.profit_rate}%</td>
                   <td className="px-8 py-4">
                     {info.loan && info.loan.duration}
                   </td>
-                  <td className="px-8 py-4">$2999</td>
+                  <td className="px-8 py-4"><button onClick={handleApprove} value={info.loan.id}>Approve</button></td>
                 </tr>
               ))}
             </tbody>
