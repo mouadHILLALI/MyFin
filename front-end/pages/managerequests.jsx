@@ -8,7 +8,7 @@ export const ManageRequests = () => {
   const [loanActive, setLoanActive] = useState(true);
   const [fundingActive, setFundingActive] = useState(false);
   const [data, setData] = useState([]);
-
+  const [type, setType] = useState("loan");
   useEffect(() => {
     try {
       const fetchLoans = async () => {
@@ -24,9 +24,29 @@ export const ManageRequests = () => {
       console.log(error);
     }
   }, []);
-  const handleApprove = ()=>{
-    
-  }
+  const handleApprove = async (e) => {
+    let id = e.target.value;
+    let fr = new FormData();
+    fr.append("id", id);
+    fr.append("type", type);
+    try {
+      const res = await axios.post(
+        "http://localhost/api/application/approve",
+        fr,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+      if(type=='loan'){
+        fetchLoans();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <AdminNav />
@@ -101,15 +121,32 @@ export const ManageRequests = () => {
                     {info.user && info.user.first_name}
                   </th>
                   <td className="px-8 py-4">{info.user && info.user.email}</td>
-                  <td className="px-8 py-4">{info.loan && info.loan.amount}DH</td>
                   <td className="px-8 py-4">
-                    {info.loan && <a target="blank" href={`http://localhost/storage/` + info.loan.business_model}>Bussniss Model</a> }
+                    {info.loan && info.loan.amount}DH
                   </td>
-                  <td className="px-8 py-4">{info.loan && info.loan.profit_rate}%</td>
+                  <td className="px-8 py-4">
+                    {info.loan && (
+                      <a
+                        target="blank"
+                        href={
+                          `http://localhost/storage/` + info.loan.business_model
+                        }
+                      >
+                        Bussniss Model
+                      </a>
+                    )}
+                  </td>
+                  <td className="px-8 py-4">
+                    {info.loan && info.loan.profit_rate}%
+                  </td>
                   <td className="px-8 py-4">
                     {info.loan && info.loan.duration}
                   </td>
-                  <td className="px-8 py-4"><button onClick={handleApprove} value={info.loan.id}>Approve</button></td>
+                  <td className="px-8 py-4">
+                    <button onClick={handleApprove} value={info.loan.id}>
+                      Approve
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
