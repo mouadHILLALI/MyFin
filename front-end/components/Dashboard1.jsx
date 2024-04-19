@@ -103,27 +103,52 @@ export const Dashboardinv = () => {
         {loans.length == 0 ? (
           <h1>You have no Loans yet</h1>
         ) : (
-          <div className=" w-[40%] m-4 p-2 rounded-[15px] h-[30vh] bg-[#02A95C] drop-shadow-lg ">
-            <div className="flex flex-col">
-              <label htmlFor="">Loan Amount</label>
-              <h2>{loans[0].amount}DH</h2>
-              <label htmlFor="">Reimbursement Duration</label>
-              <h2>{loans[0].duration}Days</h2>
-              <a
-                target="blank"
-                href={`http://localhost/storage/` + loans[0].business_model}
-              >
-                Busseniss Model
-              </a>
+          <div className=" flex flex-col justify-between w-[60%] m-4 p-2 rounded-[15px] h-[50vh] bg-white drop-shadow-lg ">
+            <div className="flex flex-col gap-2 ">
+              <div className="flex items-center justify-between">
+                <div className="flex gap-4 w-[40%] ">
+                  <label className="font-bold text-xl">Loan Amount :</label>
+                  <h2 className="font-bold text-xl">{loans[0].amount}DH</h2>
+                </div>
+                <button className="flex flex-col items-center bg-slate-200 p-2 rounded-full mr-3 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    width={20}
+                  >
+                    <path
+                      fill="#000000"
+                      d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex justify-between">
+                <div className="bg-blue-500 flex flex-col justify-between  gap-4 p-6 rounded-[20px] text-white">
+                  <label className="font-bold text-2xl">
+                    Reimbursement Duration
+                  </label>
+                  <h2 className="text-2xl">{loans[0].duration}Days</h2>
+                  <a
+                    className=" bg-[#fcb433] text-center font-bold shadow-sm	 p-4 rounded-[25px] "
+                    target="blank"
+                    href={`http://localhost/storage/` + loans[0].business_model}
+                  >
+                    Busseniss Model
+                  </a>
+                </div>
+                <div className="bg-green-500 p-5 rounded-[20px] text-white ">
+                  <label className="font-bold text-5xl">Profit Rate</label>
+                  <h1 className="font-bold text-6xl">{loans[0].profit_rate}%</h1>
+                </div>
+              </div>
             </div>
-            <div>
-              {loans[0].reviewd == 0 ? (
-                <h1>Submited for Review</h1>
-              ) : (
-                <h1>Approved</h1>
-              )}
-              <label htmlFor="">Profit Rate :</label>
-              <h1>{loans[0].profit_rate}%</h1>
+            <div className="w-[15%]">
+            {loans[0].reviewd == 0 ? (
+                    <h1 className="bg-yellow-200 text-white p-3 rounded-[15px] ">Submited for Review</h1>
+                  ) : (
+                    <h1 className="bg-green-400 text-white text-center p-2 rounded-[15px] ">Approved</h1>
+                  )}
             </div>
           </div>
         )}
