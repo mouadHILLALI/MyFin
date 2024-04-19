@@ -11,6 +11,7 @@ export const Dashboardinv = () => {
   const [amount, setAmount] = useState(0);
   const [duration, setDuration] = useState(0);
   const [rate, setRate] = useState(0);
+  const [id, setID] = useState(0);
   const [model, setModel] = useState("");
   const [loans, SetLoan] = useState([]);
   let file = document.getElementById("file");
@@ -75,13 +76,39 @@ export const Dashboardinv = () => {
       });
       setAmount(res.data.data.amount);
       setRate(res.data.data.profit_rate);
-      console.log(res.data.data);
       setDuration(res.data.data.duration);
       setModel(res.data.data.business_model);
+      setID(res.data.data.id);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      let fr = new FormData();
+      fr.append("id", id);
+      fr.append("rate", rate);
+      fr.append("amount", amount);
+      fr.append("duration", duration);
+      if (file.files && file.files[0]) {
+        fr.append("file", file.files[0]);
+      }
+      const res = await axios.post(
+        "http://localhost/api/investor/loan/update",
+        fr,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className=" w-[90%] m-auto flex gap-7 ">
@@ -332,10 +359,15 @@ export const Dashboardinv = () => {
               </svg>
             </button>
           </div>
-          <form className="flex  flex-col gap-4 h-[70%] bg-[#02a95c] w-[70%] m-auto p-6 rounded-[20px] ">
+          <form
+            onSubmit={handleEdit}
+            className="flex  flex-col gap-4 h-[70%] bg-[#02a95c] w-[70%] m-auto p-6 rounded-[20px] "
+          >
             <div className="flex gap-6 justify-center ">
               <div className="flex items-center gap-3">
-                <label className="text-white font-bold" htmlFor="">Loan Amount : </label>
+                <label className="text-white font-bold" htmlFor="">
+                  Loan Amount :{" "}
+                </label>
                 <input
                   type="number"
                   className="text-center p-2 rounded-[15px] "
@@ -346,7 +378,9 @@ export const Dashboardinv = () => {
                 />
               </div>
               <div className="flex items-center gap-3">
-                <label className="text-white font-bold" htmlFor="">Loan Profit Rate : </label>
+                <label className="text-white font-bold" htmlFor="">
+                  Loan Profit Rate :{" "}
+                </label>
                 <input
                   type="number"
                   min={1}
@@ -357,7 +391,10 @@ export const Dashboardinv = () => {
                 />
               </div>
             </div>
-            <label className="text-white text-center font-bold">Loan Duration : </label>
+            <input type="text" value={id} className="hidden" name="id" />
+            <label className="text-white text-center font-bold">
+              Loan Duration :{" "}
+            </label>
             <input
               type="number"
               min={10}

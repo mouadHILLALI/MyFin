@@ -48,7 +48,7 @@ class LoansController extends Controller
     public function Allloans()
     {
         try {
-            $loans = Loan::where('reviewd' , 0)->get();
+            $loans = Loan::where('reviewd', 0)->get();
             $users = [];
             foreach ($loans as $loan) {
                 $user = User::find($loan->investor->user_id);
@@ -70,12 +70,35 @@ class LoansController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    public function getLoan($id){
+    public function getLoan($id)
+    {
         try {
             $loan = Loan::where('id', $id)->first();
-            return response()->json(['data'=>$loan], 200);
+            return response()->json(['data' => $loan], 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
+    }
+    public function Update(Request $r)
+    {
+        try {
+            $loan = Loan::where('id', $r->id)->first();
+            if ($r->file('file')) {
+                $filePath = $r->file('file')->store('files', 'public');
+                $fileURL = asset('storage/' . $filePath);
+            }
+            $loan->update([
+                'amount' => $r->amount,
+                'duration' => $r->duration,
+                'profit_rate' => $r->rate,
+                'reviewd' => 0,
+                'business_model' => $fileURL ?? $loan->business_model,
+            ]);
+        
+            return response()->json('The loan was updated successfully and was submitted for review', 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+        
     }
 }
