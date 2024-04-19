@@ -31,25 +31,25 @@ export const Dash = () => {
           },
         }
       );
-      console.log(res);
+      fetchrequest();
     } catch (error) {
       console.log(error);
     }
   };
+  const fetchrequest = async () => {
+    const res = await axios.get(
+      "http://localhost/api/fundingrequests/show",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setRequests(res.data);
+    console.log(requests);
+  };
   useEffect(() => {
     try {
-      const fetchrequest = async () => {
-        const res = await axios.get(
-          "http://localhost/api/fundingrequests/show",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setRequests(res.data);
-        console.log(requests);
-      };
       fetchrequest();
     } catch (error) {
       console.log(error);
@@ -82,8 +82,8 @@ export const Dash = () => {
         )}
       </div>
 
-      {requests.map((request) => {
-        return (
+      {requests.length !== 0 &&
+        requests.map((request) => (
           <div className="w-[80%] flex flex-col m-3" key={request.id}>
             <div>
               <h1 className="text-2xl font-bold w-full">{request.title}</h1>
@@ -109,69 +109,37 @@ export const Dash = () => {
                 >
                   Letter of Justification
                 </a>
-                <div className="flex items-center justify-between" >
+                <div className="flex items-center justify-between">
                   <a className="flex flex-col items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
                       width={25}
                     >
-                      <path
-                        fill="#000000"
-                        d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
-                      />
                     </svg>
                     Facebook
                   </a>
-                  <a className="flex flex-col items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                      width={25}
-                    >
-                      <path
-                        fill="#000000"
-                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                      />
-                    </svg>
-                    Twitter
-                  </a>
-                  <a className="flex flex-col  items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                      width={25}
-                    >
-                      <path
-                        fill="#000000"
-                        d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"
-                      />
-                    </svg>
-                    Email
-                  </a>
-                  <button className="flex flex-col items-center bg-slate-200 p-2 rounded-full " >
+                  <button className="flex flex-col items-center bg-slate-200 p-2 rounded-full ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
                       width={25}
                     >
-                      <path
-                        fill="#000000"
-                        d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"
-                      />
                     </svg>
                   </button>
                 </div>
-                {request.reviewd == 0 ? (
-                  <h1 className="text-xl text-center p-2 bg-[#fcb533] rounded-[15px] font-bold "> Under review </h1>
+                {request.reviewd === 0 ? (
+                  <h1 className="text-xl text-center p-2 bg-[#fcb533] rounded-[15px] font-bold ">
+                    {" "}
+                    Under review{" "}
+                  </h1>
                 ) : (
                   <h1>Request Approved</h1>
                 )}
               </div>
             </div>
           </div>
-        );
-      })}
+        ))}
 
       {pop && (
         <div className="absolute h-[50%] w-[50%] overflow-auto p-3 bg-[#02a95c] top-[15%] left-[20%] rounded-[15px] ">

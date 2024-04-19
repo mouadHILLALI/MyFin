@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FundingRequestController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\LoansController;
+use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Investor;
 use App\Models\FundingRequest;
@@ -50,6 +51,7 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
     Route::get('/investor/loan/{id}' , [LoansController::class , 'getLoan']);
     Route::post('/investor/loan/update' , [LoansController::class , 'Update']);
     Route::get('/portfolio/loans' , [LoansController::class , 'Portfolioloans']);
+    Route::get('/portfolio/get' , [PortfolioController::class , 'get']);
 });
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
