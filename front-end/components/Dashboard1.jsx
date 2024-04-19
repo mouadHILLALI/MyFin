@@ -11,6 +11,7 @@ export const Dashboardinv = () => {
   const [amount, setAmount] = useState(0);
   const [duration, setDuration] = useState(0);
   const [rate, setRate] = useState(0);
+  const [model, setModel] = useState("");
   const [loans, SetLoan] = useState([]);
   let file = document.getElementById("file");
   useEffect(() => {
@@ -72,8 +73,11 @@ export const Dashboardinv = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+      setAmount(res.data.data.amount);
+      setRate(res.data.data.profit_rate);
       console.log(res.data.data);
+      setDuration(res.data.data.duration);
+      setModel(res.data.data.business_model);
     } catch (error) {
       console.log(error);
     }
@@ -124,7 +128,7 @@ export const Dashboardinv = () => {
           <div className=" flex flex-col justify-between w-[60%] m-4 p-2 rounded-[15px] h-[50vh] bg-white drop-shadow-lg ">
             <div className="flex flex-col gap-2 ">
               <div className="flex items-center justify-between">
-                <div className="flex gap-4 w-[40%] ">
+                <div className="flex gap-2 w-[40%] ">
                   <label className="font-bold text-xl">Loan Amount :</label>
                   <h2 className="font-bold text-xl">{loans[0].amount}DH</h2>
                 </div>
@@ -316,7 +320,7 @@ export const Dashboardinv = () => {
       </div>
 
       {edit && (
-        <div className="h-[80vh] bg-slate-50 w-full fixed top-[8%]">
+        <div className="h-full bg-slate-50 w-full fixed  flex flex-col justify-center rounded-[15px] top-[8%]">
           <div className="flex w-[90%] justify-end m-4 ">
             <button onClick={() => setEdit(false)}>
               <svg
@@ -328,10 +332,61 @@ export const Dashboardinv = () => {
               </svg>
             </button>
           </div>
-          <form>
-            <input type="text" name="amount" value={amount} />
-            <input type="text" name="rate" value={rate} />
-            <input type="text" />
+          <form className="flex  flex-col gap-4 h-[70%] bg-[#02a95c] w-[70%] m-auto p-6 rounded-[20px] ">
+            <div className="flex gap-6 justify-center ">
+              <div className="flex items-center gap-3">
+                <label className="text-white font-bold" htmlFor="">Loan Amount : </label>
+                <input
+                  type="number"
+                  className="text-center p-2 rounded-[15px] "
+                  name="amount"
+                  min={1000}
+                  onChange={(e) => setAmount(e.target.value)}
+                  value={amount}
+                />
+              </div>
+              <div className="flex items-center gap-3">
+                <label className="text-white font-bold" htmlFor="">Loan Profit Rate : </label>
+                <input
+                  type="number"
+                  min={1}
+                  className="text-center p-2 rounded-[15px] "
+                  name="rate"
+                  onChange={(e) => setRate(e.target.value)}
+                  value={rate}
+                />
+              </div>
+            </div>
+            <label className="text-white text-center font-bold">Loan Duration : </label>
+            <input
+              type="number"
+              min={10}
+              className="text-center p-2 rounded-[15px] "
+              name="duration"
+              onChange={(e) => setDuration(e.target.value)}
+              value={duration}
+            />
+            <div className="flex flex-col ">
+              <div className="flex flex-col items-center gap-3 m-auto">
+                <label className="text-white text-lg ">
+                  Upload Your Bussiness Model:
+                </label>
+                <label htmlFor="file">
+                  <svg
+                    width={80}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      fill="#ffffff"
+                      d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
+                    />
+                  </svg>
+                </label>
+                <input id="file" name="file" type="file" className="hidden" />
+              </div>
+            </div>
+            <button className="font-bold text-white text-2xl">Edit</button>
           </form>
         </div>
       )}
