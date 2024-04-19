@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const Dashboardinv = () => {
   let style = "";
+  const API = "http://localhost/api/";
   const token = localStorage.getItem("token");
   const [slide, setSlide] = useState(false);
   const [option, setOption] = useState(false);
@@ -60,7 +61,22 @@ export const Dashboardinv = () => {
         }
       );
       console.log(res);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchEditData = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost/api/investor/loan/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      console.log(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -132,7 +148,14 @@ export const Dashboardinv = () => {
                   </button>
                   {option && (
                     <div className="fixed flex flex-col gap-3 px-4 items-center z-10 bg-slate-200 rounded-[15px] p-2 top-[15%] ">
-                      <button value={loans[0].id} onClick={()=>setEdit(true)} className="flex items-center ">
+                      <button
+                        value={loans[0].id}
+                        onClick={(e) => {
+                          setEdit(true);
+                          fetchEditData(loans[0].id);
+                        }}
+                        className="flex items-center "
+                      >
                         <svg
                           width={25}
                           xmlns="http://www.w3.org/2000/svg"
@@ -292,9 +315,26 @@ export const Dashboardinv = () => {
         </form>
       </div>
 
-      {
-        edit&& <h1>edit</h1>
-      }
+      {edit && (
+        <div className="h-[80vh] bg-slate-50 w-full fixed top-[8%]">
+          <div className="flex w-[90%] justify-end m-4 ">
+            <button onClick={() => setEdit(false)}>
+              <svg
+                width={30}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+              >
+                <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+              </svg>
+            </button>
+          </div>
+          <form>
+            <input type="text" name="amount" value={amount} />
+            <input type="text" name="rate" value={rate} />
+            <input type="text" />
+          </form>
+        </div>
+      )}
     </>
   );
 };

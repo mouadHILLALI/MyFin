@@ -70,4 +70,12 @@ class LoansController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    public function getLoan($id){
+        try {
+            $loan = Loan::where('id', $id)->first();
+            return response()->json(['data'=>$loan], 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
 }
