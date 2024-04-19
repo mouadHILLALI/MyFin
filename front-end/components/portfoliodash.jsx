@@ -6,6 +6,9 @@ export const PortfolioDash = () => {
   const [data, setData] = useState([]);
   const [balance, setBalance] = useState(0);
   const [profit, setProfit] = useState(0);
+  const [ID, setID] = useState(0);
+  const [show, setShow] = useState(false);
+  const [loan, setLoan] = useState([]);
   const fetchAllLoans = async () => {
     try {
       const res = await axios.get(API + "portfolio/loans", {
@@ -35,12 +38,25 @@ export const PortfolioDash = () => {
     fetchAllLoans();
     fetchPortfolio();
   }, []);
+  const fetchToInvest = async (id) => {
+    console.log(id);
+    try {
+      const res = await axios.get(API + `invest/loan/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setLoan(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="bg-yellow-400 p-4 rounded-[15px] mb-2 w-[90%] m-auto flex text-white font-bold items-center justify-end">
-        <div className="flex gap-4"> 
-        <button>Your Balance : {balance}DH</button> 
-        <button> Your Estimated Profit : {profit}</button> 
+        <div className="flex gap-4">
+          <button>Your Balance : {balance}DH</button>
+          <button> Your Estimated Profit : {profit}DH</button>
         </div>
       </div>
       <section className="">
@@ -99,7 +115,16 @@ export const PortfolioDash = () => {
                           {info.loan.profit_rate}%
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <button className="p-2 bg-green-500 rounded-lg text-white font-bold ">Invest</button>
+                          <button
+                            onClick={() => {
+                              setShow(true);
+                              fetchToInvest(info.loan.id);
+                            }}
+                            value={info.loan.id}
+                            className="p-2 bg-green-500 rounded-lg text-white font-bold "
+                          >
+                            Invest
+                          </button>
                         </td>
                       </tr>
                     );
@@ -110,6 +135,30 @@ export const PortfolioDash = () => {
           </div>
         </div>
       </section>
+
+      {show && (
+        <div className=" fixed top-[10%] drop-shadow-lg left-[25%] w-[40%] h-[80%] bg-white p-6 rounded-[20px]  ">
+          <div className="flex justify-end">
+            <button onClick={() => setShow(false)}>
+              <svg
+                width={25}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 384 512"
+              >
+                <path
+                  fill="#000000"
+                  d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className=" w-[80%] bg-[#f8f9fa] p-6 rounded-[20px]">
+            <label htmlFor="">Amount :</label>
+            <label htmlFor="">Your Balance : </label>
+            <label htmlFor="">Your Estimated Profit :</label>
+          </div>
+        </div>
+      )}
     </>
   );
 };

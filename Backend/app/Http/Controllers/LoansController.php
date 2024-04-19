@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateLoanRequest;
+use App\Models\Investments;
 use App\Models\Investor;
 use App\Models\Loan;
 use App\Models\User;
@@ -124,5 +125,17 @@ class LoansController extends Controller
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
+    }
+
+
+    public function singleLoan($id){
+        try {
+            $loan = Loan::where('id', $id)->first();
+            $investments = Investments::where('loan_id', $loan->id)->get();
+            return response()->json(['loan'=>$loan,'investemnts'=>$investments], 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+      
     }
 }
