@@ -15,20 +15,19 @@ export const Dashboardinv = () => {
   const [model, setModel] = useState("");
   const [loans, SetLoan] = useState([]);
   let file = document.getElementById("file");
+  const fetchLoans = async () => {
+    try {
+      const res = await axios.get("http://localhost/api/investor/loan/get", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      SetLoan(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchLoans = async () => {
-      try {
-        const res = await axios.get("http://localhost/api/investor/loan/get", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        SetLoan(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchLoans();
   }, []);
   if (slide) {
@@ -104,6 +103,7 @@ export const Dashboardinv = () => {
         }
       );
       console.log(res);
+      fetchLoans();
     } catch (error) {
       console.log(error);
     }
@@ -221,9 +221,9 @@ export const Dashboardinv = () => {
                   </label>
                   <h2 className="text-2xl">{loans[0].duration}Days</h2>
                   <a
-                    className=" bg-white text-black text-center font-bold shadow-sm	 p-4 rounded-[25px] "
+                    className="transition-all hover:bg-blue-500 border-black hover:text-white hover:border bg-white text-black text-center font-bold shadow-sm	 p-4 rounded-[25px] "
                     target="blank"
-                    href={`http://localhost/storage/` + loans[0].business_model}
+                    href={loans[0].business_model}
                   >
                     Busseniss Model
                   </a>
@@ -236,9 +236,9 @@ export const Dashboardinv = () => {
                 </div>
               </div>
             </div>
-            <div className="w-[15%]">
+            <div className="w-[30%]">
               {loans[0].reviewd == 0 ? (
-                <h1 className="bg-yellow-200 text-white p-3 rounded-[15px] ">
+                <h1 className="bg-yellow-400  text-white mt-2 p-2 rounded-[15px] ">
                   Submited for Review
                 </h1>
               ) : (

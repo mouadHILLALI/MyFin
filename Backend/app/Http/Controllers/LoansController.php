@@ -94,11 +94,35 @@ class LoansController extends Controller
                 'reviewd' => 0,
                 'business_model' => $fileURL ?? $loan->business_model,
             ]);
-        
+
             return response()->json('The loan was updated successfully and was submitted for review', 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
-        
+    }
+    public function Portfolioloans()
+    {
+        try {
+            $inv = Investor::where('user_id', auth()->user()->id)->first();
+            $loans = Loan::where('investor_id', '!=', $inv->id)->get();
+            $users = [];
+            foreach ($loans as $loan) {
+                $user = User::find($loan->investor->user_id);
+                if ($user) {
+                    $users[] = $user;
+                }
+            }
+
+            $combinedData = [];
+            for ($i = 0; $i < count($loans); $i++) {
+                $combinedData[] = [
+                    'loan' => $loans[$i],
+                    'user' => isset($users[$i]) ? $users[$i] : null,
+                ];
+            }
+            return response()->json($combinedData, 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
     }
 }

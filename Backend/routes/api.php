@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
     Route::post('/investor/portfolio/create' , [InvestorController::class , 'createPortfolio']);
     Route::get('/investor/loan/{id}' , [LoansController::class , 'getLoan']);
     Route::post('/investor/loan/update' , [LoansController::class , 'Update']);
+    Route::get('/portfolio/loans' , [LoansController::class , 'Portfolioloans']);
 });
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
