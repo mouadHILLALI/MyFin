@@ -6,6 +6,7 @@ export const PortfolioDash = () => {
   const [data, setData] = useState([]);
   const [balance, setBalance] = useState(0);
   const [profit, setProfit] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [ID, setID] = useState(0);
   const [show, setShow] = useState(false);
   const [selectedLoan, setSelectedLoan] = useState(null);
@@ -48,16 +49,39 @@ export const PortfolioDash = () => {
       });
       setSelectedLoan(res.data);
       setShow(true);
-      console.log(selectedLoan.loan);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleProfit = (investment, rate) => {
+  const handleProfit = async (rate, id) => {
+    const investment = parseFloat(amount);
+    if (isNaN(investment) || investment <= 0) {
+      console.log("Invalid ²investment amount");
+      return;
+    }
     const percent = rate / 100;
-    const profit = parseInt(investment * percent);
+    const profit = parseFloat((investment * percent).toFixed(2));
+    const newBalance = parseFloat((balance - investment).toFixed(2));
     setEstimatedProfit(profit);
-    setBalance(prevBalance => prevBalance - investment);
+    setBalance(newBalance);
+    try {
+      let fr = new FormData();
+      fr.append("id", id);
+      fr.append("profit", profit);
+      fr.append("balance", newBalance);
+      fr.append("investment", investment);
+      const res = await axios.post(API + `portfolio/invest`, fr, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchAllLoans();
+      fetchPortfolio();
+      console.log(res);
+      setShow(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -96,9 +120,9 @@ export const PortfolioDash = () => {
                 </thead>
 
                 <tbody>
-                  {data.map((info) => {
+                  {data.map((info, index) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                           <img
                             src={info.user.image}
@@ -182,16 +206,30 @@ export const PortfolioDash = () => {
                     {estimatedProfit} DH
                   </h4>
                 </span>
-                <input
-                  type="text"
-                  className="text-center"
-                  onClick={(e) => {
-                    handleProfit(e.target.value, selectedLoan.loan.profit_rate);
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleProfit(
+                      selectedLoan.loan.profit_rate,
+                      selectedLoan.loan.id
+                    );
                   }}
-                  name="amount"
-                  min={10}
-                  max={selectedLoan.loan.amount}
-                />
+                  className="flex mt-3 flex-col gap-3"
+                >
+                  <input
+                    type="text"
+                    className="text-center w-full rounded-lg p-2"
+                    placeholder="enter the amount you wish to invest :"
+                    onChange={(e) => setAmount(e.target.value)}
+                    value={amount}
+                    name="amount"
+                    min={10}
+                    max={selectedLoan.loan.amount}
+                  />
+                  <button className="p-2 bg-[#02a95c] text-white font-bold rounded-[10px] ">
+                    Invest
+                  </button>
+                </form>
               </div>
             )}
           </div>
