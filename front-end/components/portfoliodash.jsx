@@ -8,7 +8,8 @@ export const PortfolioDash = () => {
   const [profit, setProfit] = useState(0);
   const [ID, setID] = useState(0);
   const [show, setShow] = useState(false);
-  const [loan, setLoan] = useState([]);
+  const [selectedLoan, setSelectedLoan] = useState(null);
+  const [estimatedProfit, setEstimatedProfit] = useState(0);
   const fetchAllLoans = async () => {
     try {
       const res = await axios.get(API + "portfolio/loans", {
@@ -39,17 +40,24 @@ export const PortfolioDash = () => {
     fetchPortfolio();
   }, []);
   const fetchToInvest = async (id) => {
-    console.log(id);
     try {
       const res = await axios.get(API + `invest/loan/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setLoan(res.data);
+      setSelectedLoan(res.data);
+      setShow(true);
+      console.log(selectedLoan.loan);
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleProfit = (investment, rate) => {
+    const percent = rate / 100;
+    const profit = parseInt(investment * percent);
+    setEstimatedProfit(profit);
+    setBalance(prevBalance => prevBalance - investment);
   };
   return (
     <>
@@ -137,7 +145,7 @@ export const PortfolioDash = () => {
       </section>
 
       {show && (
-        <div className=" fixed top-[10%] drop-shadow-lg left-[25%] w-[40%] h-[80%] bg-white p-6 rounded-[20px]  ">
+        <div className=" fixed top-[10%] drop-shadow-lg right-[20%] md:left-[25%] w-[80%] md:w-[40%] h-[80%] bg-white p-6 rounded-[20px]  ">
           <div className="flex justify-end">
             <button onClick={() => setShow(false)}>
               <svg
@@ -152,10 +160,40 @@ export const PortfolioDash = () => {
               </svg>
             </button>
           </div>
-          <div className=" w-[80%] bg-[#f8f9fa] p-6 rounded-[20px]">
-            <label htmlFor="">Amount :</label>
-            <label htmlFor="">Your Balance : </label>
-            <label htmlFor="">Your Estimated Profit :</label>
+          <div className=" w-[80%] bg-[#f8f9fa] flex flex-col gap-2 p-6 rounded-[20px]">
+            <h2 className=" text-[#344771] font-bold ">Your Informations :</h2>
+            {selectedLoan && (
+              <div>
+                <span className="flex">
+                  <label className="text-[#c9caca] ">Amount : </label>{" "}
+                  <h4 className=" text-[#344771] font-bold ">
+                    {selectedLoan.loan.amount} DH
+                  </h4>
+                </span>
+                <span className="flex">
+                  <label className="text-[#c9caca] ">Your Balance : </label>
+                  <h4 className=" text-[#344771] font-bold">{balance} DH</h4>
+                </span>
+                <span className="flex">
+                  <label className="text-[#c9caca] ">
+                    Your Estimated Profit :
+                  </label>
+                  <h4 className=" text-[#344771] font-bold">
+                    {estimatedProfit} DH
+                  </h4>
+                </span>
+                <input
+                  type="text"
+                  className="text-center"
+                  onClick={(e) => {
+                    handleProfit(e.target.value, selectedLoan.loan.profit_rate);
+                  }}
+                  name="amount"
+                  min={10}
+                  max={selectedLoan.loan.amount}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}
