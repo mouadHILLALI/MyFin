@@ -40,7 +40,7 @@ function InvestorNavbar() {
           {Check && (
             <>
               <NavLink to="/portfolio">Portfolio</NavLink>
-              <NavLink>Donate</NavLink>
+              <NavLink to="/donate">Donate</NavLink>
             </>
           )}
         </div>

@@ -105,7 +105,7 @@ class LoansController extends Controller
     {
         try {
             $inv = Investor::where('user_id', auth()->user()->id)->first();
-            $loans = Loan::where('investor_id', '!=', $inv->id)->get();
+            $loans = Loan::where('investor_id', '!=', $inv->id)->where('reviewd',1)->get();
             $users = [];
             foreach ($loans as $loan) {
                 $user = User::find($loan->investor->user_id);

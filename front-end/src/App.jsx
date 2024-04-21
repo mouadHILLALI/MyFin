@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Portfolio } from "../pages/portfolio";
 import { Admin } from "../pages/admin";
 import { ManageRequests } from "../pages/managerequests";
+import { Donate } from "../components/donate";
 function App(){
     return (
         <BrowserRouter>
@@ -24,6 +25,7 @@ function App(){
               <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/manage" element={<ManageRequests />} />
+              <Route path="/donate" element={<Donate />} />
           </Routes>
         </BrowserRouter>
       );
