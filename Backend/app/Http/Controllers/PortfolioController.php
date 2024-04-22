@@ -47,8 +47,10 @@ class PortfolioController extends Controller
             $inv = Investor::where('user_id', auth()->user()->id)->first();
             $loan = Loan::where('investor_id', $inv->id)->first();
             $users = [];
+            
             if ($loan) {
                 $investments = Investments::where('loan_id', $loan->id)->get();
+                $totalAmount = array_sum($investments->amount);
                 foreach ($investments as $investment) {
                     $user = User::find($investment->portfolio->investor->user_id);
                     if ($user) {
@@ -63,6 +65,9 @@ class PortfolioController extends Controller
                         'users' => isset($users[$i]) ? $users[$i] : null,
                     ];
                 }
+                return response()->json(['data'=>$combinedData ,'total'=>$totalAmount,'loan'=>$loan],200);
+            }else{
+                return response()->json('no loan was found',200);
             }
         } catch (\Exception $e) {
            return response($e->getMessage());
