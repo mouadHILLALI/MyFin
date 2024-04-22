@@ -15,9 +15,9 @@ export const Dashboardinv = () => {
   const [investment, setInvestment] = useState(0);
   const [profit, setProfit] = useState(0);
 
-  const [investors , setInvestors] =useState([]);
-  const [total , setTotal] =useState(0);
-  const [loan , setLoan] =useState({});
+  const [investors, setInvestors] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loan, setLoan] = useState({});
   let file = document.getElementById("file");
   const fetchLoans = async () => {
     try {
@@ -39,8 +39,8 @@ export const Dashboardinv = () => {
         },
       });
       setTotal(res.data.total);
-      setInvestors(res.data.data)
-      setLoan(res.data.loan)
+      setInvestors(res.data.data);
+      setLoan(res.data.loan);
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +83,7 @@ export const Dashboardinv = () => {
         }
       );
       fetchLoans();
+      fetchInvestors();
     } catch (error) {
       console.log(error);
     }
@@ -131,11 +132,11 @@ export const Dashboardinv = () => {
   };
 
   return (
-    <div className="md:flex h-full w-full gap-3  ">
-      <div className="flex flex-col w-[80%]">
-        <div className="flex font-bold  gap-2 h-[30%] mt-5  w-full ">
-          <div className="flex bg-[#ffffff] flex flex-col items-start justify-center p-4 drop-shadow-lg rounded-lg gap-2 w-[40%] h-[70%]">
-            <h3>Request a loan :</h3>
+    <div className=" md:flex h-full w-full gap-3  ">
+      <div className="flex flex-col w-full">
+        <div className="flex font-bold  gap-2 h-[30%] mt-4 mb-5  w-full ">
+          <div className=" bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
+            <h3 className="text-sm">Request a loan :</h3>
             {loans.length == 0 ? (
               <button
                 onClick={() => setPop(true)}
@@ -153,15 +154,19 @@ export const Dashboardinv = () => {
                 </svg>
               </button>
             ) : (
-              <h3>You have already requested a loan</h3>
+              <h2></h2>
             )}
           </div>
           <div className="flex flex-col items-start justify-center w-[40%] h-[70%] bg-[#ffffff] p-4 drop-shadow-lg rounded-lg">
-            <h2 className="text-[#02a95c] font-bold ">Your Balance :</h2>
+            <h2 className="text-[#02a95c] text-sm font-bold ">
+              Your Balance :
+            </h2>
             <h1 className="text-3xl">{investment ? investment : 0}DH</h1>
           </div>
           <div className="flex flex-col items-start justify-center w-[40%] h-[70%] bg-[#ffffff] p-4 drop-shadow-lg rounded-lg">
-            <h2 className="text-[#02a95c] font-bold ">Your Profits :</h2>
+            <h2 className="text-[#02a95c] text-sm font-bold ">
+              Your Profits :
+            </h2>
             <h1 className="text-3xl">{profit ? profit : 0}DH</h1>
           </div>
         </div>
@@ -186,12 +191,12 @@ export const Dashboardinv = () => {
           ) : (
             <div className=" flex flex-col justify-around w-full m-4 p-2 ">
               <div className="flex flex-col gap-4 ">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2 w-[40%] ">
-                    <label className="font-bold text-xl">Loan Amount :</label>
-                    <h2 className="font-bold text-xl">{loans[0].amount}DH</h2>
+                <div className="flex flex-col md:flex-row  items-center justify-between">
+                  <div className="flex items-center gap-2 w-[50%] ">
+                    <label className="font-bold text-sm">Loan Amount :</label>
+                    <h2 className="font-bold text-sm">{loans[0].amount}DH</h2>
                   </div>
-                  <div className="flex w-[30%] justify-around items-center mr-3">
+                  <div className="flex w-[30%] gap-3 justify-around items-center mr-3">
                     <button className="flex text-[#f44335] font-bold items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -227,8 +232,8 @@ export const Dashboardinv = () => {
                     </button>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <div className="bg-blue-500 flex flex-col justify-between  gap-4 p-6 rounded-[20px] text-white">
+                <div className=" w-[80%] m-auto md:m-3 md:w-full flex flex-col md:flex-row gap-3">
+                  <div className="bg-blue-500 flex flex-col justify-between  gap-4 p-4 md:p-6 rounded-[20px] text-white">
                     <label className="font-bold text-2xl">
                       Reimbursement Duration
                     </label>
@@ -249,7 +254,7 @@ export const Dashboardinv = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[30%]">
+              <div className=" m-auto md:m-3 w-[80%] md:w-[30%]">
                 {loans[0].reviewd == 0 ? (
                   <h1 className="bg-yellow-400  text-white mt-2 p-2 rounded-[15px] ">
                     Submited for Review
@@ -421,7 +426,7 @@ export const Dashboardinv = () => {
           </form>
         )}
       </div>
-      <div className=" hidden md:block  w-[30%] m-auto rounded-lg drop-shadow-lg  h-[94%] bg-white ">
+      <div className=" hidden md:block w-[30%] m-auto rounded-lg drop-shadow-lg  h-[94%] bg-white ">
         {loans.length == 0 ? (
           <div className="h-full flex flex-col items-center justify-center">
             <h3 className="font-bold text-xl w-[80%] text-center ">
@@ -432,10 +437,11 @@ export const Dashboardinv = () => {
           <div className="flex flex-col items-start">
             <div className=" flex w-[80%] justify-between m-4 ">
               <h3 className="font-bold text-sm">Your Loan Progress: </h3>
-              <span className="flex text-sm"><h4 className="text-green-500 font-bold">{total}</h4>/<h4>{loan.amount}</h4></span>
+              <span className="flex text-sm">
+                <h4 className="text-green-500 font-bold">{total}</h4>/
+                <h4>{loan.amount}</h4>
+              </span>
             </div>
-
-
           </div>
         )}
       </div>
