@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Investments;
+use App\Models\Loan;
+use App\Models\User;
 use App\Models\Investor;
 use App\Models\Portfolio;
+use App\Models\Investments;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
@@ -37,6 +39,33 @@ class PortfolioController extends Controller
             return response()->json('Success', 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
+        }
+    }
+    public function fetchInvestors()
+    {
+        try {
+            $inv = Investor::where('user_id', auth()->user()->id)->first();
+            $loan = Loan::where('investor_id', $inv->id)->first();
+            $users = [];
+            if ($loan) {
+                $investments = Investments::where('loan_id', $loan->id)->get();
+                foreach ($investments as $investment) {
+                    $user = User::find($investment->portfolio->investor->user_id);
+                    if ($user) {
+                        $users[] = $user;
+                    }
+                }
+
+                $combinedData = [];
+                for ($i = 0; $i < count($investments); $i++) {
+                    $combinedData[] = [
+                        'investments' => $investments[$i],
+                        'users' => isset($users[$i]) ? $users[$i] : null,
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+           return response($e->getMessage());
         }
     }
 }

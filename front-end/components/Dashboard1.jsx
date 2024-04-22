@@ -29,6 +29,9 @@ export const Dashboardinv = () => {
       console.log(error);
     }
   };
+  const fetchUserData =async ()=>{
+    
+  }
   const fetchPortfolio = async () => {
     try {
       const res = await axios.get(API + "portfolio/get", {
