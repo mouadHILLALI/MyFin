@@ -41,36 +41,36 @@ class PortfolioController extends Controller
             return response($e->getMessage());
         }
     }
-    public function fetchInvestors()
-    {
-        try {
-            $inv = Investor::where('user_id', auth()->user()->id)->first();
-            $loan = Loan::where('investor_id', $inv->id)->first();
-            $users = [];
-            
-            if ($loan) {
-                $investments = Investments::where('loan_id', $loan->id)->get();
-                $totalAmount = array_sum($investments->amount);
-                foreach ($investments as $investment) {
-                    $user = User::find($investment->portfolio->investor->user_id);
-                    if ($user) {
-                        $users[] = $user;
-                    }
-                }
+        public function fetchInvestors()
+        {
+            try {
+                $inv = Investor::where('user_id', auth()->user()->id)->first();
+                $loan = Loan::where('investor_id', $inv->id)->first();
+                $users = [];
 
-                $combinedData = [];
-                for ($i = 0; $i < count($investments); $i++) {
-                    $combinedData[] = [
-                        'investments' => $investments[$i],
-                        'users' => isset($users[$i]) ? $users[$i] : null,
-                    ];
+                if ($loan) {
+                    $investments = Investments::where('loan_id', $loan->id)->get();
+                    $totalAmount = 0;
+                    foreach ($investments as $investment) {
+                        $totalAmount += $investment->amount;
+                        $user = User::find($investment->portfolio->investor->user_id);
+                        if ($user) {
+                            $users[] = $user;
+                        }
+                    }
+                    $combinedData = [];
+                    for ($i = 0; $i < count($investments); $i++) {
+                        $combinedData[] = [
+                            'investments' => $investments[$i],
+                            'users' => isset($users[$i]) ? $users[$i] : null,
+                        ];
+                    }
+                    return response()->json(['data' => $combinedData, 'total' => $totalAmount, 'loan' => $loan], 200);
+                } else {
+                    return response()->json('no loan was found', 200);
                 }
-                return response()->json(['data'=>$combinedData ,'total'=>$totalAmount,'loan'=>$loan],200);
-            }else{
-                return response()->json('no loan was found',200);
+            } catch (\Exception $e) {
+                return response($e->getMessage());
             }
-        } catch (\Exception $e) {
-           return response($e->getMessage());
         }
-    }
 }

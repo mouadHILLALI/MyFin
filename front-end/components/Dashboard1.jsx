@@ -6,16 +6,18 @@ export const Dashboardinv = () => {
   const API = "http://localhost/api/";
   const token = localStorage.getItem("token");
   const [pop, setPop] = useState(false);
-  const [option, setOption] = useState(false);
   const [edit, setEdit] = useState(false);
   const [amount, setAmount] = useState(0);
   const [duration, setDuration] = useState(0);
   const [rate, setRate] = useState(0);
   const [id, setID] = useState(0);
-  const [model, setModel] = useState("");
   const [loans, SetLoan] = useState([]);
   const [investment, setInvestment] = useState(0);
   const [profit, setProfit] = useState(0);
+
+  const [investors , setInvestors] =useState([]);
+  const [total , setTotal] =useState(0);
+  const [loan , setLoan] =useState({});
   let file = document.getElementById("file");
   const fetchLoans = async () => {
     try {
@@ -36,7 +38,9 @@ export const Dashboardinv = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+      setTotal(res.data.total);
+      setInvestors(res.data.data)
+      setLoan(res.data.loan)
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +131,7 @@ export const Dashboardinv = () => {
   };
 
   return (
-    <div className="h-full w-full gap-3 flex">
+    <div className="md:flex h-full w-full gap-3  ">
       <div className="flex flex-col w-[80%]">
         <div className="flex font-bold  gap-2 h-[30%] mt-5  w-full ">
           <div className="flex bg-[#ffffff] flex flex-col items-start justify-center p-4 drop-shadow-lg rounded-lg gap-2 w-[40%] h-[70%]">
@@ -342,7 +346,10 @@ export const Dashboardinv = () => {
         )}
 
         {edit && (
-          <div className="h-full bg-slate-50 w-full fixed  flex flex-col justify-center rounded-[15px] top-[8%]">
+          <form
+            onSubmit={handleEdit}
+            className=" bg-white text-black fixed z-10 flex flex-col w-[40%] justify-center right-[30%] drop-shadow-lg rounded-[15px] top-[8%] "
+          >
             <div className="flex w-[90%] justify-end m-4 ">
               <button onClick={() => setEdit(false)}>
                 <svg
@@ -354,42 +361,33 @@ export const Dashboardinv = () => {
                 </svg>
               </button>
             </div>
-            <form
-              onSubmit={handleEdit}
-              className="flex  flex-col gap-4 h-[70%] bg-[#02a95c] w-[70%] m-auto p-6 rounded-[20px] "
-            >
-              <div className="flex gap-6 justify-center ">
-                <div className="flex items-center gap-3">
-                  <label className="text-white font-bold" htmlFor="">
-                    Loan Amount :{" "}
-                  </label>
-                  <input
-                    type="number"
-                    className="text-center p-2 rounded-[15px] "
-                    name="amount"
-                    min={1000}
-                    onChange={(e) => setAmount(e.target.value)}
-                    value={amount}
-                  />
-                </div>
-                <div className="flex items-center gap-3">
-                  <label className="text-white font-bold" htmlFor="">
-                    Loan Profit Rate :{" "}
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    className="text-center p-2 rounded-[15px] "
-                    name="rate"
-                    onChange={(e) => setRate(e.target.value)}
-                    value={rate}
-                  />
-                </div>
+            <div className="flex flex-col gap-6 justify-center ">
+              <div className="flex flex-col items-center gap-3">
+                <label className=" font-bold">Loan Amount : </label>
+                <input
+                  type="number"
+                  className="text-center p-2 rounded-[15px] "
+                  name="amount"
+                  min={1000}
+                  onChange={(e) => setAmount(e.target.value)}
+                  value={amount}
+                />
               </div>
-              <input type="text" value={id} className="hidden" name="id" />
-              <label className="text-white text-center font-bold">
-                Loan Duration :{" "}
-              </label>
+              <div className="flex flex-col items-center gap-3">
+                <label className="font-bold">Loan Profit Rate : </label>
+                <input
+                  type="number"
+                  min={1}
+                  className="text-center p-2 rounded-[15px] "
+                  name="rate"
+                  onChange={(e) => setRate(e.target.value)}
+                  value={rate}
+                />
+              </div>
+            </div>
+            <input type="text" value={id} className="hidden" name="id" />
+            <div className="flex flex-col items-center gap-3">
+              <label className="text-center font-bold">Loan Duration : </label>
               <input
                 type="number"
                 min={10}
@@ -398,32 +396,32 @@ export const Dashboardinv = () => {
                 onChange={(e) => setDuration(e.target.value)}
                 value={duration}
               />
-              <div className="flex flex-col ">
-                <div className="flex flex-col items-center gap-3 m-auto">
-                  <label className="text-white text-lg ">
-                    Upload Your Bussiness Model:
-                  </label>
-                  <label htmlFor="file">
-                    <svg
-                      width={80}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 384 512"
-                    >
-                      <path
-                        fill="#ffffff"
-                        d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
-                      />
-                    </svg>
-                  </label>
-                  <input id="file" name="file" type="file" className="hidden" />
-                </div>
+            </div>
+            <div className="flex flex-col ">
+              <div className="flex flex-col items-center gap-3 m-auto">
+                <label className=" font-bold text-lg ">
+                  Upload Your Bussiness Model:
+                </label>
+                <label htmlFor="file">
+                  <svg
+                    width={80}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      fill="#00000"
+                      d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
+                    />
+                  </svg>
+                </label>
+                <input id="file" name="file" type="file" className="hidden" />
               </div>
-              <button className="font-bold text-white text-2xl">Edit</button>
-            </form>
-          </div>
+            </div>
+            <button className="font-bold text-2xl ">Edit</button>
+          </form>
         )}
       </div>
-      <div className=" w-[30%] m-auto rounded-lg drop-shadow-lg  h-[94%] bg-white ">
+      <div className=" hidden md:block  w-[30%] m-auto rounded-lg drop-shadow-lg  h-[94%] bg-white ">
         {loans.length == 0 ? (
           <div className="h-full flex flex-col items-center justify-center">
             <h3 className="font-bold text-xl w-[80%] text-center ">
@@ -431,7 +429,14 @@ export const Dashboardinv = () => {
             </h3>
           </div>
         ) : (
-          <div></div>
+          <div className="flex flex-col items-start">
+            <div className=" flex w-[80%] justify-between m-4 ">
+              <h3 className="font-bold text-sm">Your Loan Progress: </h3>
+              <span className="flex text-sm"><h4 className="text-green-500 font-bold">{total}</h4>/<h4>{loan.amount}</h4></span>
+            </div>
+
+
+          </div>
         )}
       </div>
     </div>
