@@ -85,91 +85,94 @@ export const PortfolioDash = () => {
   };
   return (
     <>
-      <div className="bg-yellow-400 p-4 rounded-[15px] mb-2 w-[90%] m-auto flex text-white font-bold items-center justify-end">
-        <div className="flex gap-4">
-          <button>Your Balance : {balance}DH</button>
-          <button> Your Estimated Profit : {profit}DH</button>
+      <div className=" w-full md:h-[15%] mt-5 mb-5 flex flex-col md:flex-row gap-3  ">
+        <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
+          <h3 className="text-sm">Your Balance :</h3>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">{balance}DH</h1>
+        </div>
+        <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
+          <h3 className="text-sm">Your Estimated Profit :</h3>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">{profit}DH</h1>
         </div>
       </div>
-      <section className="">
-        <div className="">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-            <div className="block w-full overflow-x-auto">
-              <table className="items-center bg-transparent w-full border-collapse ">
-                <thead>
-                  <tr>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Borrower Name
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Email
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Loan Amount
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Business Model
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Profit Rate
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  {data.map((info, index) => {
-                    return (
-                      <tr key={index}>
-                        <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                          <img
-                            src={info.user.image}
-                            className="rounded-[100%] w-[5%] h-[5%] "
-                            alt=""
-                          />
-                          {info.user.first_name}
-                        </th>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                          {info.user.email}
-                        </td>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                          {info.loan.amount}DH
-                        </td>
-                        <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <a href="" target="blank">
-                            Bussniss Model
-                          </a>
-                        </td>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                          {info.loan.profit_rate}%
-                        </td>
-                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                          <button
-                            onClick={() => {
-                              setShow(true);
-                              fetchToInvest(info.loan.id);
-                            }}
-                            value={info.loan.id}
-                            className="p-2 bg-green-500 rounded-lg text-white font-bold "
-                          >
-                            Invest
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+      <div className="h-[76%] overflow-auto bg-white p-2 rounded-lg drop-shadow-lg border-slate-50 border-2  ">
+        <div className="relative flex flex-col min-w-0 break-words  w-full   ">
+          <div className="block w-full overflow-x-auto">
+            <table className="items-center bg-transparent w-full border-collapse ">
+              <thead>
+                <tr>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Borrower Name
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Email
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Loan Amount
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Business Model
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Profit Rate
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.map((info, index) => {
+                  return (
+                    <tr key={index}>
+                      <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                        <img
+                          src={info.user.image}
+                          className="rounded-[100%] w-[5%] h-[5%] "
+                          alt=""
+                        />
+                        {info.user.first_name}
+                      </th>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                        {info.user.email}
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                        {info.loan.amount}DH
+                      </td>
+                      <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                        <a href="" target="blank">
+                          Bussniss Model
+                        </a>
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                        <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
+                        {info.loan.profit_rate}%
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                        <button
+                          onClick={() => {
+                            setShow(true);
+                            fetchToInvest(info.loan.id);
+                          }}
+                          value={info.loan.id}
+                          className="p-2 bg-green-500 rounded-lg text-white font-bold "
+                        >
+                          Invest
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
-      </section>
+      </div>
 
       {show && (
-        <div className=" fixed top-[10%] drop-shadow-lg right-[20%] md:left-[25%] w-[80%] md:w-[40%] h-[80%] bg-white p-6 rounded-[20px]  ">
+        <div className=" fixed top-[10%] drop-shadow-lg right-[20%] left-[5%] md:left-[25%] w-[80%] md:w-[40%] h-[45%] md:h-[80%] bg-white p-6 rounded-[20px]  ">
           <div className="flex justify-end">
             <button onClick={() => setShow(false)}>
               <svg
