@@ -130,10 +130,11 @@ export const Dashboardinv = () => {
       <div className="flex flex-col w-[80%]">
         <div className="flex font-bold  gap-2 h-[30%] mt-5  w-full ">
           <div className="flex bg-[#ffffff] flex flex-col items-start justify-center p-4 drop-shadow-lg rounded-lg gap-2 w-[40%] h-[70%]">
+            <h3>Request a loan :</h3>
             {loans.length == 0 ? (
               <button
                 onClick={() => setSlide(true)}
-                className="bg-[#02A95C] flex gap-2 h-[70%] items-center text-white text-lg  p-3 rounded-[16px]  "
+                className="bg-[#02A95C] flex gap-2  items-center text-white text-lg  p-3 rounded-full  "
               >
                 <svg
                   width={15}
@@ -145,12 +146,9 @@ export const Dashboardinv = () => {
                     d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
                   />
                 </svg>
-                Request a Loan
               </button>
             ) : (
-              <button className="bg-[#02A95C] h-[70%] flex gap-2 items-center text-white text-lg  p-3 rounded-[16px]  ">
-                You have already requested a loan
-              </button>
+              <h3>You have already requested a loan</h3>
             )}
           </div>
           <div className="flex flex-col items-start justify-center w-[40%] h-[70%] bg-[#ffffff] p-4 drop-shadow-lg rounded-lg">
@@ -163,17 +161,23 @@ export const Dashboardinv = () => {
           </div>
         </div>
         <div className="flex flex-col bg-white h-[64%] rounded-lg drop-shadow-lg  overflow-auto">
-          <div className=" w-[90%]  ">
+          <div className=" flex flex-col h-full">
             {loans.length == 0 ? (
-              <div className="flex flex-col h-[90%] w-full justify-center items-center">
-                <svg width={150} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <path
-                    fill="#02a95c"
-                    d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
-                  />
-                </svg>
-                <p className="font-bold text-[#02A95C]">Notice : </p>
-                <p className="text-[#02A95c]">You have no loans yet.</p>
+              <div className="flex flex-col h-full justify-center items-center">
+                <div className="opacity-75 flex flex-col items-center">
+                  <svg
+                    width={150}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="#02a95c"
+                      d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+                    />
+                  </svg>
+                  <p className="font-bold text-[#02A95C]">Notice : </p>
+                  <p className="text-[#02A95c]">You have no loans yet.</p>
+                </div>
               </div>
             ) : (
               <div className=" flex flex-col justify-between w-[60%] m-4 p-2 rounded-[15px] h-[50vh] bg-white drop-shadow-lg ">
@@ -453,7 +457,15 @@ export const Dashboardinv = () => {
           </div>
         )}
       </div>
-      <div className=" w-[20%] m-auto  h-[80%] bg-gray-300 "></div>
+      <div className=" w-[30%] m-auto rounded-lg drop-shadow-lg  h-[94%] bg-white ">
+      {loans.length == 0 ? (
+             <div className="h-full flex flex-col items-center justify-center">
+                <h3 className="font-bold text-xl w-[80%] text-center ">You have not submitted a loan yet</h3>
+             </div>
+            ) : (
+              <div></div>
+            )}
+      </div>
     </div>
   );
 };
