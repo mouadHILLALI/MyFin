@@ -4,13 +4,13 @@ import axios from "axios";
 
 const token = localStorage.getItem("token");
 export const logout = async () => {
-  console.log(token);
   try {
     const res = await axios.post("http://localhost/api/user/logout", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
     });
+    console.log(res);
     localStorage.clear();
   } catch (error) {
     console.log(error);

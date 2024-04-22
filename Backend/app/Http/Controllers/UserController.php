@@ -59,8 +59,13 @@ class UserController extends Controller
     }
     public function logout(Request $r)
     {
-        $r->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Successfully logged out', 'status' => true], 200);
+        try {
+            $r->headers->set('accept', 'application/json');
+            $r->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'Successfully logged out', 'status' => true], 200);
+        } catch (\Exception $e) {
+           return response($e->getMessage());
+        }
     }
     public function check()
     {
