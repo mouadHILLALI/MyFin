@@ -14,47 +14,70 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [nameError, setNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
+  const emailRegex = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
 
-  const[nameError ,setNameError]=useState("");
-  const[lastNameError ,setLastNameError]=useState("");
-  const[emailError ,setEmailError]=useState("");
-  const[imageError ,setImageError]=useState("");
-  const[passwordError ,setPasswordError]=useState("");
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
       const form = new FormData();
-      if (image.files && image.files[0]) {
+      if (image || (image.files && image.files[0])) {
         form.append("image", image.files[0]);
-      }else{
-        setImageError('Image is required Please upload your image.')
-        return ;
+        setImageError("");
+      } else {
+        setImageError("Image is required. Please upload your image.");
       }
-      form.append("first_name", first_name);
-      form.append("family_name", family_name);
-      form.append("role", role);
+
+      if (first_name.trim() !== "") {
+        form.append("first_name", first_name);
+        setNameError("");
+      } else {
+        setNameError("Please enter a valid name");
+      }
+
+      if (family_name.trim() !== "") {
+        form.append("family_name", family_name);
+        setLastNameError("");
+      } else {
+        setLastNameError("Please enter a valid last name");
+      }
+
+      if (emailRegex.test(email)) {
+        form.append("email", email);
+        setEmailError("");
+      } else {
+        setEmailError("Please enter a valid email");
+      }
+
       form.append("password", password);
-      form.append("email", email);
+      setPasswordError("");
+
+      form.append("role", role);
+      setLoading(true);
       const res = await axios.post("http://localhost/api/user/register", form);
+
       localStorage.setItem("name", res.data.name);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("image", res.data.image);
-      let Role = res.data.role;
-      localStorage.setItem("role", Role);
+      localStorage.setItem("role", res.data.role);
+      if (res.data.status === 422) {
+        setEmailError(res.data.data);
+      }
       if (res.data.status === 200) {
         switch (role) {
           case "Investor":
-            localStorage.setItem("role", role);
             navigate("/investor");
             break;
           case "FundRaiser":
-            localStorage.setItem("role", role);
             navigate("/fundraiser");
             break;
           case "Admin":
-            localStorage.setItem("role", role);
             navigate("/admin");
             break;
           default:
@@ -64,6 +87,8 @@ const Register = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,11 +96,11 @@ const Register = () => {
     <>
       {loading ? (
         <div className="m-auto fixed top-[50%] left-[50%] ">
-          <TailSpin color="red" radius={"8px"} />
+          <TailSpin color="green" radius={"8px"} />
         </div>
       ) : (
         <section className="flex h-[100vh] bg-[#FBF8F6] overflow-x-hidden justify-between">
-          <div className="flex flex-col w-[30%] h-[50%] justify-around m-auto">
+          <div className="   hidden md:block flex flex-col w-[30%] h-[50%] justify-around m-auto">
             <div className="h-[50%]">
               <h1 className="text-6xl text-[#4C4B4B]">MyFin</h1>
             </div>
@@ -86,15 +111,19 @@ const Register = () => {
               </p>
             </div>
           </div>
-          <div className="bg-white rounded-l-[60px] rounded-t-[0px] flex flex-col h-[90%]  w-[60%]  drop-shadow-md">
+
+          <div className="bg-white rounded-l-[60px] rounded-t-[0px] flex flex-col h-[90%]  w-full md:w-[60%]  drop-shadow-md">
+            <div className=" text-center m-4 text-5xl font-bold text-[#02A95C] h-[14%] bg-white block md:hidden">
+              <h3>MyFin</h3>
+            </div>
             <form
               encType="multipart/form/data"
               onSubmit={handleRegister}
               className="flex flex-col w-[60%] h-[90vh] m-auto justify-around"
             >
-              <div className="p-3 border border-black rounded-[15px] w-[70%] ">
+              <div className="p-3 border border-black rounded-[15px] w-full md:w-[70%] ">
                 <input
-                  className="border-1 border-black rounded-lg  p-2"
+                  className="border-1 border-black rounded-lg w-full  p-2"
                   type="text"
                   name="first_name"
                   placeholder="Enter your First name"
@@ -102,10 +131,10 @@ const Register = () => {
                   onChange={(e) => setFirst_name(e.target.value)}
                 />
               </div>
-              <span>{nameError}</span>
-              <div className="p-3 border border-black rounded-[15px] w-[70%] ">
+              <span className="text-red-600">{nameError}</span>
+              <div className="p-3 border border-black rounded-[15px] w-full md:w-[70%] ">
                 <input
-                  className="border-1 border-black p-2"
+                  className="border-1 w-full border-black p-2"
                   type="text"
                   name="family_name"
                   value={family_name}
@@ -113,22 +142,22 @@ const Register = () => {
                   placeholder="Enter your Last name"
                 />
               </div>
-              <span>{lastNameError}</span>
-              <div className="p-3 border border-black rounded-[15px] w-[70%] ">
+              <span className="text-red-600">{lastNameError}</span>
+              <div className="p-3 border border-black rounded-[15px] w-full md:w-[70%] ">
                 <input
-                  className="border-1 border-black p-2"
+                  className="border-1 w-full border-black p-2"
                   type="text"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
                 />
-                </div>
-                <span>{emailError}</span>
+              </div>
+              <span className="text-red-600">{emailError}</span>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="p-3 border border-black rounded-[15px] w-[70%]"
+                className="p-3 border  border-black rounded-[15px]w-full md:w-[70%]"
                 name="role"
               >
                 <option selected disabled hidden>
@@ -147,16 +176,16 @@ const Register = () => {
                   Investor
                 </option>
               </select>
-              <div className=" p-3 border border-black rounded-[15px] w-[70%]">
+              <div className=" p-3 border border-black rounded-[15px] w-full md:w-[70%]">
                 <label className="text-center" htmlFor="image">
                   Upload your image
                 </label>
                 <input className="hidden" type="file" name="image" id="image" />
               </div>
               <span className="text-red-600">{imageError}</span>
-              <div className="p-3 border border-black rounded-[15px] w-[70%] ">
+              <div className="p-3 border border-black rounded-[15px] w-full md:w-[70%] ">
                 <input
-                  className="border-1 border-black rounded-lg p-2"
+                  className="border-1 w-full border-black rounded-lg p-2"
                   type="password"
                   placeholder="Enter your Password"
                   name="password"
@@ -164,9 +193,9 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <span>{passwordError}</span>
-              <div className="flex justify-end w-[73%] ">
-                <span className="py-3 px-8 bg-[#02A95C] rounded-[15px] mr-3 text-white">
+              <span className="text-red-600">{passwordError}</span>
+              <div className="flex justify-end w-full md:w-[70%] ">
+                <span className="py-3 px-8 bg-[#02A95C] w-full text-center rounded-[15px] mr-3 text-white">
                   <button type="submit" className="">
                     Register
                   </button>

@@ -28,7 +28,7 @@ export const ManageRequests = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data.combinedData)
+      console.log(res.data.combinedData);
       setData(res.data.combinedData);
     } catch (error) {
       console.log("Error fetching funds:", error);
@@ -68,192 +68,195 @@ export const ManageRequests = () => {
 
   return (
     <>
-      <AdminNav />
-      <div className="w-[85%] absolute left-[15%] bg-[#f1f4f9] h-full ">
-        <div className="flex w-[90%] gap-3 border-b-1   border-slate mt-4 m-auto ">
-          <button
-            onClick={() => {
-              setLoanActive(true);
-              setType("loan");
-              setFundingActive(false);
-            }}
-            className={
-              loanActive
-                ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
-                : "text-black pb-2 font-bold"
-            }
-          >
-            Loan Requests
-          </button>
-          <button
-            onClick={() => {
-              setLoanActive(false);
-              setType("fund");
-              setFundingActive(true);
-              fetchfunds();
-            }}
-            className={
-              fundingActive
-                ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
-                : "text-black pb-2 font-bold"
-            }
-          >
-            Funding Requests
-          </button>
+      <div className="flex gap-3  h-screen ">
+        <div className=" md:w-[20%] flex flex-col items-center justify-center">
+          <div className="flex h-[95%] w-full md:w-[90%] ">
+            <AdminNav />
+          </div>
         </div>
+        <div className="w-full flex flex-col md:flex md:flex-col  md:w-[90%]  ">
+          <div className="  bg-[#f1f4f9] h-full ">
+            <div className="flex w-[90%] gap-3 border-b-1   border-slate mt-4 m-auto ">
+              <button
+                onClick={() => {
+                  setLoanActive(true);
+                  setType("loan");
+                  setFundingActive(false);
+                }}
+                className={
+                  loanActive
+                    ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
+                    : "text-black pb-2 font-bold"
+                }
+              >
+                Loan Requests
+              </button>
+              <button
+                onClick={() => {
+                  setLoanActive(false);
+                  setType("fund");
+                  setFundingActive(true);
+                  fetchfunds();
+                }}
+                className={
+                  fundingActive
+                    ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
+                    : "text-black pb-2 font-bold"
+                }
+              >
+                Funding Requests
+              </button>
+            </div>
 
-        {loanActive && data.length!=0 ? (
-          <div className="relative overflow-x-auto text-white">
-            <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
-              <thead className="border-b-2 border-white">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Investor name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Email
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Loan Amount
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Bussniss Model
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Profit Rate
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Duration
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((info, index) => (
-                  <tr key={index} className="">
-                    <th
-                      scope="row"
-                      className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {info.user && info.user.image && (
-                        <img
-                          src={info.user.image}
-                          className="rounded-[100%] w-[40%] h-[40%] "
-                          alt=""
-                        />
-                      )}
-                      {info.user && info.user.first_name}
-                    </th>
-                    <td className="px-8 py-4">
-                      {info.user && info.user.email}
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.loan && info.loan.amount}DH
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.loan && (
-                        <a
-                          target="blank"
-                          href={
-                            `http://localhost/storage/` +
-                            info.loan.business_model
-                          }
+            {loanActive && data.length != 0 ? (
+              <div className="relative overflow-x-auto text-white">
+                <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
+                  <thead className="border-b-2 border-white">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Investor name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Email
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Loan Amount
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Bussniss Model
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Profit Rate
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Duration
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((info, index) => (
+                      <tr key={index} className="">
+                        <th
+                          scope="row"
+                          className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          Bussniss Model
-                        </a>
-                      )}
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.loan && info.loan.profit_rate}%
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.loan && info.loan.duration}
-                    </td>
-                    <td className="px-8 py-4">
-                      <button onClick={handleApprove} value={info.loan.id}>
-                        Approve
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="relative overflow-x-auto text-white">
-            <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
-              <thead className="border-b-2 border-white">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                   Fundraiser name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Email
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Compagain goal
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Letter of justification
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    title
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                  Description
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((info, index) => (
-                  <tr key={index} className="">
-                    <th
-                      scope="row"
-                      className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {info.user && info.user.image && (
-                        <img
-                          src={info.user.image}
-                          className="rounded-[100%] w-[40%] h-[40%] "
-                          alt=""
-                        />
-                      )}
-                      {info.user && info.user.first_name}
-                    </th>
-                    <td className="px-8 py-4">
-                      {info.user && info.user.email}
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.funds && info.funds.goal}DH
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.funds && (
-                        <a
-                          target="blank"
-                          href={
-                            info.funds.letter
-                          }
+                          {info.user && info.user.image && (
+                            <img
+                              src={info.user.image}
+                              className="rounded-[100%] w-[40%] h-[40%] "
+                              alt=""
+                            />
+                          )}
+                          {info.user && info.user.first_name}
+                        </th>
+                        <td className="px-8 py-4">
+                          {info.user && info.user.email}
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.loan && info.loan.amount}DH
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.loan && (
+                            <a
+                              target="blank"
+                              href={
+                                `http://localhost/storage/` +
+                                info.loan.business_model
+                              }
+                            >
+                              Bussniss Model
+                            </a>
+                          )}
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.loan && info.loan.profit_rate}%
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.loan && info.loan.duration}
+                        </td>
+                        <td className="px-8 py-4">
+                          <button onClick={handleApprove} value={info.loan.id}>
+                            Approve
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="relative overflow-x-auto text-white">
+                <table className="w-[80%] m-auto mt-4 bg-[#02a95c] rounded-[15px] ">
+                  <thead className="border-b-2 border-white">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Fundraiser name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Email
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Compagain goal
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Letter of justification
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        title
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Description
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((info, index) => (
+                      <tr key={index} className="">
+                        <th
+                          scope="row"
+                          className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                         Letter of justification
-                        </a>
-                      )}
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.funds && info.funds.title}
-                    </td>
-                    <td className="px-8 py-4">
-                      {info.funds && info.funds.Description}
-                    </td>
-                    <td className="px-8 py-4">
-                      <button onClick={handleApprove} value={info.funds.id}>
-                        Approve
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          {info.user && info.user.image && (
+                            <img
+                              src={info.user.image}
+                              className="rounded-[100%] w-[40%] h-[40%] "
+                              alt=""
+                            />
+                          )}
+                          {info.user && info.user.first_name}
+                        </th>
+                        <td className="px-8 py-4">
+                          {info.user && info.user.email}
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.funds && info.funds.goal}DH
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.funds && (
+                            <a target="blank" href={info.funds.letter}>
+                              Letter of justification
+                            </a>
+                          )}
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.funds && info.funds.title}
+                        </td>
+                        <td className="px-8 py-4">
+                          {info.funds && info.funds.Description}
+                        </td>
+                        <td className="px-8 py-4">
+                          <button onClick={handleApprove} value={info.funds.id}>
+                            Approve
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </>
   );

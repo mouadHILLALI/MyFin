@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const form = new FormData();
-      const emailRegex = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/; // Corrected regex definition
+      const emailRegex = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/; 
 
       if (emailRegex.test(email)) {
         form.append("email", email);
