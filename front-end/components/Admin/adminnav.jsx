@@ -3,7 +3,7 @@ import { logout } from "../../functions/Util";
 export const AdminNav = () => {
   const navigate = useNavigate();
   const handlelogout = () => {
-    logout();
+    localStorage.clear();
     navigate("/");
   };
   return (

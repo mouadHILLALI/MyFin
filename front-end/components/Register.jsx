@@ -13,6 +13,14 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+
+
+  const[nameError ,setNameError]=useState("");
+  const[lastNameError ,setLastNameError]=useState("");
+  const[emailError ,setEmailError]=useState("");
+  const[imageError ,setImageError]=useState("");
+  const[passwordError ,setPasswordError]=useState("");
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -20,6 +28,9 @@ const Register = () => {
       const form = new FormData();
       if (image.files && image.files[0]) {
         form.append("image", image.files[0]);
+      }else{
+        setImageError('Image is required Please upload your image.')
+        return ;
       }
       form.append("first_name", first_name);
       form.append("family_name", family_name);
@@ -27,22 +38,29 @@ const Register = () => {
       form.append("password", password);
       form.append("email", email);
       const res = await axios.post("http://localhost/api/user/register", form);
-      localStorage.setItem('name', res.data.name);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('image', res.data.image);
-      let Role = res.data.role ;
-      localStorage.setItem("role",Role);
-      switch (role) {
-        case 'Investor':
-          navigate('/investor');
-          break;
-        case 'FundRaiser' :
-          navigate('/fundraiser');
-          break;
-      case 'Admin' : 
-       navigate('/admin');
-        default:
-          break;
+      localStorage.setItem("name", res.data.name);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("image", res.data.image);
+      let Role = res.data.role;
+      localStorage.setItem("role", Role);
+      if (res.data.status === 200) {
+        switch (role) {
+          case "Investor":
+            localStorage.setItem("role", role);
+            navigate("/investor");
+            break;
+          case "FundRaiser":
+            localStorage.setItem("role", role);
+            navigate("/fundraiser");
+            break;
+          case "Admin":
+            localStorage.setItem("role", role);
+            navigate("/admin");
+            break;
+          default:
+            navigate("/");
+            break;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -84,6 +102,7 @@ const Register = () => {
                   onChange={(e) => setFirst_name(e.target.value)}
                 />
               </div>
+              <span>{nameError}</span>
               <div className="p-3 border border-black rounded-[15px] w-[70%] ">
                 <input
                   className="border-1 border-black p-2"
@@ -94,6 +113,7 @@ const Register = () => {
                   placeholder="Enter your Last name"
                 />
               </div>
+              <span>{lastNameError}</span>
               <div className="p-3 border border-black rounded-[15px] w-[70%] ">
                 <input
                   className="border-1 border-black p-2"
@@ -103,8 +123,8 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
                 />
-              </div>
-
+                </div>
+                <span>{emailError}</span>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
@@ -133,6 +153,7 @@ const Register = () => {
                 </label>
                 <input className="hidden" type="file" name="image" id="image" />
               </div>
+              <span className="text-red-600">{imageError}</span>
               <div className="p-3 border border-black rounded-[15px] w-[70%] ">
                 <input
                   className="border-1 border-black rounded-lg p-2"
@@ -143,6 +164,7 @@ const Register = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              <span>{passwordError}</span>
               <div className="flex justify-end w-[73%] ">
                 <span className="py-3 px-8 bg-[#02A95C] rounded-[15px] mr-3 text-white">
                   <button type="submit" className="">
