@@ -20,8 +20,9 @@ function InvestorNavbar() {
   }, []);
   const navigate = useNavigate();
   let image = localStorage.getItem("image");
-  const handlelogout = () => {
-    logout();
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
   };
   return (
     <>
@@ -118,7 +119,7 @@ function InvestorNavbar() {
           </div>
         </div>
         <div className="h-[20%] flex flex-col text-white items-start justify-around w-[80%]  ">
-          <button onClick={handlelogout} className="flex gap-2 font-bold">
+          <button onClick={handleLogout} className="flex gap-2 font-bold">
             <svg
               width={25}
               xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +208,7 @@ function InvestorNavbar() {
             />
           </svg>
         </NavLink>
-        <button onClick={handlelogout} className="flex gap-2  font-bold">
+        <button onClick={handleLogout} className="flex gap-2  font-bold">
           <svg
             width={25}
             xmlns="http://www.w3.org/2000/svg"

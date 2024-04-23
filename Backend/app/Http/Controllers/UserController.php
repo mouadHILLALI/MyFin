@@ -33,7 +33,7 @@ class UserController extends Controller
                 $token = $user->createToken('token')->plainTextToken;
                 return response()->json(['token' => $token, 'image' => auth()->user()->image, 'name' => auth()->user()->family_name, 'role' => auth()->user()->role], 200);
             } else {
-                return response()->json('Email already exist', 200);
+                return response()->json('Email already exist', 401);
             }
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
@@ -49,12 +49,12 @@ class UserController extends Controller
                 $token = $user->createToken('token')->plainTextToken;
                 return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image, 'role' => auth()->user()->role]);
             } else {
-                return response('Wrong credentials', 500)
-                    ->header('Content-Type', 'text/plain');
+                return response()->json(['data'=>'wrong credentials' , 'status'=>401]);
+                   
             }
         } catch (\Exception $e) {
-            return response($e->getMessage(), 500)
-                ->header('Content-Type', 'text/plain');
+            return response($e->getMessage(), 500);
+               
         }
     }
     public function logout(Request $r)

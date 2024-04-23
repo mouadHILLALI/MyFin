@@ -1,17 +1,19 @@
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const token = localStorage.getItem("token");
 export const logout = async () => {
+  const navigate = useNavigate();
   try {
-    const res = await axios.post("http://localhost/api/user/logout", {
+    /* const res = await axios.post("http://localhost/api/user/logout", {
       headers: {
         Authorization: `${token}`,
       },
-    });
-    console.log(res);
+    });*/
     localStorage.clear();
+     navigate('/');
   } catch (error) {
     console.log(error);
   }
