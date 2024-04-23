@@ -87,11 +87,11 @@ export const PortfolioDash = () => {
     <>
       <div className=" w-full md:h-[15%] mt-5 mb-5 flex flex-col md:flex-row gap-3  ">
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
-          <h3 className="text-sm">Your Balance :</h3>
+          <h3 className="text-sm font-bold">Your Balance :</h3>
           <h1 className="text-[#02a95c] text-2xl font-bold ">{balance}DH</h1>
         </div>
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
-          <h3 className="text-sm">Your Estimated Profit :</h3>
+          <h3 className="text-sm font-bold">Your Estimated Profit :</h3>
           <h1 className="text-[#02a95c] text-2xl font-bold ">{profit}DH</h1>
         </div>
       </div>
@@ -130,7 +130,7 @@ export const PortfolioDash = () => {
                       <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                         <img
                           src={info.user.image}
-                          className="rounded-[100%] w-[5%] h-[5%] "
+                          className="rounded-[100%] w-[15%] h-[15%] "
                           alt=""
                         />
                         {info.user.first_name}

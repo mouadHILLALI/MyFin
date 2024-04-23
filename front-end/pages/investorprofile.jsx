@@ -14,7 +14,7 @@ export const InvestorProfile = () => {
         if (data == "true") {
           setCheck(true);
         }
-      } catch (error) {
+      } catch (error) { 
         console.log(error);
       }
     };
@@ -24,8 +24,16 @@ export const InvestorProfile = () => {
 
   return (
     <>
-      <InvestorNavbar />
-      {Check ?  <ProfileInfo/> :  <VerifyProfile/> }
+      <div className="flex  h-screen ">
+        <div className=" md:w-[20%] flex flex-col items-center justify-center">
+          <div className="flex h-[95%] w-full md:w-[90%] ">
+            <InvestorNavbar />
+          </div>
+        </div>
+        <div className="w-full flex flex-col md:flex md:flex-col  md:w-[70%] ">
+          {Check ? <ProfileInfo /> : <VerifyProfile />}
+        </div>
+      </div>
     </>
   );
 };

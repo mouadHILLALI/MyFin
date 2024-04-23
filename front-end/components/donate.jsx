@@ -13,7 +13,6 @@ export const Donate = () => {
         },
       });
       setData(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -23,10 +22,14 @@ export const Donate = () => {
   }, []);
   return (
     <>
-      <InvestorNavbar />
-      <section className="">
-        <div className="">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+      <div className="flex  h-screen ">
+        <div className=" md:w-[20%] flex flex-col items-center justify-center">
+          <div className="flex h-[95%] w-full md:w-[90%] ">
+            <InvestorNavbar />
+          </div>
+        </div>
+        <div className="w-full flex flex-col md:flex md:flex-col  md:w-[70%] ">
+          <div className="relative mt-5 flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ">
             <div className="block w-full overflow-x-auto">
               <table className="items-center bg-transparent w-full border-collapse ">
                 <thead>
@@ -56,7 +59,7 @@ export const Donate = () => {
                         <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                           <img
                             src={info.user.image}
-                            className="rounded-[100%] w-[5%] h-[5%] "
+                            className="rounded-[100%] w-[35%] md:w-[15%] h-[35%] md:h-[15%] "
                             alt=""
                           />
                           {info.user.first_name}
@@ -92,7 +95,7 @@ export const Donate = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </>
   );
 };

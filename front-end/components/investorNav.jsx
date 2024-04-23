@@ -134,7 +134,7 @@ function InvestorNavbar() {
         </div>
       </div>
 
-      <div className="h-[5%] z-10 flex justify-around items-center fixed w-full bottom-0 bg-[#3e3e45] md:hidden">
+      <div className="h-[8%] z-10 flex justify-around items-center fixed w-full bottom-0 bg-[#3e3e45] md:hidden">
         <NavLink
           to="/investor"
           className={({ isActive }) =>
