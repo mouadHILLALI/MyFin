@@ -21,7 +21,6 @@ export const ProfileInfo = () => {
         };
         setUser(updatedUser);
         setIsLoading(false);
-        console.log(user);
       } catch (error) {
         console.error("Error fetching data:", error);
         setIsLoading(false);

@@ -115,8 +115,8 @@ export const Dash = () => {
   };
   return (
     <>
-      <div className="flex flex-row justify-between  w-full h-[25%] p-2 mt-3">
-        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
+      <div className="flex flex-col gap-2 md:flex-row justify-between  w-full h-[25%] p-2 mt-3">
+        <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
           {requests.length == 0 ? (
             <>
               <h3 className="text-sm text-[#344767] font-bold">
@@ -145,19 +145,24 @@ export const Dash = () => {
           )}
         </div>
 
-        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
-        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
+        <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
+          <h3 className="text-sm text-[#344767] font-bold">compagain Goal :</h3>
+        <button className="text-sm text-green-500 font-bold">
+             {goal}DH
+            </button>
+        </div>
+        <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
       </div>
 
-      <div className="flex h-[70%] flex-row justify-between w-full ">
+      <div className="flex h-[70%] flex-col md:flex-row justify-between w-full ">
         {requests.length !== 0 ? (
           requests.map((request) => (
             <div
-              className=" flex flex-col  h-full w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
+              className=" flex flex-col  h-full w-full md:w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
               key={request.id}
             >
-              <div className="flex flex-row w-full justify-between items-center m-2 ">
-                <div className="w-[80%]">
+              <div className="flex flex-row w-full  md:justify-between items-center m-2 ">
+                <div className="w-[40%] md:w-[80%]">
                   <h1 className="text-xl text-green-600 font-bold w-full">
                     {request.title}
                   </h1>
@@ -204,7 +209,7 @@ export const Dash = () => {
                 </div>
               </div>
 
-              <div className="flex ">
+              <div className="flex">
                 <div className="flex flex-col w-[70%] h-[60%] ">
                   <img
                     className="w-[60%] rounded-lg"
@@ -266,7 +271,7 @@ export const Dash = () => {
             </div>
           </div>
         )}
-        <div className=" w-[30%] h-full flex flex-col p-2 bg-white drop-shadow-lg "></div>
+        <div className=" w-full  md:w-[30%] h-[40%] md:h-full flex flex-col p-2 bg-white drop-shadow-lg "></div>
       </div>
       {pop && (
         <div className="absolute h-[90%] w-[70%]  p-3 bg-[#edeff2] top-[3%] left-[20%] rounded-lg ">
