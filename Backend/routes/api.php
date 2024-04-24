@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum', 'Admin')->group(function () {
     Route::get('/funds/get' , [FundingRequestController::class , 'getAllfunds']);
     Route::post('/application/approve' , [AdminController::class , 'approve']);
     Route::get('/admin/stats' , [AdminController::class , "stats"]);
+    Route::post('/admin/search' , [AdminController::class , "search"]);
 });
 
 Route::middleware('auth:sanctum', 'Investor')->group(function () {

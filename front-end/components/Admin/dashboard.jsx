@@ -6,7 +6,6 @@ export const Dashboard = () => {
   const [fund, setFund] = useState(0);
   const [total, setTotal] = useState(0);
   const [loans, setLoans] = useState([]);
- const [chartData , setChartData]=useState([]);
   const API = "http://localhost/api/";
   const token = localStorage.getItem("token");
   const fetchstats = async () => {
@@ -20,8 +19,6 @@ export const Dashboard = () => {
       setFund(res.data.totalfunds);
       setTotal(res.data.total);
       setLoans(res.data.loans);
-      setChartData([res.data.totalinv, res.data.totalfunds]);
-      console.log(chartData);
     } catch (error) {
       console.log(error);
     }
@@ -91,8 +88,6 @@ export const Dashboard = () => {
       </div>
 
       <div className=" flex flex-col md:flex-row justify-between h-[40%] w-full m-4 bg-white drop-shadow-lg ">
-        <Stats/>
-
         <Stats />
       </div>
     </div>

@@ -8,6 +8,7 @@ export const ManageRequests = () => {
   const [loanActive, setLoanActive] = useState(true);
   const [fundingActive, setFundingActive] = useState(false);
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
   const [type, setType] = useState("loan");
   const fetchLoans = async () => {
     try {
@@ -64,7 +65,22 @@ export const ManageRequests = () => {
       console.log("Error approving request:", error);
     }
   };
-
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const fr = new FormData();
+      fr.append("search", search);
+      const res = await axios.post("http://localhost/api/admin/search",fr ,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let data = res.data.data;
+      data.length != 0 && setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex gap-3  h-screen ">
@@ -75,37 +91,51 @@ export const ManageRequests = () => {
         </div>
         <div className="w-full flex flex-col md:flex md:flex-col  md:w-[90%]  ">
           <div className="  bg-[#f1f4f9] h-full ">
-            <div className="flex w-[90%] gap-3 border-b-1   border-slate mt-4 m-auto ">
-              <button
-                onClick={() => {
-                  setLoanActive(true);
-                  setType("loan");
-                  setFundingActive(false);
-                  data.length === 0 && fetchLoans();
-                }}
-                className={
-                  loanActive
-                    ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
-                    : "text-black pb-2 font-bold"
-                }
-              >
-                Loan Requests
-              </button>
-              <button
-                onClick={() => {
-                  setLoanActive(false);
-                  setType("fund");
-                  setFundingActive(true);
-                  fetchfunds();
-                }}
-                className={
-                  fundingActive
-                    ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
-                    : "text-black pb-2 font-bold"
-                }
-              >
-                Funding Requests
-              </button>
+            <div className="flex flex-col md:flex-row  items-center  justify-between w-[90%] gap-3 border-b-1   border-slate mt-4 m-auto ">
+              <div className="w-full md:w-[60%]  flex gap-2">
+                <button
+                  onClick={() => {
+                    setLoanActive(true);
+                    setType("loan");
+                    setFundingActive(false);
+                    data.length === 0 && fetchLoans();
+                  }}
+                  className={
+                    loanActive
+                      ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
+                      : "text-black pb-2 font-bold"
+                  }
+                >
+                  Loan Requests
+                </button>
+                <button
+                  onClick={() => {
+                    setLoanActive(false);
+                    setType("fund");
+                    setFundingActive(true);
+                    fetchfunds();
+                  }}
+                  className={
+                    fundingActive
+                      ? "text-[#02a95c] font-bold pb-2 border-b-4 border-[#02a95c]"
+                      : "text-black pb-2 font-bold"
+                  }
+                >
+                  Funding Requests
+                </button>
+              </div>
+              <div className="w-full  md:w-[30%] ">
+                <form onSubmit={handleSearch}>
+                  <input
+                    className="p-2 rounded-lg"
+                    name="search"
+                    value={search}
+                    placeholder="search..."
+                    onChange={(e) => setSearch(e.target.value)}
+                    type="search"
+                  />
+                </form>
+              </div>
             </div>
 
             {loanActive && data.length != 0 ? (

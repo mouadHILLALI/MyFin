@@ -7,6 +7,7 @@ use App\Models\Fundraiser;
 use App\Models\Investments;
 use App\Models\Investor;
 use App\Models\Loan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -54,13 +55,44 @@ class AdminController extends Controller
             $totalFundraisers = Fundraiser::count();
             $investements = Investments::get();
             $total = 0;
-            $loans = Loan::where('reviewd' , 0)->orderBy('amount')->limit(3)->get();
+            $loans = Loan::where('reviewd', 0)->orderBy('amount')->limit(3)->get();
+            $loans = Loan::get();
+            $amount= 0;
             foreach ($investements as $investement) {
                 $total += $investement->amount;
             }
-            return response()->json(['totalinv'=>$totalInvestors , 'totalfunds'=>$totalFundraisers, 'total'=>$total , 'loans'=>$loans]);
+            foreach($loans as $loan){
+                $amount += $loan->amount;
+            }
+            return response()->json(['totalinv' => $totalInvestors, 'totalfunds' => $totalFundraisers, 'total' => $total, 'loans' => $loans ,'amount'=>$amount],200);
         } catch (\Exception $e) {
             return response($e->getMessage());
+        }
+    }
+
+    public function search(Request $r)
+    {
+        try {
+            $search = $r->search;
+
+            $loanResults = Loan::where('amount', 'LIKE', $search)->where('reviewd', 0)->get();
+            $fundingResults = FundingRequest::where('title', "LIKE", '%' . $search . '%')->where('reviewd', 0)->get();
+
+            $combinedData = [];
+
+            foreach ($loanResults as $loan) {
+                $user = User::find($loan->investor->user_id);
+                $combinedData[] = ['loan' => $loan, 'user' => $user];
+            }
+
+            foreach ($fundingResults as $funding) {
+                $user = User::find($funding->fundraiser->user_id);
+                $combinedData[] = ['funding' => $funding, 'user' => $user];
+            }
+
+            return response()->json(['data' => $combinedData], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
