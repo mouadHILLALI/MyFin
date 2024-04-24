@@ -54,10 +54,11 @@ class AdminController extends Controller
             $totalFundraisers = Fundraiser::count();
             $investements = Investments::get();
             $total = 0;
+            $loans = Loan::where('reviewd' , 0)->orderBy('amount')->limit(3)->get();
             foreach ($investements as $investement) {
                 $total += $investement->amount;
             }
-            return response()->json(['totalinv'=>$totalInvestors , 'totalfunds'=>$totalFundraisers, 'total'=>$total]);
+            return response()->json(['totalinv'=>$totalInvestors , 'totalfunds'=>$totalFundraisers, 'total'=>$total , 'loans'=>$loans]);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
