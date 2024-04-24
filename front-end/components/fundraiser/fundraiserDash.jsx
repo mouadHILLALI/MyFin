@@ -22,7 +22,7 @@ export const FundRaiserDash = () => {
   }, []);
   return (
     <>
-      <div className="w-[85%] absolute left-[15%] bg-[#f1f4f9] h-full ">
+      <div className="w-full   h-full ">
         {Check?<Dash/>:<Message1/>}
       </div>
     </>

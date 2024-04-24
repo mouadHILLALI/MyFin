@@ -89,8 +89,8 @@ export const ManageRequests = () => {
             <AdminNav />
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex md:flex-col  md:w-[90%]  ">
-          <div className="  bg-[#f1f4f9] h-full ">
+        <div className="w-full flex flex-col md:flex md:flex-col  md:w-[80%]  ">
+          <div className="   h-full ">
             <div className="flex flex-col md:flex-row  items-center  justify-between w-[90%] gap-3 border-b-1   border-slate mt-4 m-auto ">
               <div className="w-full md:w-[60%]  flex gap-2">
                 <button

@@ -37,16 +37,12 @@ export const Dash = () => {
     }
   };
   const fetchrequest = async () => {
-    const res = await axios.get(
-      "http://localhost/api/fundingrequests/show",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.get("http://localhost/api/fundingrequests/show", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setRequests(res.data);
-    console.log(requests);
   };
   useEffect(() => {
     try {
@@ -57,93 +53,109 @@ export const Dash = () => {
   }, []);
   return (
     <>
-      <div className="m-4">
-        {requests.length == 0 ? (
-          <button
-            onClick={() => setPop(true)}
-            className="flex p-2 rounded-[10px] text-white items-center gap-2 bg-[#02a95c]"
-          >
-            <svg
-              width={15}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-            >
-              <path
-                fill="#ffffff"
-                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
-              />
-            </svg>
-            Create a funding compagain
-          </button>
-        ) : (
-          <button className="flex p-2 rounded-[10px] text-white items-center gap-2 bg-[#02a95c]">
-            Your request is pending for review
-          </button>
-        )}
+      <div className="flex flex-row justify-between  w-full h-[25%] p-2 mt-3">
+        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
+          {requests.length == 0 ? (
+            <>
+              <h3 className="text-sm text-[#344767] font-bold">
+                Start a funding compagain:
+              </h3>
+              <button
+                onClick={() => setPop(true)}
+                className=" bg-[#02A95C] flex gap-2  items-center text-white text-lg  p-3 rounded-full "
+              >
+                <svg
+                  width={15}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    fill="#ffffff"
+                    d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+                  />
+                </svg>
+              </button>
+            </>
+          ) : (
+            <button className="text-sm text-[#344767] font-bold">
+              compagain submitted
+            </button>
+          )}
+        </div>
+
+        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
+        <div className="bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
       </div>
 
-      {requests.length !== 0 &&
-        requests.map((request) => (
-          <div className="w-[80%] flex flex-col m-3" key={request.id}>
-            <div>
-              <h1 className="text-2xl font-bold w-full">{request.title}</h1>
-            </div>
-            <div className="flex ">
-              <div className="flex flex-col w-[90%] gap-3 overflow-auto">
-                <img
-                  className="w-[90%] rounded-[15px] border-2 border-black "
-                  src={request.image}
-                  alt="..."
-                />
-                <p className="text-lg">{request.description}</p>
+      <div className="flex h-[70%] flex-row justify-between w-full ">
+        {requests.length !== 0 ? (
+          requests.map((request) => (
+            <div
+              className=" flex flex-col  h-full w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
+              key={request.id}
+            >
+              <div className="m-2 ">
+                <h1 className="text-2xl text-green-600 font-bold w-full">{request.title}</h1>
               </div>
-              <div className="flex flex-col w-[60%] justify-between drop-shadow rounded-[15px] border-2 border-slate p-2 ">
-                <div className="flex items-center  gap-2 border-b-2 border-[#02a95c]">
-                  <h1 className="text-2xl">${request.goal}</h1>
-                  <h4 className="text-[#8d8d8d] ">compagain goal</h4>
+
+              <div className="flex ">
+                <div className="flex flex-col w-[70%] h-[60%] ">
+                  <img
+                    className="w-[90%] rounded-lg"
+                    src={request.image}
+                    alt="..."
+                  />
+                  <p className="text-md m-4">{request.description}</p>
                 </div>
-                <a
-                  className="text-lg p-2 font-bold bg-[#fcb533] text-black text-center rounded-[15px] "
-                  target="blank"
-                  href={request.letter}
-                >
-                  Letter of Justification
-                </a>
-                <div className="flex items-center justify-between">
-                  <a className="flex flex-col items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                      width={25}
-                    >
-                    </svg>
-                    Facebook
+                <div className="flex flex-col gap-5 items-start w-[30%]   p-2 ">
+                  <div className="flex items-center  gap-2">
+                    <h1 className="text-sm text-green-500">${request.goal}</h1>
+                    <h4 className="text-[#344767] text-sm ">compagain goal</h4>
+                  </div>
+                  <a
+                    className="text-sm  font-bold text-[#344767] text-center rounded-[15px] "
+                    target="blank"
+                    href={request.letter}
+                  >
+                    Letter of Justification
                   </a>
-                  <button className="flex flex-col items-center bg-slate-200 p-2 rounded-full ">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      width={25}
-                    >
-                    </svg>
-                  </button>
+                  {request.reviewd === 0 ? (
+                    <h1 className="text-xl text-center p-2 bg-[#fcb533] text-white rounded-lg font-bold ">
+                      {" "}
+                      Under review{" "}
+                    </h1>
+                  ) : (
+                    <h1 className="text-xl text-center p-2 bg--green-500 text-white rounded-lg font-bold ">Request Approved</h1>
+                  )}
                 </div>
-                {request.reviewd === 0 ? (
-                  <h1 className="text-xl text-center p-2 bg-[#fcb533] rounded-[15px] font-bold ">
-                    {" "}
-                    Under review{" "}
-                  </h1>
-                ) : (
-                  <h1>Request Approved</h1>
-                )}
               </div>
+            </div>
+          ))
+        ) : (
+          <div className=" flex flex-col justify-center h-full w-[65%] bg-white p-2 drop-shadow-lg rounded-lg ">
+            <div className="opacity-75 flex flex-col items-center">
+              <svg
+                width={150}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="#02a95c"
+                  d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+                />
+              </svg>
+              <p className="font-bold text-[#02A95C]">Notice : </p>
+              <p className="text-[#02A95c]">
+                You have no funding compagains yet.
+              </p>
             </div>
           </div>
-        ))}
-
+        )}
+        <div className=" w-[30%] h-full flex flex-col p-2 bg-white drop-shadow-lg "></div>
+      </div>
       {pop && (
-        <div className="absolute h-[50%] w-[50%] overflow-auto p-3 bg-[#02a95c] top-[15%] left-[20%] rounded-[15px] ">
-          <div className="flex justify-center">
+        <div className="absolute h-[90%] w-[70%]  p-3 bg-[#edeff2] top-[3%] left-[20%] rounded-lg ">
+          <div className="flex w-full justify-end p-2">
             <button onClick={() => setPop(false)}>
               <svg
                 width={30}
@@ -170,50 +182,53 @@ export const Dash = () => {
               onChange={(e) => setTitle(e.target.value)}
             />
             <input
-              type="text"
-              className="p-2 rounded-[15px] text-center "
+              type="textarea"
+              className="p-4 rounded-[15px] text-center "
               placeholder="description"
               name="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <div className="flex flex-col items-center">
-              <label
-                className="flex flex-col items-center text-white font-bold"
-                htmlFor="image"
-              >
-                Upload Your Image :
-                <svg
-                  width={40}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 384 512"
+
+            <div className="flex w-full justify-around">
+              <div className="flex flex-col items-center">
+                <label
+                  className="flex flex-col items-center text-[#344767] font-bold"
+                  htmlFor="image"
                 >
-                  <path
-                    fill="#ffffff"
-                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
-                  />
-                </svg>
-              </label>
-              <input id="image" type="file" className="hidden" />
-            </div>
-            <div className="flex flex-col items-center">
-              <label
-                className="flex flex-col items-center text-white font-bold"
-                htmlFor="letter"
-              >
-                Upload your letter of Justification:
-                <svg
-                  width={40}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 384 512"
+                  Upload Your Image :
+                  <svg
+                    width={40}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      fill="#fffffff"
+                      d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
+                    />
+                  </svg>
+                </label>
+                <input id="image" type="file" className="hidden" />
+              </div>
+              <div className="flex flex-col items-center">
+                <label
+                  className="flex flex-col items-center text-[#344767] font-bold"
+                  htmlFor="letter"
                 >
-                  <path
-                    fill="#ffffff"
-                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
-                  />
-                </svg>
-              </label>
-              <input id="letter" type="file" className="hidden" />
+                  Upload your letter of Justification:
+                  <svg
+                    width={40}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                  >
+                    <path
+                      fill="#fffffff"
+                      d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 408c0 13.3-10.7 24-24 24s-24-10.7-24-24V305.9l-31 31c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l72-72c9.4-9.4 24.6-9.4 33.9 0l72 72c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-31-31V408z"
+                    />
+                  </svg>
+                </label>
+                <input id="letter" type="file" className="hidden" />
+              </div>
             </div>
             <input
               type="number"
@@ -224,7 +239,9 @@ export const Dash = () => {
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
             />
-            <button className="p-2 text-white font-bold">Submit</button>
+            <button className="p-2 text-[#344767] bg-green-400 w-[30%] m-auto rounded-lg font-bold">
+              Submit
+            </button>
           </form>
         </div>
       )}

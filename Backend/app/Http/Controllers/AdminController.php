@@ -56,13 +56,13 @@ class AdminController extends Controller
             $investements = Investments::get();
             $total = 0;
             $loans = Loan::where('reviewd', 0)->orderBy('amount')->limit(3)->get();
-            $loans = Loan::get();
+            $Totalloans = Loan::get();
             $amount= 0;
             foreach ($investements as $investement) {
                 $total += $investement->amount;
             }
-            foreach($loans as $loan){
-                $amount += $loan->amount;
+            foreach($Totalloans as $Totalloan){
+                $amount += $Totalloan->amount;
             }
             return response()->json(['totalinv' => $totalInvestors, 'totalfunds' => $totalFundraisers, 'total' => $total, 'loans' => $loans ,'amount'=>$amount],200);
         } catch (\Exception $e) {
