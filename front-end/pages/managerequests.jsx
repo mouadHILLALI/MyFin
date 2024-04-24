@@ -28,7 +28,6 @@ export const ManageRequests = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data.combinedData);
       setData(res.data.combinedData);
     } catch (error) {
       console.log("Error fetching funds:", error);
@@ -82,6 +81,7 @@ export const ManageRequests = () => {
                   setLoanActive(true);
                   setType("loan");
                   setFundingActive(false);
+                  data.length === 0 && fetchLoans();
                 }}
                 className={
                   loanActive
@@ -138,7 +138,7 @@ export const ManageRequests = () => {
                       <tr key={index} className="">
                         <th
                           scope="row"
-                          className="px-6 flex gap-2 items-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          className="px-2 flex gap-2  items-center py-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           {info.user && info.user.image && (
                             <img
@@ -172,7 +172,7 @@ export const ManageRequests = () => {
                           {info.loan && info.loan.profit_rate}%
                         </td>
                         <td className="px-8 py-4">
-                          {info.loan && info.loan.duration}
+                          {info.loan && info.loan.duration} Days
                         </td>
                         <td className="px-8 py-4">
                           <button onClick={handleApprove} value={info.loan.id}>
@@ -245,7 +245,10 @@ export const ManageRequests = () => {
                           {info.funds && info.funds.Description}
                         </td>
                         <td className="px-8 py-4">
-                          <button onClick={handleApprove} value={info.funds.id}>
+                          <button
+                            onClick={handleApprove}
+                            value={info.funds && info.funds.id}
+                          >
                             Approve
                           </button>
                         </td>
