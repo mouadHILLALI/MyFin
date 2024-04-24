@@ -120,11 +120,21 @@ class FundingRequestController extends Controller
                 'description' => $r->description,
                 'image' => $ImageURL ?? $fund->image,
                 'reviewd' => 0,
-                'letter'=> $letterURL ?? $fund->letter ,
+                'letter' => $letterURL ?? $fund->letter,
                 'goal' => $r->goal,
             ]);
 
             return response()->json('The funding request was updated successfully and was submitted for review', 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
+    public function destroy($id)
+    {
+        try {
+            $fund = ModelsFundingRequest::where('id', $id)->first();
+            $fund->delete();
+            return response()->json('deleted succesfully', 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }

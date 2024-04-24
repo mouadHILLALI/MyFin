@@ -97,6 +97,22 @@ export const Dash = () => {
       console.log(error);
     }
   };
+  const Delete = async (id) => {
+    try {
+      const res = await axios.get(
+        `http://localhost/api/fundraiser/fundingrequest/destroy/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+      fetchrequest();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex flex-row justify-between  w-full h-[25%] p-2 mt-3">
@@ -147,7 +163,12 @@ export const Dash = () => {
                   </h1>
                 </div>
                 <div className="flex gap-2 w-[25%]">
-                  <button className="flex text-sm text-[#f44335] font-bold items-center gap-2">
+                  <button
+                    onClick={() => {
+                      Delete(request.id);
+                    }}
+                    className="flex text-sm text-[#f44335] font-bold items-center gap-2"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
@@ -186,7 +207,7 @@ export const Dash = () => {
               <div className="flex ">
                 <div className="flex flex-col w-[70%] h-[60%] ">
                   <img
-                    className="w-[90%] rounded-lg"
+                    className="w-[60%] rounded-lg"
                     src={request.image}
                     alt="..."
                   />
