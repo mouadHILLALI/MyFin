@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum', 'Admin')->group(function () {
     Route::get('/loans/get' , [LoansController::class , 'Allloans']);
     Route::get('/funds/get' , [FundingRequestController::class , 'getAllfunds']);
     Route::post('/application/approve' , [AdminController::class , 'approve']);
+    Route::get('/admin/stats' , [AdminController::class , "stats"]);
 });
 
 Route::middleware('auth:sanctum', 'Investor')->group(function () {

@@ -38,20 +38,14 @@ function App() {
     </>
   );
 
-  const userRoutes = (
-    <>
-      <Route path="/register" element={<SignUp />} />
-      <Route path="/signin" element={<SignIn />} />
-    </>
-  );
-
   return (
     <BrowserRouter>
       <Routes>
         {role === "Investor" ? investorRoutes : null}
         {role === "Admin" ? adminRoutes : null}
         {role === "FundRaiser" ? fundraiserRoutes : null}
-        {!role && userRoutes}
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route index element={<Home />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
