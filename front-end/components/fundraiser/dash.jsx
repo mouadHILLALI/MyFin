@@ -5,8 +5,8 @@ export const Dash = () => {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [goal, setGoal] = useState(1000);
   const [id, setID] = useState(0);
+  const [goal, setGoal] = useState(1000);
   const [requests, setRequests] = useState([]);
   let image = document.getElementById("image");
   let letter = document.getElementById("letter");
@@ -53,6 +53,50 @@ export const Dash = () => {
       console.log(error);
     }
   }, []);
+  const fetchEditData = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost/api/fund/fetchData/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setID(id);
+      setTitle(res.data.data.title);
+      setDescription(res.data.data.description);
+      setGoal(res.data.data.goal);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      let fr = new FormData();
+      fr.append("id", id);
+      fr.append("title", title);
+      fr.append("description", description);
+      fr.append("goal", goal);
+      if (image.files && image.files[0]) {
+        fr.append("image", image.files[0]);
+      }
+      if (letter.files && letter.files[0]) {
+        fr.append("letter", letter.files[0]);
+      }
+      const res = await axios.post(
+        "http://localhost/api/fundraiser/fundingrequest/update",
+        fr,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchrequest();
+      setEdit(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex flex-row justify-between  w-full h-[25%] p-2 mt-3">
@@ -119,7 +163,7 @@ export const Dash = () => {
                   <button
                     value={request.id}
                     onClick={(e) => {
-                      setID(request.id);
+                      fetchEditData(request.id);
                       setEdit(true);
                     }}
                     className="flex text-sm text-[#344767] font-bold items-center gap-2 "
@@ -313,7 +357,7 @@ export const Dash = () => {
             </button>
           </div>
           <form
-            onSubmit={handleform}
+            onSubmit={handleEdit}
             className="flex flex-col justify-between h-full gap-4 "
           >
             <input

@@ -63,5 +63,7 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
     Route::post('/fundraiser/fundingrequest/create', [FundingRequestController::class , 'create']);
+    Route::post('/fundraiser/fundingrequest/update', [FundingRequestController::class , 'update']);
     Route::get('/fundingrequests/show', [FundingRequestController::class , 'show']);
+    Route::get('/fund/fetchData/{id}', [FundingRequestController::class , 'fetchEditData']);
 });

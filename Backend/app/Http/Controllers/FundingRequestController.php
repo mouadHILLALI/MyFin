@@ -93,4 +93,40 @@ class FundingRequestController extends Controller
             return response($e->getMessage());
         }
     }
+
+    public function fetchEditData($id)
+    {
+        try {
+            $data = ModelsFundingRequest::where('id', $id)->first();
+            return response()->json(['data' => $data], 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
+    public function update(Request $r)
+    {
+        try {
+            $fund = ModelsFundingRequest::where('id', $r->id)->first();
+            if ($r->file('image')) {
+                $filePath = $r->file('image')->store('images', 'public');
+                $ImageURL = asset('storage/' . $filePath);
+            }
+            if ($r->file('letter')) {
+                $filePath = $r->file('letter')->store('files', 'public');
+                $letterURL = asset('storage/' . $filePath);
+            }
+            $fund->update([
+                'title' => $r->title,
+                'description' => $r->description,
+                'image' => $ImageURL ?? $fund->image,
+                'reviewd' => 0,
+                'letter'=> $letterURL ?? $fund->letter ,
+                'goal' => $r->goal,
+            ]);
+
+            return response()->json('The funding request was updated successfully and was submitted for review', 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
 }
