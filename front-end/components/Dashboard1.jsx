@@ -138,7 +138,7 @@ export const Dashboardinv = () => {
           <div className=" bg-[#ffffff] w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
             <h3 className="text-sm">Request a loan :</h3>
             {loans && loans.length > 0 ? (
-              <h2 className="text-sm" >loan already Requested</h2>
+              <h2 className="text-sm">loan already Requested</h2>
             ) : (
               <button
                 onClick={() => setPop(true)}
@@ -437,6 +437,34 @@ export const Dashboardinv = () => {
                 <h4 className="text-green-500 font-bold">{total}</h4>/
                 <h4>{loans[0].amount}</h4>
               </span>
+            </div>
+            <div className="h-[80%] flex flex-col justify-start w-[90%] overflow-auto ">
+              {investors ? (
+                investors.map((info) => {
+                  return (
+                    <div className="flex h-[10%] w-[90%] m-auto bg-slate-50 p-2 rounded-lg ">
+                      <div className="flex flex-col">
+                        <h4 className="text-sm text-[#344767] font-bold ">
+                          {info.users.first_name}
+                          {""}
+                          {info.users.family_name}
+                        </h4>
+                        <img
+                          className="rounded-full w-[40%] "
+                          src={info.users.image}
+                          alt="..."
+                        />
+                      </div>
+                      <div className="flex flex-col text-green-500 font-bold items-center ">
+                        <h1 className="text-lg ">{info.investments.amount}DH</h1>
+                        <button className="p-2 bg-green-500 rounded-lg text-white" value={info.investments.id}>refund</button>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <h2>No investors yet</h2>
+              )}
             </div>
           </div>
         ) : (
