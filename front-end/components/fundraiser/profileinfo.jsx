@@ -83,7 +83,7 @@ export const ProfileInfo = () => {
               </div>
 
               <div className="flex flex-col w-[30%] text-[#344767]">
-                <h2 className=" font-bold m-4 ">Transactions History :</h2>
+                
               </div>
             </div>
           </div>

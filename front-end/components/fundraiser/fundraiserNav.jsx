@@ -113,6 +113,7 @@ export const FundraiserNav = () => {
             />
           </svg>
         </NavLink>
+        
         <button onClick={handlelogout} className="flex gap-2  font-bold">
           <svg
             width={25}

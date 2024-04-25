@@ -11,6 +11,8 @@ export const Dash = () => {
   const [total, setTotal] = useState(0);
   const [donors, setDonors] = useState(null);
   const [requests, setRequests] = useState([]);
+
+  const [mobile, setMobile] = useState(false);
   let image = document.getElementById("image");
   let letter = document.getElementById("letter");
   const token = localStorage.getItem("token");
@@ -171,7 +173,7 @@ export const Dash = () => {
         {requests && requests.length > 0 ? (
           requests.map((request) => (
             <div
-              className=" flex flex-col  h-full w-full md:w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
+              className=" flex flex-col  h-[50%] md:h-full w-full md:w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
               key={request.id}
             >
               <div className="flex flex-row w-full  md:justify-between items-center m-2 ">
@@ -232,8 +234,8 @@ export const Dash = () => {
                   <p className="text-md m-4">{request.description}</p>
                 </div>
                 <div className="flex flex-col justify-between gap-5 items-start w-[30%] h-full p-2 ">
-                  <div className="h-[40%]">
-                    <div className="flex items-center gap-2">
+                  <div className=" h-[40%]">
+                    <div className="flex flex-col md:flex-row items-center gap-2">
                       <h1 className="text-sm text-green-500">
                         ${request.goal}
                       </h1>
@@ -320,7 +322,72 @@ export const Dash = () => {
             )}
           </div>
         </div>
+        <button
+          onClick={() => setMobile(true)}
+          className="bg-green-500 w-[30%] p-2 m-2 rounded-lg text-white font-bold block md:hidden"
+        >
+          Consult donors
+        </button>
+        <div className="w-full h-[20%]  block md:hidden bg-white drop-shadow-lg"></div>
       </div>
+
+      {mobile && (
+        <div className="fixed w-full h-full bg-white left-0 top-0">
+          <div className="h-[5%] w-full m-2 flex justify-end ">
+            <button onClick={() => setMobile(false)} className="mr-3">
+              <svg
+                width={40}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="#000000"
+                  d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className=" w-full  gap-4 h-[90%] md:h-full flex flex-col p-2 bg-white drop-shadow-lg overflow-auto ">
+            <h3 className=" text-[#344767] font-bold text-sm mb-3 ">
+              Donors :{" "}
+            </h3>
+            <div className="flex flex-col  gap-2 ">
+              {donors ? (
+                donors.map((donor, index) => {
+                  return (
+                    <div
+                      className=" rounded-lg p-2 bg-slate-50 w-[90%] flex items-center"
+                      key={index}
+                    >
+                      <div className="flex gap-2 ">
+                        <img
+                          className="w-[25%] rounded-full "
+                          src={donor.users.image}
+                          alt="..."
+                        />
+                        <div className="flex flex-col ">
+                          <h3 className="text-[#344767] text-sm font-bold">
+                            {donor.users.first_name}
+                          </h3>
+                          <h3 className="text-[#344767] text-sm font-bold">
+                            {donor.users.family_name}
+                          </h3>
+                        </div>
+                      </div>
+                      <h3 className="text-2xl text-green-500 font-bold">
+                        {donor.donations.amount}DH
+                      </h3>
+                    </div>
+                  );
+                })
+              ) : (
+                <h3>You have no donors</h3>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {pop && (
         <div className="absolute h-[90%] w-[70%]  p-3 bg-[#edeff2] top-[3%] left-[20%] rounded-lg ">
           <div className="flex w-full justify-end p-2">
