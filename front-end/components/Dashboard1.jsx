@@ -131,6 +131,37 @@ export const Dashboardinv = () => {
     }
   };
 
+  const handleRefund = async (id)=>{
+    try {
+      const res = await axios.get(`http://localhost/api/investor/refund/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchLoans();
+      fetchInvestors();
+      fetchPortfolio();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleDelete = async(id)=>{
+    try {
+      const res = await axios.get(`http://localhost/api/loan/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res);
+      console.log(id);
+      fetchLoans();
+      fetchInvestors();
+      fetchPortfolio();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className=" md:flex h-full w-full gap-3  ">
       <div className="flex flex-col w-full">
@@ -182,7 +213,7 @@ export const Dashboardinv = () => {
                     </h2>
                   </div>
                   <div className="flex w-[30%] gap-3 justify-around items-center mr-3">
-                    <button className="flex text-[#f44335] font-bold items-center gap-2">
+                    <button onClick={()=>{handleDelete(loans[0].id)}} className="flex text-[#f44335] font-bold items-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512"
@@ -438,7 +469,7 @@ export const Dashboardinv = () => {
                 <h4>{loans[0].amount}</h4>
               </span>
             </div>
-            <div className="h-[80%] flex flex-col justify-start w-[90%] overflow-auto ">
+            <div className="h-[80%] flex flex-col justify-start w-[90%] gap-2 overflow-auto ">
               {investors ? (
                 investors.map((info) => {
                   return (
@@ -457,7 +488,7 @@ export const Dashboardinv = () => {
                       </div>
                       <div className="flex flex-col text-green-500 font-bold items-center ">
                         <h1 className="text-lg ">{info.investments.amount}DH</h1>
-                        <button className="p-2 bg-green-500 rounded-lg text-white" value={info.investments.id}>refund</button>
+                        <button onClick={() => handleRefund(info.investments.id)} className="p-2 bg-green-500 rounded-lg text-white">refund</button>
                       </div>
                     </div>
                   );

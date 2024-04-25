@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Investments;
 use App\Models\Investor;
 use App\Models\Portfolio;
 use App\Models\User;
@@ -10,38 +11,56 @@ use Illuminate\Http\Request;
 
 class InvestorController extends Controller
 {
-    public function check() {
+    public function check()
+    {
 
         try {
-            $inv = Investor::where('user_id' , auth()->user()->id)->first();
+            $inv = Investor::where('user_id', auth()->user()->id)->first();
             if ($inv) {
-                $port = Portfolio::where('investor_id' , $inv->id)->first();
+                $port = Portfolio::where('investor_id', $inv->id)->first();
                 if ($port) {
                     $user = User::where('id', auth()->user()->id)->first();
-                    return response()->json(['res'=>$port ,'msg'=>'portfolio exist' , 'user'=>$user] , 200);
-                }else{
-                    return response()->json(['res'=>'no portfolio was found'] , 200);
+                    return response()->json(['res' => $port, 'msg' => 'portfolio exist', 'user' => $user], 200);
+                } else {
+                    return response()->json(['res' => 'no portfolio was found'], 200);
                 }
-            }else{
-                return response()->json(['res'=>'Register your Profile first'] , 200);
+            } else {
+                return response()->json(['res' => 'Register your Profile first'], 200);
             }
         } catch (\Exception $e) {
-            return response()->json(['res'=>$e->getMessage()] , 401);
+            return response()->json(['res' => $e->getMessage()], 401);
         }
     }
-    public function createPortfolio(Request $r){
-        $inv = Investor::where('user_id' , auth()->user()->id)->first();
+    public function createPortfolio(Request $r)
+    {
+        $inv = Investor::where('user_id', auth()->user()->id)->first();
         try {
-            if($inv){
+            if ($inv) {
                 Portfolio::create([
-                    'balance'=>$r->balance ,
-                    'investor_id'=> $inv->id]);
-                    return response()->json(['res'=>'Portfolio created Succesfully'],200);
-            }else{
-                return response()->json(['res'=>'no investor was found'],401);
+                    'balance' => $r->balance,
+                    'investor_id' => $inv->id
+                ]);
+                return response()->json(['res' => 'Portfolio created Succesfully'], 200);
+            } else {
+                return response()->json(['res' => 'no investor was found'], 401);
             }
         } catch (\Exception $e) {
-            return response()->json(['res'=>$e->getMessage()]);
+            return response()->json(['res' => $e->getMessage()]);
+        }
+    }
+    public function refund($id)
+    {
+        try {
+            $investement = Investments::where('id', $id)->first();
+            $inv = Investor::where('user_id', auth()->user()->id)->first();
+            $portfolio = Portfolio::where('investor_id', $inv->id)->first();
+            $portfolio->update([
+                'balance' => $portfolio->balance - $investement->amount
+            ]);
+            $investement->delete();
+            return response()->json('Investor refunded succesfully', 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
         }
     }
 }

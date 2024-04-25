@@ -60,7 +60,9 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
     Route::post('/portfolio/invest' , [PortfolioController::class , 'invest']);
     Route::get('/donations/get' , [FundingRequestController::class , 'getFunds']);
     Route::get('/fetch/investors' , [PortfolioController::class , 'fetchInvestors']);
-
+    Route::get('/investor/refund/{id}' , [InvestorController::class , 'refund']);
+    Route::get('/loan/delete/{id}' , [LoansController::class , 'destroy']);
+    
 });
 
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
