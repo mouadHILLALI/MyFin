@@ -33,9 +33,10 @@ Route::post('/user/login', [UserController::class, 'login'])->middleware('guest'
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/verify', [UserController::class, 'verifyProfile']);
     Route::get('/user/check', [UserController::class, 'check']);
-    Route::get('/user/data', [UserController::class, 'getData']);
+    Route::get('/user/data', [UserController::class, 'getData']);   
     Route::post('/user/logout', [UserController::class, 'logout']);
     Route::get('/fund/fetch/{id}' , [FundingRequestController::class , 'fetchFund']);
+    Route::post('/donate' , [FundingRequestController::class , 'donate']);
 });
 
 Route::middleware('auth:sanctum', 'Admin')->group(function () {

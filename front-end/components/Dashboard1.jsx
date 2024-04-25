@@ -52,8 +52,8 @@ export const Dashboardinv = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setInvestment(res.data.balance);
-      setProfit(res.data.estimated_profit);
+      setInvestment(res.data.data.balance);
+      setProfit(res.data.data.estimated_profit);
     } catch (error) {
       console.log(error);
     }

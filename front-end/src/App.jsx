@@ -33,6 +33,7 @@ function App() {
           <Route path="/fundraiser" element={<Fundraiser />} />
           <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
         </Route>
+        <Route path="*" element={<ErrorPage />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route index element={<Home />} />

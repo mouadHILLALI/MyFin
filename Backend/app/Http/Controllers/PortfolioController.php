@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\Investor;
@@ -16,7 +17,14 @@ class PortfolioController extends Controller
         try {
             $inv = Investor::where('user_id', auth()->user()->id)->first();
             $portfolio = Portfolio::where('investor_id', $inv->id)->first();
-            return response()->json($portfolio, 200);
+            $donations = Donation::where('investor_id', $inv->id)->get();
+            $total = 0;
+            if ($donations) {
+                foreach ($donations as $donation) {
+                    $total += $donation->amount;
+                }
+            }
+            return response()->json(['data' => $portfolio, "total" => $total], 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }

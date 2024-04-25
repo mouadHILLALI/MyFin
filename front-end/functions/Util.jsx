@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const token = localStorage.getItem("token");
+const API = "http://localhost/api/";
 export const logout = async () => {
   const navigate = useNavigate();
   try {
@@ -13,7 +14,7 @@ export const logout = async () => {
       },
     });*/
     localStorage.clear();
-     navigate('/');
+    navigate("/");
   } catch (error) {
     console.log(error);
   }
@@ -28,6 +29,20 @@ export const check = async () => {
     });
     let data = res.data.data;
     return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchPortfolio = async () => {
+  try {
+    const res = await axios.get(API + "portfolio/get", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    let data = res.data;
+    return data ;
   } catch (error) {
     console.log(error);
   }

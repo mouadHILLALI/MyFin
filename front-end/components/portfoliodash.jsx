@@ -30,8 +30,8 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setBalance(res.data.balance);
-      setProfit(res.data.estimated_profit);
+      setBalance(res.data.data.balance);
+      setProfit(res.data.data.estimated_profit);
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +75,6 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
       fetchAllLoans();
       fetchPortfolio();
       setShow(false);

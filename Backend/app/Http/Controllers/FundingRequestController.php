@@ -6,7 +6,10 @@ use App\Models\User;
 use App\Models\Fundraiser;
 use Illuminate\Http\Request;
 use App\Http\Requests\FundingRequest;
+use App\Models\Donation;
 use App\Models\FundingRequest as ModelsFundingRequest;
+use App\Models\Investor;
+use App\Models\Portfolio;
 
 class FundingRequestController extends Controller
 {
@@ -23,7 +26,7 @@ class FundingRequestController extends Controller
                     'title' => $r->title,
                     'description' => $r->description,
                     'image' => $imageURL,
-                    'category'=>$r->category ,
+                    'category' => $r->category,
                     'letter' => $fileURL,
                     'goal' => $r->goal,
                     'fundraiser_id' => $fund->id,
@@ -37,10 +40,12 @@ class FundingRequestController extends Controller
         }
     }
 
-    public function fetchFund($id){
+    public function fetchFund($id)
+    {
         try {
-            $fund= ModelsFundingRequest::where('id' , $id)->first();
-            return response()->json($fund, 200);
+            $fund = ModelsFundingRequest::where('id', $id)->first();
+
+            return response()->json(['fund' => $fund], 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
@@ -145,6 +150,32 @@ class FundingRequestController extends Controller
             $fund = ModelsFundingRequest::where('id', $id)->first();
             $fund->delete();
             return response()->json('deleted succesfully', 200);
+        } catch (\Exception $e) {
+            return response($e->getMessage());
+        }
+    }
+
+    public function donate(Request $r)
+    {
+        try {
+            $inv = Investor::where('user_id', auth()->user()->id)->first();
+            $donation = Donation::where('fundingrequest_id', (int)$r->id)->where('investor_id', $inv->id)->first();
+            $portfolio = Portfolio::where('investor_id', $inv->id)->first();
+            $portfolio->update([
+                'amount' => $portfolio->balance - (int)$r->amount
+            ]);
+            if ($donation) {
+                $donation->update(
+                    ['amount' => $donation->amount + (int)$r->amount]
+                );
+            } else {
+                Donation::create([
+                    'fundingrequest_id' => (int)$r->id,
+                    'investor_id' => (int)$inv->id,
+                    'amount' => (int)$r->amount
+                ]);
+            }
+            return response()->json('You have Donated succesfully', 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
