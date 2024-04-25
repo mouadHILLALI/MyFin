@@ -18,7 +18,7 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setData(res.data.data);
+      setData(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +56,7 @@ export const PortfolioDash = () => {
   const handleProfit = async (rate, id) => {
     const investment = parseFloat(amount);
     if (isNaN(investment) || investment <= 0) {
-      console.log("Invalid ²investment amount");
+      console.log("Invalid investment amount");
       return;
     }
     const percent = rate / 100;
@@ -75,9 +75,9 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(res);
       fetchAllLoans();
       fetchPortfolio();
-      console.log(res);
       setShow(false);
     } catch (error) {
       console.log(error);
@@ -88,11 +88,15 @@ export const PortfolioDash = () => {
       <div className=" w-full md:h-[15%] mt-5 mb-5 flex flex-col md:flex-row gap-3  ">
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
           <h3 className="text-sm font-bold">Your Balance :</h3>
-          <h1 className="text-[#02a95c] text-2xl font-bold ">{balance ? balance :0 }DH</h1>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">
+            {balance ? balance : 0}DH
+          </h1>
         </div>
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
           <h3 className="text-sm font-bold">Your Estimated Profit :</h3>
-          <h1 className="text-[#02a95c] text-2xl font-bold ">{profit ? profit : 0}DH</h1>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">
+            {profit ? profit : 0}DH
+          </h1>
         </div>
       </div>
 
@@ -226,7 +230,7 @@ export const PortfolioDash = () => {
                   className="flex mt-3 flex-col gap-3"
                 >
                   <input
-                    type="text"
+                    type="number"
                     className="text-center w-full rounded-lg p-2"
                     placeholder="enter the amount you wish to invest :"
                     onChange={(e) => setAmount(e.target.value)}

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const VerifyProfile = () => {
   const [CIN, setCIN] = useState("");
+  const [error, setError] = useState("");
   let token = localStorage.getItem("token");
   const navigate = useNavigate();
   const handleform = async (e) => {
@@ -15,8 +16,12 @@ export const VerifyProfile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
-      navigate("/investor");
+      if (res.response.status == 403) {
+        setError(res.data.res);
+      } else if (res.data.status == 200) {
+        navigate("/investor");
+      }
+      console.log(res.res);
     } catch (error) {
       console.log(error);
     }
@@ -26,6 +31,9 @@ export const VerifyProfile = () => {
       onSubmit={handleform}
       className=" m-auto h-[40%] md:h-[60%] bg-white drop-shadow-lg p-2 flex flex-col items-center justify-center w-[80%] md:w-[60%] flex flex-col gap-3"
     >
+      <div className="w-[80%]">
+        <h4>{error}</h4>
+      </div>
       <h1 className="text-xl m-4 text-[#344767]  font-bold">
         Please enter your identity card to verify your account :
       </h1>

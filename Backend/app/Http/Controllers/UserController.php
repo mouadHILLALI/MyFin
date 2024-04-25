@@ -49,12 +49,10 @@ class UserController extends Controller
                 $token = $user->createToken('token')->plainTextToken;
                 return response()->json(['status' => 200, 'token' => $token, 'name' => auth()->user()->name, 'image' => auth()->user()->image, 'role' => auth()->user()->role]);
             } else {
-                return response()->json(['data'=>'wrong credentials' , 'status'=>401]);
-                   
+                return response()->json(['data' => 'wrong credentials', 'status' => 401]);
             }
         } catch (\Exception $e) {
             return response($e->getMessage(), 500);
-               
         }
     }
     public function logout(Request $r)
@@ -64,7 +62,7 @@ class UserController extends Controller
             $r->user()->currentAccessToken()->delete();
             return response()->json(['message' => 'Successfully logged out', 'status' => true], 200);
         } catch (\Exception $e) {
-           return response($e->getMessage());
+            return response($e->getMessage());
         }
     }
     public function check()
@@ -96,11 +94,16 @@ class UserController extends Controller
         switch ($role) {
             case 'Investor':
                 try {
-                    Investor::create([
-                        'CIN' => $r->CIN,
-                        'user_id' => auth()->user()->id
-                    ]);
-                    return response()->json('Registerd succesfully', 200);
+                    $inv = Investor::where('CIN', $r->CIN);
+                    if ($inv) {
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 403);
+                    } else {
+                        Investor::create([
+                            'CIN' => $r->CIN,
+                            'user_id' => auth()->user()->id
+                        ]);
+                        return response()->json('Registerd succesfully', 200);
+                    }
                 } catch (\Exception $e) {
                     return response($e->getMessage());
                 }
@@ -108,11 +111,17 @@ class UserController extends Controller
                 break;
             case 'FundRaiser':
                 try {
-                    Fundraiser::create([
-                        'CIN' => $r->CIN,
-                        'user_id' => auth()->user()->id
-                    ]);
-                    return response()->json('Registerd succesfully', 200);
+                    $fund = Fundraiser::where('CIN', $r->CIN);
+                    if ($fund) {
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 403);
+                    } else {
+
+                        Fundraiser::create([
+                            'CIN' => $r->CIN,
+                            'user_id' => auth()->user()->id
+                        ]);
+                        return response()->json('Registerd succesfully', 200);
+                    }
                 } catch (\Exception $e) {
                     return response($e->getMessage());
                 }

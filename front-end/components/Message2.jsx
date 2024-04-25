@@ -14,7 +14,7 @@ export const Message2 = () => {
                   Authorization: `Bearer ${token}`,
                 },
               });
-              console.log(res);
+              window.location.reload();
         } catch (error) {
             console.log(error);
         }
