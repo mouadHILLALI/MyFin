@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('letter');
             $table->integer('goal');
             $table->integer('reviewd')->default(0);
+            $table->string('category');
             $table->foreignId('fundraiser_id')->constrained();
             $table->timestamps();
         });

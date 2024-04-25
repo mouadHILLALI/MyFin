@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('investor_id')->constrained();
             $table->foreignId('fundingrequest_id')->constrained();
-            $table->timestamps();
+            $table->string('amount');
+            $table->timestamps();   
         });
     }
 

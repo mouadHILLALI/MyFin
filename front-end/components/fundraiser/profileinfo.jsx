@@ -4,29 +4,28 @@ import axios from "axios";
 export const ProfileInfo = () => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost/api/user/data", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const userData = res.data.user;
+      const accountData = res.data.account;
+      const updatedUser = {
+        owner: userData,
+        info: accountData,
+      };
+      setUser(updatedUser);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost/api/user/data", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const userData = res.data.user;
-        const accountData = res.data.account;
-        const updatedUser = {
-          owner: userData,
-          info: accountData,
-        };
-        setUser(updatedUser);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
   return (
@@ -71,14 +70,16 @@ export const ProfileInfo = () => {
                 <h2 className=" font-bold m-4 w-full ">
                   Profile Informations :
                 </h2>
-                <div className="flex flex-col m-4 gap-1">
-                  <div className="flex  text-sm">
-                    <h3>Email : {user.owner.email}</h3>
+                {user.owner && (
+                  <div className="flex flex-col m-4 gap-1">
+                    <div className="flex  text-sm">
+                      <h3>Email : {user.owner.email ? user.owner.email  : "no email" }</h3>
+                    </div>
+                    <div className="flex  text-sm">
+                      <h3>CIN : {user.info.CIN ? user.info.CIN : "no ID"}</h3>
+                    </div>
                   </div>
-                  <div className="flex  text-sm">
-                    <h3>CIN : {user.info.CIN}</h3>
-                  </div>
-                </div>
+                )}
               </div>
 
               <div className="flex flex-col w-[30%] text-[#344767]">

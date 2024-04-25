@@ -23,6 +23,7 @@ class FundingRequestController extends Controller
                     'title' => $r->title,
                     'description' => $r->description,
                     'image' => $imageURL,
+                    'category'=>$r->category ,
                     'letter' => $fileURL,
                     'goal' => $r->goal,
                     'fundraiser_id' => $fund->id,

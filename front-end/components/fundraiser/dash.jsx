@@ -5,6 +5,7 @@ export const Dash = () => {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [id, setID] = useState(0);
   const [goal, setGoal] = useState(1000);
   const [requests, setRequests] = useState([]);
@@ -18,6 +19,7 @@ export const Dash = () => {
       fr.append("title", title);
       fr.append("description", description);
       fr.append("goal", goal);
+      fr.append("category", category);
       if (image.files && image.files[0]) {
         fr.append("image", image.files[0]);
       }
@@ -76,6 +78,7 @@ export const Dash = () => {
       fr.append("title", title);
       fr.append("description", description);
       fr.append("goal", goal);
+      fr.append("category", category);
       if (image.files && image.files[0]) {
         fr.append("image", image.files[0]);
       }
@@ -147,15 +150,13 @@ export const Dash = () => {
 
         <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
           <h3 className="text-sm text-[#344767] font-bold">compagain Goal :</h3>
-        <button className="text-sm text-green-500 font-bold">
-             {goal}DH
-            </button>
+          <button className="text-sm text-green-500 font-bold">{goal}DH</button>
         </div>
         <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
       </div>
 
       <div className="flex h-[70%] flex-col md:flex-row justify-between w-full ">
-        {requests.length !== 0 ? (
+        {requests && requests.length > 0 ? (
           requests.map((request) => (
             <div
               className=" flex flex-col  h-full w-full md:w-[65%] bg-white p-2 drop-shadow-lg rounded-lg "
@@ -309,6 +310,32 @@ export const Dash = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
+            <select
+              type="textarea"
+              className="p-4 rounded-[15px] text-center "
+              name="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Health"
+              >
+                Health
+              </option>
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Enviroment"
+              >
+                Enviroment
+              </option>
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Education"
+              >
+                Education
+              </option>
+            </select>
 
             <div className="flex w-full justify-around">
               <div className="flex flex-col items-center">

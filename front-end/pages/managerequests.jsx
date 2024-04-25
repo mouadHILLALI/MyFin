@@ -70,7 +70,7 @@ export const ManageRequests = () => {
     try {
       const fr = new FormData();
       fr.append("search", search);
-      const res = await axios.post("http://localhost/api/admin/search",fr ,{
+      const res = await axios.post("http://localhost/api/admin/search", fr, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,7 +98,8 @@ export const ManageRequests = () => {
                     setLoanActive(true);
                     setType("loan");
                     setFundingActive(false);
-                    data.length === 0 && fetchLoans();
+                    setData([])
+                    fetchLoans();
                   }}
                   className={
                     loanActive
@@ -113,6 +114,7 @@ export const ManageRequests = () => {
                     setLoanActive(false);
                     setType("fund");
                     setFundingActive(true);
+                    setData([])
                     fetchfunds();
                   }}
                   className={
@@ -164,53 +166,57 @@ export const ManageRequests = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((info, index) => (
-                      <tr key={index} className="">
-                        <th
-                          scope="row"
-                          className="px-2 flex gap-2  items-center py-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {info.user && info.user.image && (
-                            <img
-                              src={info.user.image}
-                              className="rounded-[100%] w-[40%] h-[40%] "
-                              alt=""
-                            />
-                          )}
-                          {info.user && info.user.first_name}
-                        </th>
-                        <td className="px-8 py-4">
-                          {info.user && info.user.email}
-                        </td>
-                        <td className="px-8 py-4">
-                          {info.loan && info.loan.amount}DH
-                        </td>
-                        <td className="px-8 py-4">
-                          {info.loan && (
-                            <a
-                              target="blank"
-                              href={
-                                `http://localhost/storage/` +
-                                info.loan.business_model
-                              }
+                    {data &&
+                      data.map((info, index) => (
+                        <tr key={index} className="">
+                          <th
+                            scope="row"
+                            className="px-2 flex gap-2  items-center py-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {info.user && info.user.image && (
+                              <img
+                                src={info.user.image}
+                                className="rounded-[100%] w-[40%] h-[40%] "
+                                alt=""
+                              />
+                            )}
+                            {info.user && info.user.first_name}
+                          </th>
+                          <td className="px-8 py-4">
+                            {info.user && info.user.email}
+                          </td>
+                          <td className="px-8 py-4">
+                            {info.loan && info.loan.amount}DH
+                          </td>
+                          <td className="px-8 py-4">
+                            {info.loan && (
+                              <a
+                                target="blank"
+                                href={
+                                  `http://localhost/storage/` +
+                                  info.loan.business_model
+                                }
+                              >
+                                Bussniss Model
+                              </a>
+                            )}
+                          </td>
+                          <td className="px-8 py-4">
+                            {info.loan && info.loan.profit_rate}%
+                          </td>
+                          <td className="px-8 py-4">
+                            {info.loan && info.loan.duration} Days
+                          </td>
+                          <td className="px-8 py-4">
+                            <button
+                              onClick={handleApprove}
+                              value={info.loan.id}
                             >
-                              Bussniss Model
-                            </a>
-                          )}
-                        </td>
-                        <td className="px-8 py-4">
-                          {info.loan && info.loan.profit_rate}%
-                        </td>
-                        <td className="px-8 py-4">
-                          {info.loan && info.loan.duration} Days
-                        </td>
-                        <td className="px-8 py-4">
-                          <button onClick={handleApprove} value={info.loan.id}>
-                            Approve
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                              Approve
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>

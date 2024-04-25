@@ -15,6 +15,7 @@ class FundingRequest extends Model
         'image',
         'letter',
         'goal',
+        'category',
         'fundraiser_id',
         'reviewd',
     ];

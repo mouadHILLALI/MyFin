@@ -11,43 +11,31 @@ import { Admin } from "../pages/admin";
 import { ManageRequests } from "../pages/managerequests";
 import { Donate } from "../components/donate";
 import { ErrorPage } from "../pages/errorPage";
-
+import PrivateRoutesAdmin from "../components/routes/privateroutesadmin";
+import PrivateRoutesInvestor from "../components/routes/privateroutesinvestor";
+import PrivateRoutesFundraiser from "../components/routes/privateroutesfund";
 function App() {
-  const role = localStorage.getItem("role");
-
-  const investorRoutes = (
-    <>
-      <Route path="/investor" element={<Investor />} />
-      <Route path="/investorprofile" element={<InvestorProfile />} />
-      <Route path="/portfolio" element={<Portfolio />} />
-      <Route path="/donate" element={<Donate />} />
-    </>
-  );
-
-  const fundraiserRoutes = (
-    <>
-      <Route path="/fundraiser" element={<Fundraiser />} />
-      <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
-    </>
-  );
-
-  const adminRoutes = (
-    <>
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/manage" element={<ManageRequests />} />
-    </>
-  );
-
   return (
     <BrowserRouter>
       <Routes>
-        {role === "Investor" ? investorRoutes : null}
-        {role === "Admin" ? adminRoutes : null}
-        {role === "FundRaiser" ? fundraiserRoutes : null}
+        <Route element={<PrivateRoutesAdmin />}>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/manage" element={<ManageRequests />} />
+        </Route>
+        <Route element={<PrivateRoutesInvestor />}>
+          <Route path="/investor" element={<Investor />} />
+          <Route path="/investorprofile" element={<InvestorProfile />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/donate" element={<Donate />} />
+        </Route>
+
+        <Route element={<PrivateRoutesFundraiser />}>
+          <Route path="/fundraiser" element={<Fundraiser />} />
+          <Route path="/fundraiserprofile" element={<FundRaiserProfile />} />
+        </Route>
         <Route path="/register" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route index element={<Home />} />
-        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

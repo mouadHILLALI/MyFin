@@ -13,7 +13,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const [nameError, setNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -29,43 +28,26 @@ const Register = () => {
       const form = new FormData();
       if (image || (image.files && image.files[0])) {
         form.append("image", image.files[0]);
-        setImageError("");
-      } else {
-        setImageError("Image is required. Please upload your image.");
       }
-
-      if (first_name.trim() !== "") {
-        form.append("first_name", first_name);
-        setNameError("");
-      } else {
-        setNameError("Please enter a valid name");
-      }
-
-      if (family_name.trim() !== "") {
-        form.append("family_name", family_name);
-        setLastNameError("");
-      } else {
-        setLastNameError("Please enter a valid last name");
-      }
-
-      if (emailRegex.test(email)) {
-        form.append("email", email);
-        setEmailError("");
-      } else {
-        setEmailError("Please enter a valid email");
-      }
-
+      form.append("first_name", first_name);
+      form.append("family_name", family_name);
+      form.append("email", email);
       form.append("password", password);
+
       setPasswordError("");
 
       form.append("role", role);
       setLoading(true);
       const res = await axios.post("http://localhost/api/user/register", form);
-
       localStorage.setItem("name", res.data.name);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("image", res.data.image);
       localStorage.setItem("role", res.data.role);
+      setFirst_name("");
+      setFamily_name("");
+      setEmail("");
+      setRole("");
+      setPassword("");
       if (res.data.status === 422) {
         setEmailError(res.data.data);
       }

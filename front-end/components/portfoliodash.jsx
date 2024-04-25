@@ -18,7 +18,7 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setData(res.data);
+      setData(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -88,11 +88,11 @@ export const PortfolioDash = () => {
       <div className=" w-full md:h-[15%] mt-5 mb-5 flex flex-col md:flex-row gap-3  ">
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
           <h3 className="text-sm font-bold">Your Balance :</h3>
-          <h1 className="text-[#02a95c] text-2xl font-bold ">{balance}DH</h1>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">{balance ? balance :0 }DH</h1>
         </div>
         <div className="h-full w-full md:w-[20%] bg-white p-2 rounded-lg  drop-shadow-lg ">
           <h3 className="text-sm font-bold">Your Estimated Profit :</h3>
-          <h1 className="text-[#02a95c] text-2xl font-bold ">{profit}DH</h1>
+          <h1 className="text-[#02a95c] text-2xl font-bold ">{profit ? profit : 0}DH</h1>
         </div>
       </div>
 
@@ -124,26 +124,26 @@ export const PortfolioDash = () => {
               </thead>
 
               <tbody>
-                {data.map((info, index) => {
-                  return (
+                {data && data.length > 0 ? (
+                  data.map((info, index) => (
                     <tr key={index}>
-                      <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                      <th className="border-t-0 flex items-center gap-2 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
                         <img
                           src={info.user.image}
-                          className="rounded-[100%] w-[15%] h-[15%] "
+                          className="rounded-[100%] w-[15%] h-[15%]"
                           alt=""
                         />
                         {info.user.first_name}
                       </th>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         {info.user.email}
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         {info.loan.amount}DH
                       </td>
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         <a href="" target="blank">
-                          Bussniss Model
+                          Business Model
                         </a>
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -157,14 +157,20 @@ export const PortfolioDash = () => {
                             fetchToInvest(info.loan.id);
                           }}
                           value={info.loan.id}
-                          className="p-2 bg-green-500 rounded-lg text-white font-bold "
+                          className="p-2 bg-green-500 rounded-lg text-white font-bold"
                         >
                           Invest
                         </button>
                       </td>
                     </tr>
-                  );
-                })}
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-center">
+                      No data available
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
