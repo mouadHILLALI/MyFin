@@ -141,7 +141,8 @@ class LoansController extends Controller
     public function destroy($id){
         try {
             $investments=Investments::where('loan_id',$id)->get();
-            if(!$investments){
+            
+            if(count($investments) === 0){
                 $loan = Loan::where('id', $id)->first();
                 $loan->delete();
                 return response()->json('loan deleted succesfully', 200);

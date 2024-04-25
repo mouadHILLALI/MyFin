@@ -48,10 +48,10 @@ const Register = () => {
       setEmail("");
       setRole("");
       setPassword("");
-      if (res.data.status === 422) {
+      if (res.status === 422) {
         setEmailError(res.data.data);
       }
-      if (res.data.status === 200) {
+      if (res.status === 200) {
         switch (role) {
           case "Investor":
             navigate("/investor");

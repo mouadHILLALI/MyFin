@@ -19,6 +19,7 @@ export const Donate = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      
       setData(res.data);
     } catch (error) {
       console.log(error);
@@ -50,7 +51,7 @@ export const Donate = () => {
     .catch((error) => {
       console.log("Error fetching portfolio:", error);
     });
-    
+
   useEffect(() => {
     fetchAllFunds();
   }, []);

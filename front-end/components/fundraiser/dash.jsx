@@ -8,6 +8,8 @@ export const Dash = () => {
   const [category, setCategory] = useState("");
   const [id, setID] = useState(0);
   const [goal, setGoal] = useState(1000);
+  const [total, setTotal] = useState(0);
+  const [donors, setDonors] = useState(null);
   const [requests, setRequests] = useState([]);
   let image = document.getElementById("image");
   let letter = document.getElementById("letter");
@@ -35,6 +37,7 @@ export const Dash = () => {
           },
         }
       );
+
       fetchrequest();
     } catch (error) {
       console.log(error);
@@ -46,7 +49,10 @@ export const Dash = () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setRequests(res.data);
+    setDonors(res.data.combinedData);
+    setTotal(res.data.total);
+    setGoal(res.data.data[0].goal);
+    setRequests(res.data.data);
   };
   useEffect(() => {
     try {
@@ -110,7 +116,6 @@ export const Dash = () => {
           },
         }
       );
-      console.log(res);
       fetchrequest();
     } catch (error) {
       console.log(error);
@@ -152,7 +157,14 @@ export const Dash = () => {
           <h3 className="text-sm text-[#344767] font-bold">compagain Goal :</h3>
           <button className="text-sm text-green-500 font-bold">{goal}DH</button>
         </div>
-        <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 "></div>
+        <div className="bg-[#ffffff] w-full md:w-[30%] md:h-[70%] flex flex-col items-center justify-center p-3 drop-shadow-lg rounded-lg gap-2 ">
+          <h3 className="text-sm text-[#344767] font-bold">
+            Total Donations :
+          </h3>
+          <button className="text-sm text-green-500 font-bold">
+            {total ? total : 0}DH
+          </button>
+        </div>
       </div>
 
       <div className="flex h-[70%] flex-col md:flex-row justify-between w-full ">
@@ -272,7 +284,42 @@ export const Dash = () => {
             </div>
           </div>
         )}
-        <div className=" w-full  md:w-[30%] h-[40%] md:h-full flex flex-col p-2 bg-white drop-shadow-lg "></div>
+        <div className=" w-full  md:w-[30%] h-[40%] md:h-full hidden md:block flex flex-col p-2 bg-white drop-shadow-lg overflow-auto ">
+          <h3 className=" text-[#344767] font-bold text-sm mb-3 ">Donors : </h3>
+          <div className="flex flex-col md:h-[60%]  gap-2 ">
+            {donors ? (
+              donors.map((donor, index) => {
+                return (
+                  <div
+                    className="h-[20%] rounded-lg p-2 bg-slate-50 w-[90%] flex items-center"
+                    key={index}
+                  >
+                    <div className="flex gap-2 ">
+                      <img
+                        className="w-[25%] rounded-full "
+                        src={donor.users.image}
+                        alt="..."
+                      />
+                      <div className="flex flex-col ">
+                        <h3 className="text-[#344767] text-sm font-bold">
+                          {donor.users.first_name}
+                        </h3>
+                        <h3 className="text-[#344767] text-sm font-bold">
+                          {donor.users.family_name}
+                        </h3>
+                      </div>
+                    </div>
+                    <h3 className="text-2xl text-green-500 font-bold">
+                      {donor.donations.amount}DH
+                    </h3>
+                  </div>
+                );
+              })
+            ) : (
+              <h3>You have no donors</h3>
+            )}
+          </div>
+        </div>
       </div>
       {pop && (
         <div className="absolute h-[90%] w-[70%]  p-3 bg-[#edeff2] top-[3%] left-[20%] rounded-lg ">
@@ -311,7 +358,7 @@ export const Dash = () => {
               onChange={(e) => setDescription(e.target.value)}
             />
             <select
-              type="textarea"
+              type="text"
               className="p-4 rounded-[15px] text-center "
               name="category"
               value={category}
@@ -429,7 +476,32 @@ export const Dash = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-
+            <select
+              type="text"
+              className="p-4 rounded-[15px] text-center "
+              name="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Health"
+              >
+                Health
+              </option>
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Enviroment"
+              >
+                Enviroment
+              </option>
+              <option
+                className="p-4 rounded-[15px] text-center "
+                value="Education"
+              >
+                Education
+              </option>
+            </select>
             <div className="flex w-full justify-around">
               <div className="flex flex-col items-center">
                 <label

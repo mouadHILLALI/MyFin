@@ -94,9 +94,9 @@ class UserController extends Controller
         switch ($role) {
             case 'Investor':
                 try {
-                    $inv = Investor::where('CIN', $r->CIN);
+                    $inv = Investor::where('CIN', $r->CIN)->first();
                     if ($inv) {
-                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 403);
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card']);
                     } else {
                         Investor::create([
                             'CIN' => $r->CIN,
@@ -107,15 +107,13 @@ class UserController extends Controller
                 } catch (\Exception $e) {
                     return response($e->getMessage());
                 }
-
                 break;
             case 'FundRaiser':
                 try {
-                    $fund = Fundraiser::where('CIN', $r->CIN);
+                    $fund = Fundraiser::where('CIN', $r->CIN)->first();
                     if ($fund) {
-                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 403);
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card']);
                     } else {
-
                         Fundraiser::create([
                             'CIN' => $r->CIN,
                             'user_id' => auth()->user()->id

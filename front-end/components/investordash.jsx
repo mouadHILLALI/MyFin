@@ -1,29 +1,33 @@
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
 import { Message1 } from "./message1.jsx";
 import { Dashboardinv } from "./Dashboard1.jsx";
+import axios from "axios";
 export const InvestorDash = () => {
-    let name = localStorage.getItem('name');
+  const token = localStorage.getItem("token");
     const [Check , setCheck] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
+    const check = async () => {
       try {
-        const data = await check();
-        if(data=='true'){
-            setCheck(true);
+        const res = await axios.get("http://localhost/api/user/check", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if(res.status===200){
+          setCheck(true);
         }
+        
       } catch (error) {
         console.log(error);
       }
     };
-
-    fetchData();
-  }, []);
+    useEffect(()=>{
+      check();
+    },[])
   return <>
    {
-    !Check ?<Message1/>: <Dashboardinv /> 
+    Check ?<Dashboardinv />:  <Message1/> 
    }
   </>
 };

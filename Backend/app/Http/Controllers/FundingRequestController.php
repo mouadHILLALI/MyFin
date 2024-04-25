@@ -55,7 +55,21 @@ class FundingRequestController extends Controller
         $fund = Fundraiser::where('user_id', auth()->user()->id)->first();
         if ($fund) {
             $requests = ModelsFundingRequest::where('fundraiser_id', $fund->id)->get();
-            return response()->json($requests, 200);
+            $donations = Donation::where('fundingrequest_id', $requests[0]->id)->get();
+            $total = 0;
+            $users = [];
+            foreach ($donations as $donation) {
+                $total  += $donation->amount;
+                $users[] = User::where('id', $donation->fundingrequest->fundraiser->user_id)->first();
+            }
+            $combinedData = [];
+            for ($i = 0; $i < count($donations); $i++) {
+                $combinedData[] = [
+                    'donations' => $donations[$i],
+                    'users' => isset($users[$i]) ? $users[$i] : null,
+                ];
+            }
+            return response()->json(['data' => $requests, 'total' => $total, 'combinedData'=>$combinedData], 200);
         } else {
             return response()->json('please register your profile first');
         }
@@ -134,6 +148,7 @@ class FundingRequestController extends Controller
                 'title' => $r->title,
                 'description' => $r->description,
                 'image' => $ImageURL ?? $fund->image,
+                'category' => $r->category,
                 'reviewd' => 0,
                 'letter' => $letterURL ?? $fund->letter,
                 'goal' => $r->goal,

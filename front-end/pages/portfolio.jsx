@@ -14,14 +14,13 @@ export const Portfolio = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        if (res.data.res != "no portfolio was found") {
+        if (res.status === 200) {
           setCheck(true);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
-
     check();
   }, []);
   return (
@@ -33,7 +32,7 @@ export const Portfolio = () => {
           </div>
         </div>
         <div className="w-full flex flex-col md:flex md:flex-col  md:w-[70%] ">
-          {!check ? <Message2 /> : <PortfolioDash />}
+          {check ? <PortfolioDash /> : <Message2 />}
         </div>
       </div>
     </>
