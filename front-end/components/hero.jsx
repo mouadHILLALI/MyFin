@@ -5,7 +5,7 @@ import hero from '../public/hero.png';
 function Hero() {
     return (
         <>
-            <section style={{ backgroundImage: `url(${hero})` }} className="w-full h-[80vh] bg-cover bg-center flex flex-col items-center">
+            <section style={{ backgroundImage: `url(${hero})` }} className="  w-full m-auto h-[80vh] bg-cover bg-center flex flex-col items-center">
                 <div className="w-[35%] m-auto flex flex-col items-center gap-4">
                     <h1 className="text-[#01743F] font-bold text-5xl text-center">
                     Learn More About 

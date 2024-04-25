@@ -8,7 +8,6 @@ function Home(){
     return <>
     <Navbar/>
     <Hero/>
-    <Slider/>
     <About/>
     <FAQ/>
     <Footer/>
