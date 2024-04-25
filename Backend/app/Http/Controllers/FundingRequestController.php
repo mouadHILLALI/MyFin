@@ -36,6 +36,15 @@ class FundingRequestController extends Controller
             return response()->json('please register your profile first');
         }
     }
+
+    public function fetchFund($id){
+        try {
+            $fund= ModelsFundingRequest::where('id' , $id)->first();
+            return response()->json($fund, 200);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
     public function show()
     {
         $fund = Fundraiser::where('user_id', auth()->user()->id)->first();

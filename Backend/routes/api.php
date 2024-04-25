@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/check', [UserController::class, 'check']);
     Route::get('/user/data', [UserController::class, 'getData']);
     Route::post('/user/logout', [UserController::class, 'logout']);
+    Route::get('/fund/fetch/{id}' , [FundingRequestController::class , 'fetchFund']);
 });
 
 Route::middleware('auth:sanctum', 'Admin')->group(function () {
