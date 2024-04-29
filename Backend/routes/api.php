@@ -68,7 +68,7 @@ Route::middleware('auth:sanctum', 'Investor')->group(function () {
 Route::middleware('auth:sanctum', 'Fundraiser')->group(function () {
     Route::post('/fundraiser/fundingrequest/create', [FundingRequestController::class , 'create']);
     Route::post('/fundraiser/fundingrequest/update', [FundingRequestController::class , 'update']);
-    Route::get('/fundraiser/fundingrequest/destroy/{id}', [FundingRequestController::class , 'destroy']);
+    Route::post('/fundraiser/fundingrequest/destroy', [FundingRequestController::class , 'destroy']);
     Route::get('/fundingrequests/show', [FundingRequestController::class , 'show']);
     Route::get('/fund/fetchData/{id}', [FundingRequestController::class , 'fetchEditData']);
 });

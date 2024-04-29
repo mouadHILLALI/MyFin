@@ -105,52 +105,60 @@ class LoansController extends Controller
     {
         try {
             $inv = Investor::where('user_id', auth()->user()->id)->first();
-            $loans = Loan::where('investor_id', '!=', $inv->id)->where('reviewd',1)->get();
-            $users = [];
-            foreach ($loans as $loan) {
-                $user = User::find($loan->investor->user_id);
-                if ($user) {
-                    $users[] = $user;
+            if ($inv) {
+                $loans = [];
+                if ($inv->id) {
+                    $loans = Loan::where('investor_id', '!=', $inv->id)->where('reviewd', 1)->get();
                 }
-            }
+                $users = [];
+                foreach ($loans as $loan) {
+                    $user = User::find($loan->investor->user_id);
+                    if ($user) {
+                        $users[] = $user;
+                    }
+                }
 
-            $combinedData = [];
-            for ($i = 0; $i < count($loans); $i++) {
-                $combinedData[] = [
-                    'loan' => $loans[$i],
-                    'user' => isset($users[$i]) ? $users[$i] : null,
-                ];
+                $combinedData = [];
+                for ($i = 0; $i < count($loans); $i++) {
+                    $combinedData[] = [
+                        'loan' => $loans[$i],
+                        'user' => isset($users[$i]) ? $users[$i] : null,
+                    ];
+                }
+                return response()->json($combinedData, 200);
+            } else {
+                return response('register your profile');
             }
-            return response()->json($combinedData, 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
     }
 
 
-    public function singleLoan($id){
+    public function singleLoan($id)
+    {
         try {
             $loan = Loan::where('id', $id)->first();
             $investments = Investments::where('loan_id', $loan->id)->get();
-            return response()->json(['loan'=>$loan,'investemnts'=>$investments], 200);
+            return response()->json(['loan' => $loan, 'investemnts' => $investments], 200);
         } catch (\Exception $e) {
             return response($e->getMessage());
         }
-      
     }
-    public function destroy($id){
+    public function destroy($id)
+    {
         try {
-            $investments=Investments::where('loan_id',$id)->get();
-            
-            if(count($investments) === 0){
+            $investments = Investments::where('loan_id', $id)->get();
+
+            if (count($investments) === 0) {
                 $loan = Loan::where('id', $id)->first();
                 $loan->delete();
                 return response()->json('loan deleted succesfully', 200);
-            }else{
+            } else {
                 return response()->json('refund Investors first', 200);
             }
         } catch (\Exception $e) {
-           return response($e->getMessage());
+            return response($e->getMessage());
         }
     }
 }

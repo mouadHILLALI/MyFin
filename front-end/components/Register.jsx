@@ -26,31 +26,20 @@ const Register = () => {
     e.preventDefault();
     try {
       const form = new FormData();
-      if (image || (image.files && image.files[0])) {
-        form.append("image", image.files[0]);
-      }
       form.append("first_name", first_name);
       form.append("family_name", family_name);
       form.append("email", email);
       form.append("password", password);
-
-      setPasswordError("");
-
+      if (image.files && image.files[0]) {
+        form.append("image", image.files[0]);
+      }
       form.append("role", role);
       setLoading(true);
       const res = await axios.post("http://localhost/api/user/register", form);
       localStorage.setItem("name", res.data.name);
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("image", res.data.image);
+      localStorage.setItem("image", res.data.image);  
       localStorage.setItem("role", res.data.role);
-      setFirst_name("");
-      setFamily_name("");
-      setEmail("");
-      setRole("");
-      setPassword("");
-      if (res.status === 422) {
-        setEmailError(res.data.data);
-      }
       if (res.status === 200) {
         switch (role) {
           case "Investor":
@@ -66,6 +55,8 @@ const Register = () => {
             navigate("/");
             break;
         }
+      } else {
+        setEmailError("an error occured while registering");
       }
     } catch (error) {
       console.log(error);

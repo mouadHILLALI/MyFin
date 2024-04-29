@@ -12,6 +12,8 @@ export const ProfileInfo = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(res);
+      const investments = res.data.investments ? res.data.investments : [];
       const userData = res.data.user;
       const accountData = res.data.account;
       const updatedUser = {

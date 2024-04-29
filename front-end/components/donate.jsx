@@ -65,7 +65,6 @@ export const Donate = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
       fetchAllFunds();
     } catch (error) {
       console.log(error);

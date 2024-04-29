@@ -82,6 +82,7 @@ export const Dashboardinv = () => {
           },
         }
       );
+      console.log(res);
       fetchLoans();
       fetchInvestors();
     } catch (error) {

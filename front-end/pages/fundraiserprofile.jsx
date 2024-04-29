@@ -9,7 +9,7 @@ export const FundRaiserProfile = () => {
     const fetchData = async () => {
       try {
         const data = await check();
-        if (data == "true") {
+        if (data.status === 200) {
           setCheck(true);
         }
       } catch (error) {

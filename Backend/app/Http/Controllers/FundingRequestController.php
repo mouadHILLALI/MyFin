@@ -55,7 +55,13 @@ class FundingRequestController extends Controller
         $fund = Fundraiser::where('user_id', auth()->user()->id)->first();
         if ($fund) {
             $requests = ModelsFundingRequest::where('fundraiser_id', $fund->id)->get();
-            $donations = Donation::where('fundingrequest_id', $requests[0]->id)->get();
+            if (!$requests) {
+                return response()->json('no request was found', 404);
+            }
+            $donations = [];
+            foreach ($requests as $request) {
+                $donations = Donation::where('fundingrequest_id', $request->id)->get();
+            }
             $total = 0;
             $users = [];
             foreach ($donations as $donation) {
@@ -69,7 +75,7 @@ class FundingRequestController extends Controller
                     'users' => isset($users[$i]) ? $users[$i] : null,
                 ];
             }
-            return response()->json(['data' => $requests, 'total' => $total, 'combinedData'=>$combinedData], 200);
+            return response()->json(['data' => $requests, 'total' => $total, 'combinedData' => $combinedData], 200);
         } else {
             return response()->json('please register your profile first');
         }
@@ -159,16 +165,24 @@ class FundingRequestController extends Controller
             return response($e->getMessage());
         }
     }
-    public function destroy($id)
+    public function destroy(Request $r)
     {
         try {
-            $fund = ModelsFundingRequest::where('id', $id)->first();
+
+            $fund = ModelsFundingRequest::find($r->id);
+
+
+            if (!$fund) {
+                return response()->json('Funding request not found', 404);
+            }
             $fund->delete();
-            return response()->json('deleted succesfully', 200);
+
+            return response()->json('Deleted successfully', 200);
         } catch (\Exception $e) {
-            return response($e->getMessage());
+            return response($e->getMessage(), 500);
         }
     }
+
 
     public function donate(Request $r)
     {

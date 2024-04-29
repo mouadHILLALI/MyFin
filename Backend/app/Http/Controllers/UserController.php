@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\VerifyRequest;
 use App\Models\Fundraiser;
+use App\Models\Investments;
 use App\Models\Investor;
 
 class UserController extends Controller
@@ -72,14 +73,14 @@ class UserController extends Controller
             case 'Investor':
                 $check = Investor::where('user_id', auth()->user()->id)->first();
                 if (!$check) {
-                    return response()->json(['data' => 'false'], 200);
+                    return response()->json(['data' => 'false'], 404);
                 }
                 return response()->json(['data' => 'true'], 200);
                 break;
             case 'FundRaiser':
                 $check = Fundraiser::where('user_id', auth()->user()->id)->first();
                 if (!$check) {
-                    return response()->json(['data' => 'false'], 200);
+                    return response()->json(['data' => 'false'], 404);
                 }
                 return response()->json(['data' => 'true'], 200);
                 break;
@@ -96,7 +97,7 @@ class UserController extends Controller
                 try {
                     $inv = Investor::where('CIN', $r->CIN)->first();
                     if ($inv) {
-                        return response()->json(['res' => 'CIN already exist enter a valid ID card']);
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 422);
                     } else {
                         Investor::create([
                             'CIN' => $r->CIN,
@@ -112,7 +113,7 @@ class UserController extends Controller
                 try {
                     $fund = Fundraiser::where('CIN', $r->CIN)->first();
                     if ($fund) {
-                        return response()->json(['res' => 'CIN already exist enter a valid ID card']);
+                        return response()->json(['res' => 'CIN already exist enter a valid ID card'], 422);
                     } else {
                         Fundraiser::create([
                             'CIN' => $r->CIN,
@@ -136,7 +137,12 @@ class UserController extends Controller
             switch (auth()->user()->role) {
                 case 'Investor':
                     $investor = Investor::where('user_id', auth()->user()->id)->first();
-                    return response()->json(['user' => $user, 'account' => $investor], 200);
+                    if ($investor) {
+                        return response()->json(['user' => $user, 'account' => $investor], 200);
+                    } else {
+
+                        return response()->json(['user' => $user], 200);
+                    }
                     break;
                 case 'FundRaiser':
                     $fundraiser = Fundraiser::where('user_id', auth()->user()->id)->first();

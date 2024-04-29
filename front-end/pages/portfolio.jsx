@@ -1,27 +1,25 @@
 import { useEffect, useState } from "react";
 import InvestorNavbar from "../components/investorNav";
 import axios from "axios";
+import { check } from "../functions/Util";
 import { Message2 } from "../components/Message2";
 import { PortfolioDash } from "../components/portfoliodash";
 export const Portfolio = () => {
-  const [check, setCheck] = useState(false);
+  const [Check, setCheck] = useState(false);
   const token = localStorage.getItem("token");
   useEffect(() => {
-    const check = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost/api/investor/check", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (res.status === 200) {
+        const data = await check();
+        if (data.status === 200) {
           setCheck(true);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
-    check();
+
+    fetchData();
   }, []);
   return (
     <>
@@ -32,7 +30,7 @@ export const Portfolio = () => {
           </div>
         </div>
         <div className="w-full flex flex-col md:flex md:flex-col  md:w-[70%] ">
-          {check ? <PortfolioDash /> : <Message2 />}
+          {Check ? <PortfolioDash /> : <Message2 />}
         </div>
       </div>
     </>

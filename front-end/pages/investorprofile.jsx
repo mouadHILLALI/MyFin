@@ -7,18 +7,17 @@ import { VerifyProfile } from "../components/verifyprofile.jsx";
 import { ProfileInfo } from "../components/profileinfo.jsx";
 export const InvestorProfile = () => {
   const [Check, setCheck] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await check();
-        if (data == "true") {
-          setCheck(true);
-        }
-      } catch (error) { 
-        console.log(error);
+  const fetchData = async () => {
+    try {
+      const data = await check();
+      if (data.status === 200) {
+        setCheck(true);
       }
-    };
-
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 

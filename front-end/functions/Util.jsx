@@ -27,7 +27,7 @@ export const check = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    let data = res.data.data;
+    let data = res;
     return data;
   } catch (error) {
     console.log(error);

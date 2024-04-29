@@ -5,6 +5,8 @@ import axios from "axios";
 export const VerifyProfile = () => {
   const [CIN, setCIN] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -19,14 +21,14 @@ export const VerifyProfile = () => {
           Authorization: `Bearer ${token}`,
         },
       }); 
-      console.log(res);
       if (res.status === 200) {
         navigate("/fundraiser");
       } else {
-        console.log(res.data);
+        setError('CIN already exists');
       }
     } catch (error) {
       console.log(error);
+      setError('An error occurred.');
     } finally {
       setLoading(false);
     }
@@ -40,12 +42,16 @@ export const VerifyProfile = () => {
       <h1 className="text-xl m-4 text-[#344767] font-bold">
         Please enter your identity card to verify your account:
       </h1>
+      {error && <h2 className="text-red-500">{error}</h2>}
       <input
         placeholder="Enter Your CIN (e.g JM44553):"
         type="text"
         name="CIN"
         value={CIN}
-        onChange={(e) => setCIN(e.target.value)}
+        onChange={(e) => {
+          setCIN(e.target.value);
+          setError(""); 
+        }}
         className="w-[60%] p-2 rounded-lg"
       />
       <button

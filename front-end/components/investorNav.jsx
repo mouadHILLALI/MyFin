@@ -4,18 +4,17 @@ import { logout, check } from "../functions/Util.jsx";
 import { useNavigate } from "react-router-dom";
 function InvestorNavbar() {
   const [Check, setCheck] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await check();
-        if (data == "true") {
-          setCheck(true);
-        }
-      } catch (error) {
-        console.log(error);
+  const fetchData = async () => {
+    try {
+      const data = await check();
+      if (data.status === 200) {
+        setCheck(true);
       }
-    };
-
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
   const navigate = useNavigate();

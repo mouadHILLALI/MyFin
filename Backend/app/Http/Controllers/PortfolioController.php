@@ -15,7 +15,11 @@ class PortfolioController extends Controller
     public function get()
     {
         try {
+
             $inv = Investor::where('user_id', auth()->user()->id)->first();
+            if (!$inv) {
+                return response()->json('register your profile' , 404);
+            }
             $portfolio = Portfolio::where('investor_id', $inv->id)->first();
             $donations = Donation::where('investor_id', $inv->id)->get();
             $total = 0;

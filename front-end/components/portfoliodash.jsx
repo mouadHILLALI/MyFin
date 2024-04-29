@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export const PortfolioDash = () => {
   const API = "http://localhost/api/";
   const token = localStorage.getItem("token");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [balance, setBalance] = useState(0);
   const [profit, setProfit] = useState(0);
   const [amount, setAmount] = useState(0);
@@ -18,6 +18,7 @@ export const PortfolioDash = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(res);
       setData(res.data);
     } catch (error) {
       console.log(error);

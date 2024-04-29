@@ -53,15 +53,11 @@ export const Dash = () => {
     });
     setDonors(res.data.combinedData);
     setTotal(res.data.total);
-    setGoal(res.data.data[0].goal);
+    res.data.data.goal ? setGoal(res.data.data.goal) : setGoal(0);
     setRequests(res.data.data);
   };
   useEffect(() => {
-    try {
-      fetchrequest();
-    } catch (error) {
-      console.log(error);
-    }
+    fetchrequest();
   }, []);
   const fetchEditData = async (id) => {
     try {
@@ -110,15 +106,21 @@ export const Dash = () => {
   };
   const Delete = async (id) => {
     try {
-      const res = await axios.get(
-        `http://localhost/api/fundraiser/fundingrequest/destroy/${id}`,
+      let fr = new FormData();
+      fr.append("id", id);
+      const res = await axios.post(
+        `http://localhost/api/fundraiser/fundingrequest/destroy`,
+        fr,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      fetchrequest();
+      if (res.status === 200) {
+        fetchrequest();
+        console.log("here");
+      }
     } catch (error) {
       console.log(error);
     }

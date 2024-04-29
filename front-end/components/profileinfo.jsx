@@ -63,9 +63,9 @@ export const ProfileInfo = () => {
               )}
               <div className="flex flex-col ">
                 <h2 className="text-[#3d4f6e] font-bold ">
-                  {user.owner.first_name} <span>{user.owner.family_name}</span>
+                  {user.owner && user.owner.first_name} <span>{ user.owner && user.owner.family_name}</span>
                 </h2>
-                <h3 className="text-[#7b809a] text-sm ">{user.owner.role}</h3>
+                <h3 className="text-[#7b809a] text-sm ">{user.owner && user.owner.role}</h3>
               </div>
             </div>
             <div className="w-full flex flex-col  md:flex-row justify-evenly">
@@ -73,10 +73,10 @@ export const ProfileInfo = () => {
                 <h2 className=" font-bold m-4 w-full ">Profile Informations :</h2>
                 <div className="flex flex-col m-4 gap-1">
                   <div className="flex  text-sm">
-                    <h3>Email : {user.owner.email}</h3>
+                    <h3>Email : {user.owner && user.owner.email}</h3>
                   </div>
                   <div className="flex  text-sm">
-                    <h3>CIN : {user.info.CIN}</h3>
+                    <h3>CIN : {user.owner.CIN ? user.info.CIN : "No CIN"}</h3>
                   </div>
                 </div>
               </div>
